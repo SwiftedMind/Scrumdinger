@@ -21,17 +21,39 @@
 //
 
 import SwiftUI
-import Puddles
+import IdentifiedCollections
 
-@main
-struct ScrumdingerApp: App {
+@MainActor
+final class OnDiskScrumService: ScrumService {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    private var restorationTask: Task<Void, Never>?
+    private var storeTask: Task<Void, Never>?
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
+    func scrums() async throws -> IdentifiedArrayOf<DailyScrum> {
+        let fileURL = try fileURL()
+        guard let file = try? FileHandle(forReadingFrom: fileURL) else {
+            return []
         }
+        try Task.checkCancellation()
+        return try JSONDecoder().decode(IdentifiedArrayOf<DailyScrum>.self, from: file.availableData)
+    }
+
+    func saveScrums(_ scrums: IdentifiedArrayOf<DailyScrum>) async throws {
+        let data = try JSONEncoder().encode(scrums)
+        let outfile = try fileURL()
+        try Task.checkCancellation()
+        try data.write(to: outfile)
+    }
+
+    /// Returns the URL for the file that stores the scrums.
+    /// - Returns: The URL.
+    private func fileURL() throws -> URL {
+        try FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+        )
+        .appendingPathComponent("scrums.data")
     }
 }

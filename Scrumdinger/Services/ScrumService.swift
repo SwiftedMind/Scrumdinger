@@ -21,17 +21,27 @@
 //
 
 import SwiftUI
-import Puddles
+import IdentifiedCollections
 
-@main
-struct ScrumdingerApp: App {
+@MainActor
+protocol ScrumService: AnyObject {
+    func scrums() async throws -> IdentifiedArrayOf<DailyScrum>
+    func saveScrums(_ scrum: IdentifiedArrayOf<DailyScrum>) async throws
+}
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+extension ScrumService where Self == InMemoryScrumService {
+    static var inMemory: Self {
+        .init()
+    }
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
-        }
+    // For our purposes, mock can be "in memory"
+    static var mock: Self {
+        .init()
+    }
+}
+
+extension ScrumService where Self == OnDiskScrumService {
+    static var live: Self {
+        .init()
     }
 }

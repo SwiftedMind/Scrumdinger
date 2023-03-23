@@ -20,18 +20,53 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Puddles
+import SwiftUI
+import IdentifiedCollections
 
-@main
-struct ScrumdingerApp: App {
+private struct ScrumList_All: Provider {
+    @EnvironmentObject private var scrumStore: ScrumStore
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    var interface: Interface<ScrumList.Action>
+    var scrumCreation: QueryableItem<DailyScrum, DailyScrum?>.Trigger
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
+    var entryView: some View {
+        ScrumList(
+            interface: interface,
+            scrums: scrumStore.scrums,
+            scrumCreation: scrumCreation
+        )
+    }
+
+    // MARK: - State Configurations
+
+    func applyStateConfiguration(_ configuration: StateConfiguration) {
+        switch configuration {
+        case .reset:
+            break
         }
+    }
+}
+
+extension ScrumList_All {
+
+    enum StateConfiguration {
+        case reset
+    }
+
+    enum Action: Hashable {
+        case noAction
+    }
+}
+
+extension ScrumList {
+    static func all(
+        interface: Interface<ScrumList.Action>,
+        scrumCreation: QueryableItem<DailyScrum, DailyScrum?>.Trigger
+    ) -> some View {
+        ScrumList_All(
+            interface: .forward(to: interface),
+            scrumCreation: scrumCreation
+        )
     }
 }

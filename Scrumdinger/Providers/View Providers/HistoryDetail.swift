@@ -20,18 +20,47 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Puddles
+import SwiftUI
+import IdentifiedCollections
 
-@main
-struct ScrumdingerApp: App {
+struct HistoryDetail: Provider {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    var interface: Interface<Action>
+    var history: History
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
+    var entryView: some View {
+        HistoryDetailView(
+            interface: .consume(handleViewInterface),
+            state: .init(history: history)
+        )
+    }
+
+    // MARK: - Interface Handler
+
+    private func handleViewInterface(_ action: HistoryDetailView.Action) {
+
+    }
+
+    // MARK: - State Configurations
+
+    @MainActor
+    func applyStateConfiguration(_ configuration: StateConfiguration) {
+        switch configuration {
+        case .reset:
+            break
         }
     }
 }
+
+extension HistoryDetail {
+
+    enum StateConfiguration {
+        case reset
+    }
+
+    enum Action: Hashable {
+        case noAction
+    }
+}
+

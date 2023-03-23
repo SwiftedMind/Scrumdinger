@@ -20,18 +20,13 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Puddles
+import Fakery
+import Foundation
 
-@main
-struct ScrumdingerApp: App {
+let faker = Faker()
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
-
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
-        }
+extension URL {
+    static var mock: URL {
+        .init(string: "https://www.diyphotography.net/wp-content/uploads/2017/04/The-Milky-Way-Center-Aglow-with-Dust.jpg")!
     }
 }

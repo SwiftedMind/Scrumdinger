@@ -21,17 +21,31 @@
 //
 
 import SwiftUI
-import Puddles
 
-@main
-struct ScrumdingerApp: App {
+struct DisclosureButton<Content: View>: View {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    let action: () -> Void
+    @ViewBuilder let content: Content
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                content
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
         }
+        .foregroundColor(.primary)
+    }
+}
+
+struct DisclosureButton_Previews: PreviewProvider {
+    static var previews: some View {
+        DisclosureButton(action: {}) { Text("Hi") }
+            .padding()
+            .preferredColorScheme(.dark)
     }
 }

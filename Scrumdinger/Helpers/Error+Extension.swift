@@ -20,18 +20,20 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Puddles
+import Foundation
 
-@main
-struct ScrumdingerApp: App {
+struct MockError: Error {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    fileprivate init() {}
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
-        }
+    public var localizedDescription: String {
+        "Mock Error"
+    }
+
+}
+
+extension Error where Self == MockError {
+    static var mock: Self {
+        .init()
     }
 }

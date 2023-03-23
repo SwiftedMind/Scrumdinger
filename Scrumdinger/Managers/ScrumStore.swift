@@ -21,17 +21,52 @@
 //
 
 import SwiftUI
-import Puddles
+import IdentifiedCollections
 
-@main
-struct ScrumdingerApp: App {
+@MainActor
+final class ScrumStore: ObservableObject {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    private var service: ScrumService
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
+    // The collection representing all the user's scrums
+    @Published private(set) var scrums: IdentifiedArrayOf<DailyScrum> = []
+    private var restorationTask: Task<Void, Never>?
+    private var storeTask: Task<Void, Never>?
+
+    init(service: ScrumService) {
+        self.service = service
+        restoreScrums()
+    }
+
+    /// Updates a scrum.
+    /// - Parameter scrum: The scrum to update
+    func saveScrum(_ scrum: DailyScrum) {
+        scrums[id: scrum.id] = scrum
+        storeScrums()
+    }
+
+    // MARK: - Utility
+
+    private func restoreScrums() {
+        restorationTask?.cancel()
+        restorationTask = Task {
+            do {
+                scrums = try await service.scrums()
+            } catch {
+                scrums = []
+                print(error)
+            }
+        }
+    }
+
+    private func storeScrums() {
+        storeTask?.cancel()
+        storeTask = Task {
+            do {
+                try await service.saveScrums(scrums)
+            } catch {
+                print(error)
+            }
         }
     }
 }

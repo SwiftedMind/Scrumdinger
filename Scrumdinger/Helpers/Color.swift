@@ -21,17 +21,11 @@
 //
 
 import SwiftUI
-import Puddles
 
-@main
-struct ScrumdingerApp: App {
-
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
-
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
-        }
+extension Color {
+    public struct App {
+        private init() {}
+        public static let accent = Color.blue
+        public static let primaryTextOnAccent = Color.white
     }
 }

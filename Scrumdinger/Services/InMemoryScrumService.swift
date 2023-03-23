@@ -21,17 +21,18 @@
 //
 
 import SwiftUI
-import Puddles
+import IdentifiedCollections
 
-@main
-struct ScrumdingerApp: App {
+@MainActor
+final class InMemoryScrumService: ScrumService {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    private var storedScrums: IdentifiedArrayOf<DailyScrum> = []
 
-    var body: some Scene {
-        WindowGroup {
-            Root()
-                .updateStateConfiguration(on: signal)
-        }
+    func scrums() async throws -> IdentifiedArrayOf<DailyScrum> {
+        storedScrums
+    }
+
+    func saveScrums(_ scrums: IdentifiedArrayOf<DailyScrum>) async throws {
+        storedScrums = scrums
     }
 }
