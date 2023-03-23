@@ -25,12 +25,9 @@ import SwiftUI
 import IdentifiedCollections
 
 struct ScrumDetail: Provider {
-    // TODO: is this modular and flexible? to have this environmentobject be everywhwere`
-    @EnvironmentObject private var scrumStore: ScrumStore
-
     var interface: Interface<Action>
+    var dataInterface: Interface<DataAction>
     var scrum: DailyScrum
-    var scrumEdit: QueryableItem<DailyScrum, DailyScrum?>.Trigger
 
     var entryView: some View {
         ScrumDetailView(
@@ -56,8 +53,8 @@ struct ScrumDetail: Provider {
 
     // MARK: - State Configurations
 
-    func applyStateConfiguration(_ configuration: StateConfiguration) {
-        switch configuration {
+    func applyTargetState(_ state: TargetState) {
+        switch state {
         case .reset:
             break
         }
@@ -69,23 +66,7 @@ struct ScrumDetail: Provider {
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(Strings.edit.text) {
-                editScrum()
-            }
-        }
-    }
-
-    // MARK: - Queries
-
-    // Present the Edit Scrum sheet to modify an existing scrum.
-    @MainActor
-    private func editScrum() {
-        Task {
-            do {
-                if let newScrum = try await scrumEdit.query(with: scrum) {
-                    scrumStore.saveScrum(newScrum)
-                }
-            } catch {
-                print(error)
+                dataInterface.fire(.editButtonTapped)
             }
         }
     }
@@ -93,8 +74,12 @@ struct ScrumDetail: Provider {
 
 extension ScrumDetail {
 
-    enum StateConfiguration {
+    enum TargetState {
         case reset
+    }
+
+    enum DataAction: Hashable {
+        case editButtonTapped
     }
 
     enum Action: Hashable {

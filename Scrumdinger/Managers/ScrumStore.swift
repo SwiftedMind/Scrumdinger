@@ -23,6 +23,9 @@
 import SwiftUI
 import IdentifiedCollections
 
+// TODO: If we push a .mock detail, you can start and end a meeting, but that will never appear in the detail screen, since it is not managed
+// Is that fine or does it need a solution?
+
 @MainActor
 final class ScrumStore: ObservableObject {
 

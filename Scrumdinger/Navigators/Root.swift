@@ -32,20 +32,24 @@ struct Root: Navigator {
     @State private var path: [Path] = []
 
     // Handle the creation of a scrum via a sheet presentation
-    @QueryableItem<DailyScrum, DailyScrum?> private var scrumCreation
+    @QueryableWithInput<DailyScrum, DailyScrum?> private var scrumCreation
 
     // Handle the edit of a scrum via a sheet presentation
-    @QueryableItem<DailyScrum, DailyScrum?> private var scrumEdit
+    @QueryableWithInput<DailyScrum, DailyScrum?> private var editScrum
 
     // Handle the confirmation of a meeting end via a confirmation dialog
     @Queryable<MeetingEndAction> private var meetingEndConfirmation
 
+    @TargetStateSetter<ScrumList.All.TargetState> private var scrumListTargetState
+    @TargetStateSetter<ScrumDetail.Managed.TargetState> private var scrumDetailTargetState
+
     var root: some View {
         NavigationStack(path: $path) {
-            ScrumList.all(
+            ScrumList.All(
                 interface: .consume(handleScrumListInterface),
                 scrumCreation: scrumCreation
             )
+            .targetStateSetter(scrumListTargetState)
             .navigationDestination(for: Path.self) { path in
                 destination(for: path)
             }
@@ -53,7 +57,7 @@ struct Root: Navigator {
         .queryableSheet(controlledBy: scrumCreation) { draft, query in
             EditScrum(interface: .consume { handleScrumCreationInterface($0, query: query) }, scrum: draft)
         }
-        .queryableSheet(controlledBy: scrumEdit) { draft, query in
+        .queryableSheet(controlledBy: editScrum) { draft, query in
             EditScrum(interface: .consume { handleScrumCreationInterface($0, query: query) }, scrum: draft, isNew: false)
         }
         .queryableConfirmationDialog(controlledBy: meetingEndConfirmation, title: "") { query in
@@ -71,13 +75,14 @@ struct Root: Navigator {
     private func destination(for path: Path) -> some View {
         switch path {
         case .scrumDetail(let scrum):
-            ScrumDetail.managed(
+            ScrumDetail.Managed(
                 interface: .consume { handleScrumDetailInterface($0, for: scrum) },
                 scrum: scrum,
-                scrumEdit: scrumEdit
+                editScrum: editScrum
             )
+            .targetStateSetter(scrumDetailTargetState)
         case .meeting(for: let scrum):
-            Meeting.speechRecording(
+            Meeting.SpeechRecording(
                 interface: .consume { handleMeetingInterface($0, for: scrum)},
                 scrum: scrum,
                 meetingEndConfirmation: meetingEndConfirmation
@@ -125,6 +130,7 @@ struct Root: Navigator {
         }
     }
 
+    // Handles the interface from `HistoryDetail`
     @MainActor
     private func handleHistoryDetailInterface(_ action: HistoryDetail.Action, for history: History) {
         switch action {
@@ -133,6 +139,7 @@ struct Root: Navigator {
         }
     }
 
+    // Handles the interface from `EditScrum`
     @MainActor
     private func handleScrumCreationInterface(_ action: EditScrum.Action, query: QueryResolver<DailyScrum?>) {
         switch action {
@@ -145,19 +152,27 @@ struct Root: Navigator {
 
     // MARK: - State Configurations
 
-    func applyStateConfiguration(_ configuration: StateConfiguration) {
-        switch configuration {
+    func applyTargetState(_ state: TargetState) {
+        switch state {
         case .reset:
             break
         case .showScrum(let scrum):
             path = [.scrumDetail(scrum)]
         case .startMeeting(for: let scrum):
             path = [.scrumDetail(scrum), .meeting(for: scrum)]
+        case .createScrum(draft: let draft):
+            scrumListTargetState.set(.createScrum(draft: draft))
+        case .editScrumOnDetailPage(let scrum):
+            path = [.scrumDetail(scrum)]
+            scrumDetailTargetState.set(.editScrum)
         }
     }
 
-    func handleDeepLink(_ deepLink: URL) -> StateConfiguration? {
-        nil
+    func handleDeepLink(_ deepLink: URL) -> TargetState? {
+        if let targetState = DeepLinkHandler.targetState(for: deepLink) {
+            return targetState
+        }
+        return nil
     }
 }
 
@@ -169,9 +184,11 @@ extension Root {
         case save
     }
 
-    enum StateConfiguration {
+    enum TargetState {
         case reset
         case showScrum(DailyScrum)
+        case createScrum(draft: DailyScrum = .draft)
+        case editScrumOnDetailPage(DailyScrum)
         case startMeeting(for: DailyScrum)
     }
 

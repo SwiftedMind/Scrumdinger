@@ -28,8 +28,8 @@ struct ScrumList: Provider {
     @EnvironmentObject private var scrumStore: ScrumStore
 
     var interface: Interface<Action>
+    var dataInterface: Interface<DataAction>
     var scrums: IdentifiedArrayOf<DailyScrum>
-    var scrumCreation: QueryableItem<DailyScrum, DailyScrum?>.Trigger
 
     var entryView: some View {
         ScrumListView(
@@ -40,7 +40,7 @@ struct ScrumList: Provider {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    queryScrumCreation()
+                    dataInterface.fire(.addScrumButtonTapped)
                 } label: {
                     Image(systemName: "plus")
                 }
@@ -60,34 +60,22 @@ struct ScrumList: Provider {
 
     // MARK: - State Configurations
 
-    func applyStateConfiguration(_ configuration: StateConfiguration) {
-        switch configuration {
+    func applyTargetState(_ state: TargetState) {
+        switch state {
         case .reset:
             break
-        }
-    }
-
-    // MARK: - Queries
-
-    // Present the Edit Scrum sheet to create a new scrum.
-    @MainActor
-    private func queryScrumCreation() {
-        Task {
-            do {
-                if let scrum = try await scrumCreation.query(with: .draft) {
-                    scrumStore.saveScrum(scrum)
-                }
-            } catch {
-                print(error)
-            }
         }
     }
 }
 
 extension ScrumList {
 
-    enum StateConfiguration {
+    enum TargetState {
         case reset
+    }
+
+    enum DataAction: Hashable {
+        case addScrumButtonTapped
     }
 
     enum Action: Hashable {

@@ -26,12 +26,12 @@ import Puddles
 @main
 struct ScrumdingerApp: App {
 
-    @Signal<Root.StateConfiguration>(initialSignal: .reset) private var signal
+    @TargetStateSetter<Root.TargetState>(initialTargetStateSetter: .reset) private var targetStateSetter
 
     var body: some Scene {
         WindowGroup {
             Root()
-                .updateStateConfiguration(on: signal)
+                .targetStateSetter(targetStateSetter)
         }
     }
 }

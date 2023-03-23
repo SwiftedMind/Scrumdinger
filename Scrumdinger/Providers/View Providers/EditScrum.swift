@@ -76,8 +76,8 @@ struct EditScrum: Provider {
     // MARK: - State Configurations
 
     @MainActor
-    func applyStateConfiguration(_ configuration: StateConfiguration) {
-        switch configuration {
+    func applyTargetState(_ state: TargetState) {
+        switch state {
         case .reset:
             break
         }
@@ -104,7 +104,7 @@ struct EditScrum: Provider {
 
 extension EditScrum {
 
-    enum StateConfiguration {
+    enum TargetState {
         case reset
     }
 

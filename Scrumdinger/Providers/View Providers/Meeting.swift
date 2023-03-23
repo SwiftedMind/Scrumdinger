@@ -152,8 +152,8 @@ struct Meeting: Provider {
         meetingTask?.cancel()
     }
 
-    func applyStateConfiguration(_ configuration: StateConfiguration) {
-        switch configuration {
+    func applyTargetState(_ state: TargetState) {
+        switch state {
         case .reset:
             reset(with: scrum)
         }
@@ -171,15 +171,6 @@ struct Meeting: Provider {
 
     @MainActor
     private func reset(with scrum: DailyScrum) {
-//        timer.interface = interface // TODO: This is suboptimal. cant detect changes to interface!
-//        timer.scrum = scrum
-//        timer.meetingTask?.cancel()
-//        timer.secondsElapsed = 0
-//        timer.currentSpeakerIndex = 0
-//        timer.secondsRemaining = scrum.lengthInMinutes * 60
-//        timer.speakers = scrum.attendees.speakers
-//        timer.startMeetingProgressUpdates()
-
         meetingTask?.cancel()
         meeting = .init(attendees: scrum.attendees, lengthInMinutes: scrum.lengthInMinutes, transcript: nil)
         secondsElapsed = 0
@@ -256,7 +247,7 @@ struct Meeting: Provider {
 
 extension Meeting {
 
-    enum StateConfiguration {
+    enum TargetState {
         case reset
     }
 
