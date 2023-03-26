@@ -76,6 +76,14 @@ public enum Strings {
       /// Attendees
       public static let title = LocalizedString(lookupKey: "scrum-detail.attendees-section.title")
     }
+    public enum FooterSection {
+      public enum Title {
+        /// Scrum Id
+        public static let _1 = LocalizedString(lookupKey: "scrum-detail.footer-section.title.1")
+        /// Long press to copy
+        public static let _2 = LocalizedString(lookupKey: "scrum-detail.footer-section.title.2")
+      }
+    }
     public enum HistorySection {
       /// No meetings yet
       public static let emptyInfo = LocalizedString(lookupKey: "scrum-detail.history-section.empty-info")
@@ -102,6 +110,12 @@ public enum Strings {
   public enum ScrumList {
     /// Daily Scrums
     public static let title = LocalizedString(lookupKey: "scrum-list.title")
+    public enum Item {
+      public enum LeadingAction {
+        /// Copy Id
+        public static let title = LocalizedString(lookupKey: "scrum-list.item.leading-action.title")
+      }
+    }
   }
 }
 

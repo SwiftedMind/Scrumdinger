@@ -104,7 +104,6 @@ extension Meeting {
                     transcript: speechRecognizer.transcript
                 )
                 updatedScrum.history.insert(history, at: 0)
-                print("Saving: Previous: \(managedScrum.history.count), new \(updatedScrum.history.count)")
                 scrumStore.saveScrum(updatedScrum)
             }
 

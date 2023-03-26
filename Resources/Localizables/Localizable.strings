@@ -39,6 +39,7 @@
 
 // MARK: - Scrum List
 "scrum-list.title" = "Daily Scrums";
+"scrum-list.item.leading-action.title" = "Copy Id";
 
 // MARK: - Scrum Detail
 "scrum-detail.info-section.title" = "Meeting Info";
@@ -49,6 +50,8 @@
 "scrum-detail.attendees-section.title" = "Attendees";
 "scrum-detail.history-section.title" = "History";
 "scrum-detail.history-section.empty-info" = "No meetings yet";
+"scrum-detail.footer-section.title.1" = "Scrum Id";
+"scrum-detail.footer-section.title.2" = "Long press to copy";
 
 // MARK: - Meeting View
 "meeting.elapsed-seconds" = "Seconds Elapsed";

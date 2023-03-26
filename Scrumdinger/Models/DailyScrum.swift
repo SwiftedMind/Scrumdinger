@@ -99,10 +99,10 @@ extension DailyScrum {
 
     static var mock: Self {
         DailyScrum(
-            title: "Design",
-            attendees: .init(uniqueElements: ["Cathy", "Daisy", "Simon", "Jonathan", "James", "Naomi"].map { Attendee(name: $0) }),
-            lengthInMinutes: 5,
-            theme: .lavender,
+            title: "Expansive Meetings",
+            attendees: .init(uniqueElements: ["James", "Naomi", "Amos", "Alex"].map { Attendee(name: $0) }),
+            lengthInMinutes: 42,
+            theme: .navy,
             history: [.mock]
         )
     }

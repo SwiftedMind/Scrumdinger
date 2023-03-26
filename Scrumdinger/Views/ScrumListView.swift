@@ -42,10 +42,16 @@ struct ScrumListView: View {
                 .buttonStyle(.plain)
                 .listRowBackground(scrum.theme.mainColor)
                 .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
+                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    Button(Strings.ScrumList.Item.LeadingAction.title.text) {
+                        UIPasteboard.general.string = scrum.id.uuidString
+                    }
+                }
             }
             .onDelete { interface.fire(.scrumsDeleted(atOffsets: $0)) }
         }
         .listStyle(.insetGrouped)
+        .animation(.default, value: state.scrums)
     }
 }
 

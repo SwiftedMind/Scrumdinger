@@ -34,6 +34,21 @@ struct ScrumDetailView: View {
             meetingInfoSection
             attendeesSection
             historySection
+            footerSection
+        }
+    }
+
+    @ViewBuilder @MainActor
+    private var footerSection: some View {
+        Section {
+            Text(state.scrum.id.uuidString)
+                .foregroundColor(.secondary)
+                .textSelection(.enabled)
+        } header: {
+            VStack(alignment: .leading) {
+                Text(Strings.ScrumDetail.FooterSection.Title._1.text)
+                Text(Strings.ScrumDetail.FooterSection.Title._2.text).font(.caption2)
+            }
         }
     }
 

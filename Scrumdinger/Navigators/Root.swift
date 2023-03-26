@@ -161,13 +161,26 @@ struct Root: Navigator {
             break
         case .showScrum(let scrum):
             path = [.scrumDetail(scrum)]
+        case .showScrumById(let id):
+            if let scrum = scrumStore.scrums[id: id] {
+                path = [.scrumDetail(scrum)]
+            }
         case .startMeeting(for: let scrum):
             path = [.scrumDetail(scrum), .meeting(for: scrum)]
+        case .startMeetingForScrumWithId(let id):
+            if let scrum = scrumStore.scrums[id: id] {
+                path = [.scrumDetail(scrum), .meeting(for: scrum)]
+            }
         case .createScrum(draft: let draft):
             scrumListTargetState.set(.createScrum(draft: draft))
         case .editScrumOnDetailPage(let scrum):
             path = [.scrumDetail(scrum)]
             scrumDetailTargetState.set(.editScrum)
+        case .editRandomScrumOnDetailPage:
+            if let scrum = scrumStore.scrums.randomElement() {
+                path = [.scrumDetail(scrum)]
+                scrumDetailTargetState.set(.editScrum)
+            }
         }
     }
 
@@ -190,9 +203,12 @@ extension Root {
     enum TargetState {
         case reset
         case showScrum(DailyScrum)
+        case showScrumById(UUID)
         case createScrum(draft: DailyScrum = .draft)
         case editScrumOnDetailPage(DailyScrum)
+        case editRandomScrumOnDetailPage
         case startMeeting(for: DailyScrum)
+        case startMeetingForScrumWithId(UUID)
     }
 
     enum Path: Hashable {
