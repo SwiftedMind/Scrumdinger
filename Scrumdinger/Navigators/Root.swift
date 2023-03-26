@@ -32,17 +32,19 @@ struct Root: Navigator {
     @State private var path: [Path] = []
 
     // Handle the creation of a scrum via a sheet presentation
-    @QueryableWithInput<DailyScrum, DailyScrum?> private var scrumCreation
+    @Queryable<DailyScrum, DailyScrum?> private var scrumCreation
 
     // Handle the edit of a scrum via a sheet presentation
-    @QueryableWithInput<DailyScrum, DailyScrum?> private var editScrum
+    @Queryable<DailyScrum, DailyScrum?> private var editScrum
 
     // Handle the confirmation of a meeting end via a confirmation dialog
-    @Queryable<MeetingEndAction> private var meetingEndConfirmation
+    @Queryable<Void, MeetingEndAction> private var meetingEndConfirmation
 
     @TargetStateSetter<ScrumList.All.TargetState> private var scrumListTargetState
     @TargetStateSetter<ScrumDetail.Managed.TargetState> private var scrumDetailTargetState
 
+    @State var isShowing = true
+    @State var data: Int? = 42
     var root: some View {
         NavigationStack(path: $path) {
             ScrumList.All(
@@ -56,6 +58,7 @@ struct Root: Navigator {
         }
         .queryableSheet(controlledBy: scrumCreation) { draft, query in
             EditScrum(interface: .consume { handleScrumCreationInterface($0, query: query) }, scrum: draft)
+                .transition(.scale.combined(with: .opacity))
         }
         .queryableSheet(controlledBy: editScrum) { draft, query in
             EditScrum(interface: .consume { handleScrumCreationInterface($0, query: query) }, scrum: draft, isNew: false)
@@ -82,7 +85,7 @@ struct Root: Navigator {
             )
             .targetStateSetter(scrumDetailTargetState)
         case .meeting(for: let scrum):
-            Meeting.SpeechRecording(
+            Meeting.Managed(
                 interface: .consume { handleMeetingInterface($0, for: scrum)},
                 scrum: scrum,
                 meetingEndConfirmation: meetingEndConfirmation
@@ -121,7 +124,7 @@ struct Root: Navigator {
     // Handles the interface from the speech recording data provider `Meeting_SpeechRecording`
     @MainActor
     private func handleMeetingInterface(
-        _ action: SpeechRecordingMeetingAction,
+        _ action: ManagedMeetingAction,
         for scrum: DailyScrum
     ) {
         switch action {
@@ -168,8 +171,8 @@ struct Root: Navigator {
         }
     }
 
-    func handleDeepLink(_ deepLink: URL) -> TargetState? {
-        if let targetState = DeepLinkHandler.targetState(for: deepLink) {
+    func urlOpenHandler(_ url: URL) -> TargetState? {
+        if let targetState = DeepLinkHandler.targetState(for: url) {
             return targetState
         }
         return nil

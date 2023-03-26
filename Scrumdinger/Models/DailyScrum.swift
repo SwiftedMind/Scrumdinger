@@ -5,7 +5,7 @@
 import Foundation
 import IdentifiedCollections
 
-struct DailyScrum: Identifiable, Codable, Equatable, Hashable {
+struct DailyScrum: Identifiable, Codable, Equatable, Hashable, Sendable {
     let id: UUID
     var title: String
     var attendees: IdentifiedArrayOf<Attendee>
@@ -31,7 +31,7 @@ struct DailyScrum: Identifiable, Codable, Equatable, Hashable {
 }
 
 extension DailyScrum {
-    struct Attendee: Identifiable, Codable, Equatable, Hashable {
+    struct Attendee: Identifiable, Codable, Equatable, Hashable, Sendable {
         let id: UUID
         var name: String
 
@@ -92,7 +92,7 @@ extension DailyScrum {
             title: "",
             attendees: [],
             lengthInMinutes: 5,
-            theme: .lavender,
+            theme: .allCases.randomElement()!,
             history: []
         )
     }

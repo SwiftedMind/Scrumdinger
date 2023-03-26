@@ -55,6 +55,8 @@ struct ScrumList: Provider {
         switch action {
         case .scrumTapped(let dailyScrum):
             interface.fire(.scrumTapped(dailyScrum))
+        case .scrumsDeleted(atOffsets: let offsets):
+            dataInterface.fire(.scrumsDeleted(atOffsets: offsets))
         }
     }
 
@@ -76,6 +78,7 @@ extension ScrumList {
 
     enum DataAction: Hashable {
         case addScrumButtonTapped
+        case scrumsDeleted(atOffsets: IndexSet)
     }
 
     enum Action: Hashable {

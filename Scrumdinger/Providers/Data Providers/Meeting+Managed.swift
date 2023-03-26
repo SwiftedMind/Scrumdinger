@@ -24,21 +24,44 @@ import Puddles
 import SwiftUI
 import IdentifiedCollections
 
+@propertyWrapper
+public struct MyWrapper {
+
+    private var trigger: Int
+    public var wrappedValue: Int {
+        trigger
+    }
+
+    public init(wrappedValue trigger: Int = 0) {
+        self.trigger = trigger
+    }
+
+    /// A type that is capable of triggering and cancelling a query.
+    public struct Trigger {
+    }
+}
+
 extension Meeting {
-    struct SpeechRecording: Provider {
+    struct Managed: Provider {
         @EnvironmentObject private var scrumStore: ScrumStore
         @StateObject private var speechRecognizer = SpeechRecognizer()
 
-        var interface: Interface<SpeechRecordingMeetingAction>
+        var interface: Interface<ManagedMeetingAction>
+
+        /// The managed scrum. Its identifier will be used to always display the up-to-date version of this scrum from the `ScrumStore`.
         var scrum: DailyScrum
-        var meetingEndConfirmation: Queryable<Root.MeetingEndAction>.Trigger
+        var meetingEndConfirmation: Queryable<Void, Root.MeetingEndAction>.Trigger
+
+        private var managedScrum: DailyScrum {
+            scrumStore.scrums[id: scrum.id] ?? scrum
+        }
 
         @State private var isRecording: Bool = false
 
         var entryView: some View {
             Meeting(
                 interface: .consume(handleMeetingInterface),
-                scrum: scrum,
+                scrum: managedScrum,
                 isRecording: speechRecognizer.canTranscribe
             )
         }
@@ -73,7 +96,7 @@ extension Meeting {
         @MainActor
         private func finishMeeting(save: Bool) {
             speechRecognizer.stopTranscribing()
-            var updatedScrum = scrum
+            var updatedScrum = managedScrum
             if save {
                 let history = History(
                     attendees: updatedScrum.attendees,
@@ -81,6 +104,7 @@ extension Meeting {
                     transcript: speechRecognizer.transcript
                 )
                 updatedScrum.history.insert(history, at: 0)
+                print("Saving: Previous: \(managedScrum.history.count), new \(updatedScrum.history.count)")
                 scrumStore.saveScrum(updatedScrum)
             }
 
@@ -107,12 +131,12 @@ extension Meeting {
     }
 }
 
-extension Meeting.SpeechRecording {
+extension Meeting.Managed {
     enum TargetState {
         case reset
     }
 }
 
-enum SpeechRecordingMeetingAction: Hashable {
+enum ManagedMeetingAction: Hashable {
     case didCompleteMeeting
 }

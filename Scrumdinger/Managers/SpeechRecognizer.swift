@@ -75,6 +75,9 @@ final class SpeechRecognizer: ObservableObject {
         The resulting transcription is continuously written to the published `transcript` property.
      */
     func transcribe() {
+#if targetEnvironment(simulator)
+        return
+#endif
         guard canTranscribe else { return }
 
         DispatchQueue(label: "Speech Recognizer Queue", qos: .background).async { [weak self] in

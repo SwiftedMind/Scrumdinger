@@ -28,6 +28,10 @@ struct ScrumdingerApp: App {
 
     @TargetStateSetter<Root.TargetState>(initialTargetStateSetter: .reset) private var targetStateSetter
 
+    init() {
+        Puddles.configureLog()
+    }
+
     var body: some Scene {
         WindowGroup {
             Root()

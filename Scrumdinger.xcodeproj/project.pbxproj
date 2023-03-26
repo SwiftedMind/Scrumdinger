@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9518BEBD29CC982800186400 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518BEBC29CC982800186400 /* DeepLinkHandler.swift */; };
-		952B2B2729CB5B58004A73F7 /* Meeting+SpeechRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2629CB5B58004A73F7 /* Meeting+SpeechRecording.swift */; };
+		952B2B2729CB5B58004A73F7 /* Meeting+Managed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2629CB5B58004A73F7 /* Meeting+Managed.swift */; };
 		952B2B2929CB7483004A73F7 /* ScrumDetail+Managed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2829CB7483004A73F7 /* ScrumDetail+Managed.swift */; };
 		952B2B2C29CB7EDF004A73F7 /* ScrumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2B29CB7EDF004A73F7 /* ScrumService.swift */; };
 		952B2B2E29CB7EE8004A73F7 /* InMemoryScrumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2D29CB7EE8004A73F7 /* InMemoryScrumService.swift */; };
@@ -66,7 +66,7 @@
 
 /* Begin PBXFileReference section */
 		9518BEBC29CC982800186400 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeepLinkHandler.swift; path = ../../Puddles/DeepLinkHandler.swift; sourceTree = "<group>"; };
-		952B2B2629CB5B58004A73F7 /* Meeting+SpeechRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meeting+SpeechRecording.swift"; sourceTree = "<group>"; };
+		952B2B2629CB5B58004A73F7 /* Meeting+Managed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meeting+Managed.swift"; sourceTree = "<group>"; };
 		952B2B2829CB7483004A73F7 /* ScrumDetail+Managed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrumDetail+Managed.swift"; sourceTree = "<group>"; };
 		952B2B2B29CB7EDF004A73F7 /* ScrumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrumService.swift; sourceTree = "<group>"; };
 		952B2B2D29CB7EE8004A73F7 /* InMemoryScrumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryScrumService.swift; sourceTree = "<group>"; };
@@ -334,7 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				95602F1229C8DC8C008EB800 /* ScrumList+All.swift */,
-				952B2B2629CB5B58004A73F7 /* Meeting+SpeechRecording.swift */,
+				952B2B2629CB5B58004A73F7 /* Meeting+Managed.swift */,
 				952B2B2829CB7483004A73F7 /* ScrumDetail+Managed.swift */,
 			);
 			path = "Data Providers";
@@ -490,7 +490,7 @@
 				95C154BE29C87D7900224B4B /* MeetingFooterView.swift in Sources */,
 				95868CB929C85FE7001F8629 /* ScrumListView.swift in Sources */,
 				95868CB129C857A9001F8629 /* Assets.swift in Sources */,
-				952B2B2729CB5B58004A73F7 /* Meeting+SpeechRecording.swift in Sources */,
+				952B2B2729CB5B58004A73F7 /* Meeting+Managed.swift in Sources */,
 				95C154BD29C87D7900224B4B /* MeetingHeaderView.swift in Sources */,
 				95602F1729C8DDDC008EB800 /* Root.swift in Sources */,
 			);

@@ -24,8 +24,6 @@ import Puddles
 import SwiftUI
 import IdentifiedCollections
 
-// TODO: Figure out what happens with the mock detail meeting whose history does strange things
-
 extension ScrumDetail {
 
     /// A `ScrumDetail` view whose scrum input is automatically managed and updated via the `ScrumStore`.
@@ -40,7 +38,11 @@ extension ScrumDetail {
         var scrum: DailyScrum
 
         /// The queryable that provides us with the means to edit a scrum.
-        var editScrum: QueryableWithInput<DailyScrum, DailyScrum?>.Trigger
+        var editScrum: Queryable<DailyScrum, DailyScrum?>.Trigger
+
+        private var managedScrum: DailyScrum {
+            scrumStore.scrums[id: scrum.id] ?? scrum
+        }
 
         @EnvironmentObject private var scrumStore: ScrumStore
         @TargetStateSetter<ScrumDetail.TargetState> private var scrumDetailTargetState
@@ -49,7 +51,7 @@ extension ScrumDetail {
             ScrumDetail(
                 interface: interface,
                 dataInterface: .consume(handleDataInterface),
-                scrum: scrumStore.scrums[id: scrum.id] ?? scrum
+                scrum: managedScrum
             )
             .targetStateSetter(scrumDetailTargetState)
         }

@@ -41,8 +41,9 @@ struct ScrumListView: View {
                 }
                 .buttonStyle(.plain)
                 .listRowBackground(scrum.theme.mainColor)
-                .listRowSeparator(.hidden)
+                .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
             }
+            .onDelete { interface.fire(.scrumsDeleted(atOffsets: $0)) }
         }
         .listStyle(.insetGrouped)
     }
@@ -60,6 +61,7 @@ extension ScrumListView {
 
     enum Action {
         case scrumTapped(DailyScrum)
+        case scrumsDeleted(atOffsets: IndexSet)
     }
 }
 

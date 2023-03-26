@@ -29,7 +29,7 @@ extension ScrumList {
         @EnvironmentObject private var scrumStore: ScrumStore
 
         var interface: Interface<ScrumList.Action>
-        var scrumCreation: QueryableWithInput<DailyScrum, DailyScrum?>.Trigger
+        var scrumCreation: Queryable<DailyScrum, DailyScrum?>.Trigger
 
         var entryView: some View {
             ScrumList(
@@ -46,6 +46,8 @@ extension ScrumList {
             switch action {
             case .addScrumButtonTapped:
                 queryScrumCreation(draft: .draft)
+            case .scrumsDeleted(atOffsets: let offsets):
+                scrumStore.removeScrums(atOffsets: offsets)
             }
         }
 
@@ -54,6 +56,7 @@ extension ScrumList {
         func applyTargetState(_ state: TargetState) {
             switch state {
             case .createScrum(draft: let draft):
+                scrumCreation.cancel()
                 queryScrumCreation(draft: draft ?? .draft)
             }
         }

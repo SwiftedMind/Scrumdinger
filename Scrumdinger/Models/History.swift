@@ -5,7 +5,7 @@
 import Foundation
 import IdentifiedCollections
 
-struct History: Identifiable, Codable, Equatable, Hashable {
+struct History: Identifiable, Codable, Equatable, Hashable, Sendable {
     let id: UUID
     let date: Date
     var attendees: IdentifiedArrayOf<DailyScrum.Attendee>
