@@ -68,6 +68,9 @@ extension ScrumList {
         private func queryScrumCreation(draft: DailyScrum) {
             Task {
                 do {
+                    // Triggers presentation of a sheet with a form to create an item and a save button.
+                    // When the save button has been pressed, the sheet is dismissed and
+                    // this function resumes with the created item
                     if let scrum = try await scrumCreation.query(with: draft) {
                         scrumStore.saveScrum(scrum)
                     }
@@ -78,7 +81,6 @@ extension ScrumList {
         }
     }
 }
-
 
 extension ScrumList.All {
 

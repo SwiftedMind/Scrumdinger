@@ -25,33 +25,40 @@ import SwiftUI
 import IdentifiedCollections
 
 struct Root: Navigator {
-    // The store that loads and stores all scrums of the user
+
+    // The store that loads and stores all scrums of the user.
     @StateObject private var scrumStore: ScrumStore = .init(service: .live)
 
-    // The navigation path
+    // The navigation path.
     @State private var path: [Path] = []
 
-    // Handle the creation of a scrum via a sheet presentation
+    // Handle the creation of a scrum via a sheet presentation.
     @Queryable<DailyScrum, DailyScrum?> private var scrumCreation
 
-    // Handle the edit of a scrum via a sheet presentation
+    // Handle the edit of a scrum via a sheet presentation.
     @Queryable<DailyScrum, DailyScrum?> private var editScrum
 
-    // Handle the confirmation of a meeting end via a confirmation dialog
+    // Handle the confirmation of a meeting end via a confirmation dialog.
     @Queryable<Void, MeetingEndAction> private var meetingEndConfirmation
 
+    // Target State setter for `ScrumList`.
+    // Used to apply a state when a deep link is being handled.
     @TargetStateSetter<ScrumList.All.TargetState> private var scrumListTargetState
+
+    // Target State setter for `ScrumDetail`.
+    // Used to apply a state when a deep link is being handled.
     @TargetStateSetter<ScrumDetail.Managed.TargetState> private var scrumDetailTargetState
 
     @State var isShowing = true
     @State var data: Int? = 42
+
     var root: some View {
         NavigationStack(path: $path) {
             ScrumList.All(
                 interface: .consume(handleScrumListInterface),
                 scrumCreation: scrumCreation
             )
-            .targetStateSetter(scrumListTargetState)
+            .targetStateSetter(scrumListTargetState) // Send target states to the scrum list
             .navigationDestination(for: Path.self) { path in
                 destination(for: path)
             }
@@ -123,10 +130,7 @@ struct Root: Navigator {
 
     // Handles the interface from the speech recording data provider `Meeting_SpeechRecording`
     @MainActor
-    private func handleMeetingInterface(
-        _ action: ManagedMeetingAction,
-        for scrum: DailyScrum
-    ) {
+    private func handleMeetingInterface(_ action: ManagedMeetingAction, for scrum: DailyScrum) {
         switch action {
         case .didCompleteMeeting:
             path.removeLast()
