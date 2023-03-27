@@ -25,6 +25,7 @@ import Puddles
 import PreviewDebugTools
 
 struct ScrumDetailView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var interface: Interface<Action>
     var state: ViewState
@@ -58,24 +59,38 @@ struct ScrumDetailView: View {
             DisclosureButton {
                 interface.fire(.startMeetingButtonTapped)
             } content: {
-                Label(Strings.ScrumDetail.InfoSection.startButton.text, systemImage: "timer")
-                    .font(.headline)
-                    .foregroundColor(.accentColor)
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(Strings.ScrumDetail.InfoSection.startButton.text)
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                } else {
+                    Label(Strings.ScrumDetail.InfoSection.startButton.text, systemImage: "timer")
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                }
             }
-            HStack {
-                Label(Strings.ScrumDetail.InfoSection.Length.title.text, systemImage: "clock")
-                Spacer()
+            LabeledContent {
                 Text(Strings.ScrumDetail.InfoSection.Length.value(state.scrum.lengthInMinutes))
+            } label: {
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(Strings.ScrumDetail.InfoSection.Length.title.text)
+                } else {
+                    Label(Strings.ScrumDetail.InfoSection.Length.title.text, systemImage: "clock")
+                }
             }
             .accessibilityElement(children: .combine)
-            HStack {
-                Label(Strings.ScrumDetail.InfoSection.theme.text, systemImage: "paintpalette")
-                Spacer()
+            LabeledContent {
                 Text(state.scrum.theme.name)
                     .padding(4)
                     .foregroundColor(state.scrum.theme.accentColor)
                     .background(state.scrum.theme.mainColor)
                     .cornerRadius(4)
+            } label: {
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(Strings.ScrumDetail.InfoSection.theme.text)
+                } else {
+                    Label(Strings.ScrumDetail.InfoSection.theme.text, systemImage: "paintpalette")
+                }
             }
             .accessibilityElement(children: .combine)
         } header: {
@@ -87,7 +102,11 @@ struct ScrumDetailView: View {
     private var attendeesSection: some View {
         Section {
             ForEach(state.scrum.attendees) { attendee in
-                Label(attendee.name, systemImage: "person")
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(attendee.name)
+                } else {
+                    Label(attendee.name, systemImage: "person")
+                }
             }
         } header: {
             Text(Strings.ScrumDetail.AttendeesSection.title.text)
@@ -98,14 +117,20 @@ struct ScrumDetailView: View {
     private var historySection: some View {
         Section {
             if state.scrum.history.isEmpty {
-                Label("No meetings yet", systemImage: "calendar.badge.exclamationmark")
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text("No meetings yet")
+                } else {
+                    Label("No meetings yet", systemImage: "calendar.badge.exclamationmark")
+                }
             }
             ForEach(state.scrum.history) { history in
                 DisclosureButton {
                     interface.fire(.historyTapped(history))
                 } content: {
                     HStack {
-                        Image(systemName: "calendar")
+                        if !dynamicTypeSize.isAccessibilitySize {
+                            Image(systemName: "calendar")
+                        }
                         Text(history.date, style: .date)
                     }
                 }

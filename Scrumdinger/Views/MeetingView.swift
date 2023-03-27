@@ -66,14 +66,14 @@ extension MeetingView {
             .init(name: "James", isCompleted: false)
         }
 
-        static var mockList: IdentifiedArrayOf<Speaker> {
+        static var mockList: IdentifiedArrayOf<MeetingView.Speaker> {
             [.init(name: "Kim"), .init(name: "James"), .init(name: "Naomi"), .init(name: "Camina"), .init(name: "Bill")]
         }
     }
 
     struct ViewState {
         var theme: Theme
-        var speakers: IdentifiedArrayOf<Speaker>
+        var speakers: IdentifiedArrayOf<MeetingView.Speaker>
         var secondsElapsed: Int
         var secondsRemaining: Int
         var isRecording: Bool
@@ -81,7 +81,7 @@ extension MeetingView {
         static var mock: Self {
             .init(
                 theme: .bubblegum,
-                speakers: Speaker.mockList,
+                speakers: MeetingView.Speaker.mockList,
                 secondsElapsed: 0,
                 secondsRemaining: 30,
                 isRecording: true
@@ -131,6 +131,7 @@ struct MeetingView_Previews: PreviewProvider {
                         state = .mock
                     }
                 }
+                .dynamicTypeSize(...(.accessibility1))
             }
         }
         .preferredColorScheme(.dark)

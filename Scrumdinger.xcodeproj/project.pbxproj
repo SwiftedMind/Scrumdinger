@@ -74,6 +74,7 @@
 		952B2B3329CBF9E0004A73F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		952B2B3429CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt; sourceTree = "<group>"; };
 		952B2B3529CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_LICENSE.txt; sourceTree = "<group>"; };
+		9552650F29D21B4A00294155 /* Puddles */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Puddles; path = ../Puddles; sourceTree = "<group>"; };
 		955E512E29CAE86B00202BBA /* ScrumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrumStore.swift; sourceTree = "<group>"; };
 		955E513029CB1B1200202BBA /* AVPlayer+Ding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVPlayer+Ding.swift"; sourceTree = "<group>"; };
 		955E513229CB1B1E00202BBA /* ding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.wav; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		95868CA429C852B9001F8629 /* LoadingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		95868CA529C852B9001F8629 /* Error+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Error+Extension.swift"; sourceTree = "<group>"; };
 		95868CA629C852B9001F8629 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		95868CAB29C85377001F8629 /* Puddles */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Puddles; path = ../Puddles; sourceTree = "<group>"; };
 		95868CAC29C8557D001F8629 /* EditScrumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScrumView.swift; sourceTree = "<group>"; };
 		95868CAF29C857A9001F8629 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		95868CB429C85C1D001F8629 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		95868C6829C851C6001F8629 = {
 			isa = PBXGroup;
 			children = (
-				95868CAB29C85377001F8629 /* Puddles */,
+				9552650F29D21B4A00294155 /* Puddles */,
 				95868C7329C851C6001F8629 /* Scrumdinger */,
 				95868C9129C85241001F8629 /* Resources */,
 				95868C9229C85247001F8629 /* Generated */,

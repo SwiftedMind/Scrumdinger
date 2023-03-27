@@ -38,6 +38,7 @@ struct MeetingHeaderView: View {
                         .labelStyle(.trailingIcon)
                 }
             }
+            .dynamicTypeSize(...(.accessibility1))
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Time remaining")

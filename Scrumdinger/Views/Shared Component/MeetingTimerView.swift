@@ -27,6 +27,7 @@ struct MeetingTimerView: View {
                         .padding(.top)
                         .accessibilityLabel(isRecording ? "with transcription" : "without transcription")
                 }
+                .dynamicTypeSize(...(.accessibility1))
                 .accessibilityElement(children: .combine)
                 .foregroundStyle(theme.accentColor)
             }

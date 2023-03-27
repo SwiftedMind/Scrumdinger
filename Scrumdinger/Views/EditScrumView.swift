@@ -27,9 +27,14 @@ import IdentifiedCollections
 
 struct EditScrumView: View {
     @FocusState private var focusedField: Field?
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var interface: Interface<Action>
     var state: ViewState
+
+    private var layout: AnyLayout {
+        dynamicTypeSize >= .accessibility2 ? AnyLayout(VStackLayout(alignment: .leading)) : AnyLayout(HStackLayout())
+    }
 
     var body: some View {
         List {
@@ -50,7 +55,7 @@ struct EditScrumView: View {
             .focused($focusedField, equals: .scrumName)
             .onSubmit { focusedField = nil }
             .submitLabel(.next)
-            HStack {
+            layout {
                 Slider(
                     value: interface.binding(state.length, to: { .lengthChanged($0) }),
                     in: 5...30
@@ -62,9 +67,15 @@ struct EditScrumView: View {
                 selection: interface.binding(state.theme, to: { .themeChanged($0) })
             ) {
                 ForEach(Theme.allCases) { theme in
-                    Label(theme.name, systemImage: "paintpalette")
-                        .padding(4)
-                        .tag(theme)
+                    if dynamicTypeSize.isAccessibilitySize {
+                        Text(theme.name)
+                            .padding(4)
+                            .tag(theme)
+                    } else {
+                        Label(theme.name, systemImage: "paintpalette")
+                            .padding(4)
+                            .tag(theme)
+                    }
                 }
             }
         } header: {
@@ -152,21 +163,19 @@ struct EditScrumView_Previews: PreviewProvider {
                     state.newAttendeeName = newValue
                 case .submittedAttendeeName:
                     state.attendees.append(.init(name: state.newAttendeeName))
-                default:
-                    break
+                case .attendeesDeleted(atOffsets: let offsets):
+                    state.attendees.remove(atOffsets: offsets)
+                case .themeChanged(let newTheme):
+                    state.theme = newTheme
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(Strings.dismiss.text) {
-
-                    }
+                    Button(Strings.dismiss.text) { }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(Strings.add.text) {
-
-                    }
-                    .bold()
+                    Button(Strings.add.text) { }
+                        .bold()
                 }
             }
         }

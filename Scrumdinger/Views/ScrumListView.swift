@@ -75,7 +75,12 @@ struct ScrumListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             Preview(ScrumListView.init, state: .mock) { action, $state in
-
+                switch action {
+                case .scrumsDeleted(atOffsets: let offsets):
+                    state.scrums.remove(atOffsets: offsets)
+                case .scrumTapped(let scrum):
+                    print(scrum.title)
+                }
             }
             .navigationTitle(Strings.ScrumList.title.text)
             .toolbar {
