@@ -25,7 +25,6 @@ import Puddles
 
 @main
 struct ScrumdingerApp: App {
-
     @TargetStateSetter<Root.TargetState>(initialTargetState: .reset) private var targetStateSetter
 
     init() {

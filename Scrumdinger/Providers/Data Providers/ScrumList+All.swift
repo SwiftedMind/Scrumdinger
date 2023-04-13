@@ -23,6 +23,7 @@
 import Puddles
 import SwiftUI
 import IdentifiedCollections
+import Queryable
 
 extension ScrumList {
     struct All: Provider {

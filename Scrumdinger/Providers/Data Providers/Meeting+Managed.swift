@@ -23,23 +23,7 @@
 import Puddles
 import SwiftUI
 import IdentifiedCollections
-
-@propertyWrapper
-public struct MyWrapper {
-
-    private var trigger: Int
-    public var wrappedValue: Int {
-        trigger
-    }
-
-    public init(wrappedValue trigger: Int = 0) {
-        self.trigger = trigger
-    }
-
-    /// A type that is capable of triggering and cancelling a query.
-    public struct Trigger {
-    }
-}
+import Queryable
 
 extension Meeting {
     struct Managed: Provider {

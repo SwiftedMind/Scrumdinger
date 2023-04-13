@@ -23,6 +23,7 @@
 import Puddles
 import SwiftUI
 import IdentifiedCollections
+import Queryable
 
 struct Root: Navigator {
 
@@ -49,10 +50,7 @@ struct Root: Navigator {
     // Used to apply a state when a deep link is being handled.
     @TargetStateSetter<ScrumDetail.Managed.TargetState> private var scrumDetailTargetState
 
-    @State var isShowing = true
-    @State var data: Int? = 42
-
-    var root: some View {
+    var entryView: some View {
         NavigationStack(path: $path) {
             ScrumList.All(
                 interface: .consume(handleScrumListInterface),

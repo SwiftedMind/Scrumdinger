@@ -25,86 +25,6 @@ import SwiftUI
 import IdentifiedCollections
 import AVFoundation
 
-//@MainActor
-//final class Timer: ObservableObject {
-//
-//    var scrum: DailyScrum?
-//    var interface: Interface<Meeting.Action>?
-//
-//    @Published var speakers: IdentifiedArrayOf<MeetingView.Speaker> = []
-//    @Published var secondsElapsed: Int = 0
-//    @Published var secondsRemaining: Int = 0
-//    @Published var isRecording: Bool = false
-//    @Published var meetingTask: Task<Void, Never>?
-//    @Published var currentSpeakerIndex: Int = 0
-//
-//    private var secondsPerSpeaker: Int {
-//        guard let scrum else { return 0 }
-//        return (scrum.lengthInMinutes * 60) / speakers.count
-//    }
-//
-//    private var player: AVPlayer { AVPlayer.sharedDingPlayer }
-//
-//    func reset(with scrum: DailyScrum) {
-//        meetingTask?.cancel()
-//        secondsElapsed = 0
-//        currentSpeakerIndex = 0
-//        secondsRemaining = scrum.lengthInMinutes * 60
-//        speakers = scrum.attendees.speakers
-//        startMeetingProgressUpdates()
-//    }
-//
-//    func startMeetingProgressUpdates() {
-//        guard let scrum else { return }
-//        meetingTask?.cancel()
-//        meetingTask = Task {
-//            do {
-//                var startDate = Date()
-//                while !Task.isCancelled {
-//                    try await Task.sleep(for: .seconds(1))
-//                    guard currentSpeakerIndex < speakers.count else { break }
-//
-//                    let secondsForCurrentSpeaker = Int(Date().timeIntervalSince1970 - startDate.timeIntervalSince1970)
-//
-//                    secondsElapsed = currentSpeakerIndex * secondsPerSpeaker + secondsForCurrentSpeaker
-//                    secondsRemaining = max(0, scrum.lengthInMinutes * 60 - secondsElapsed)
-//
-//                    guard secondsForCurrentSpeaker <= secondsPerSpeaker else {
-//                        nextSpeaker()
-//                        startDate = Date()
-//                        continue
-//                    }
-//                }
-//            } catch {}
-//        }
-//    }
-//
-//    func nextSpeaker() {
-//        guard let scrum else { return }
-//        player.seek(to: .zero)
-//        player.play()
-//        speakers[currentSpeakerIndex].isCompleted = true
-//
-//        currentSpeakerIndex += 1
-//
-//        // Cancel if all speakers have spoken
-//        guard currentSpeakerIndex < speakers.count else {
-//            interface?.fire(.allSpeakersCompleted)
-//            meetingTask?.cancel()
-//            return
-//        }
-//
-//        secondsElapsed = currentSpeakerIndex * secondsPerSpeaker
-//        secondsRemaining = scrum.lengthInMinutes * 60 - secondsElapsed
-//    }
-//
-//    func skipSpeaker() {
-//        meetingTask?.cancel()
-//        nextSpeaker()
-//        startMeetingProgressUpdates()
-//    }
-//}
-
 struct Meeting: Provider {
 
     var interface: Interface<Action>
@@ -114,10 +34,8 @@ struct Meeting: Provider {
     @State private var speakers: IdentifiedArrayOf<MeetingView.Speaker> = []
     @State private var secondsElapsed: Int = 0
     @State private var secondsRemaining: Int = 0
-
     @State private var meetingTask: Task<Void, Never>?
     @State private var currentSpeakerIndex: Int = 0
-
     @State private var meeting: History = History(attendees: [])
 
     private var secondsPerSpeaker: Int {
