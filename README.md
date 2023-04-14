@@ -1,7 +1,7 @@
 # Scrumdinger
 A re-implementation of Apple's Scrumdinger tutorial app in the [Puddles architecture](https://github.com/SwiftedMind/Puddles).
 
-You can find the the original Scrumdinger app here: [Apple - Getting Started With Scrumdinger](https://developer.apple.com/tutorials/app-dev-training/getting-started-with-scrumdinger)
+You can find the the original Scrumdinger app here: [Apple - Getting Started With Scrumdinger](https://developer.apple.com/tutorials/app-dev-training/getting-started-with-scrumdinger).
 
 # LICENCE
 
