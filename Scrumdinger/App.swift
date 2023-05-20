@@ -21,25 +21,24 @@
 //
 
 import SwiftUI
-import IdentifiedCollections
-import Models
+import Puddles
+import Extensions
+import MockData
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
+@main
+struct ScrumdingerApp: App {
+    @StateObject private var features = Features.mock()
+    @TargetStateSetter<Root.TargetState>(initialTargetState: .reset) private var targetStateSetter
+
+    init() {
+        Puddles.configureLog()
     }
-}
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
+    var body: some Scene {
+        WindowGroup {
+            Root()
+                .targetStateSetter(targetStateSetter)
+                .withFeatures(features)
         }
     }
 }

@@ -20,26 +20,39 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
+import Foundation
 import Models
+import IdentifiedCollections
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
+extension Feature.Scrums {
+    @MainActor
+    static func mock() -> Feature.Scrums {
+        let store = InMemoryStore(scrums: .mockList)
+        return .init(
+            dependencies: .init(
+                load: {
+                    try await store.load()
+                }, save: { scrums in
+                    try await store.save(scrums)
+                }
+            )
+        )
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+@MainActor
+private final class InMemoryStore {
+    private var scrums: IdentifiedArrayOf<DailyScrum>
+
+    init(scrums: IdentifiedArrayOf<DailyScrum>) {
+        self.scrums = scrums
+    }
+
+    public func load() async throws -> IdentifiedArrayOf<DailyScrum> {
+        scrums
+    }
+
+    public func save(_ scrums: IdentifiedArrayOf<DailyScrum>) async throws {
+        self.scrums = scrums
     }
 }

@@ -20,26 +20,21 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
+import Foundation
 import Models
+import IdentifiedCollections
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension Feature.AudioRecorder {
+    @MainActor
+    static func mock() -> Feature.AudioRecorder {
+        return .init(
+            dependencies: .init(
+                reset: {
+                }, startTranscription: {
+                }, finishTranscription: {
+                    "Mock Transcription"
+                }
+            )
+        )
     }
 }

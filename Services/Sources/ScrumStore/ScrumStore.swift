@@ -24,22 +24,39 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
+public final class ScrumStore {
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
+    public init() {}
+
+    public func load() async throws -> IdentifiedArrayOf<DailyScrum> {
+        let task = Task<IdentifiedArrayOf<DailyScrum>, Error>.detached { [fileURL] in
+            let fileURL = try fileURL()
+            guard let file = try? FileHandle(forReadingFrom: fileURL) else { return [] }
+            try Task.checkCancellation()
+            return try JSONDecoder().decode(IdentifiedArrayOf<DailyScrum>.self, from: file.availableData)
         }
+        return try await task.value
+    }
+
+    public func save(_ scrums: IdentifiedArrayOf<DailyScrum>) async throws {
+        let task = Task.detached { [fileURL] in
+            let data = try JSONEncoder().encode(scrums)
+            let outfile = try fileURL()
+            try Task.checkCancellation()
+            try data.write(to: outfile)
+        }
+        _ = try await task.value
+    }
+
+    /// Returns the URL for the file that stores the scrums.
+    /// - Returns: The URL.
+    @Sendable private func fileURL() throws -> URL {
+        try FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+        )
+        .appendingPathComponent("scrums.data")
     }
 }

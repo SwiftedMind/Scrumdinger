@@ -20,26 +20,20 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
-import Models
+import Foundation
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
+public struct MockError: Error {
+
+    fileprivate init() {}
+
+    public var localizedDescription: String {
+        "Mock Error"
     }
+
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+public extension Error where Self == MockError {
+    static var mock: Self {
+        .init()
     }
 }

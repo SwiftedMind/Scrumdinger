@@ -20,26 +20,48 @@
 //  SOFTWARE.
 //
 
+import Puddles
 import SwiftUI
 import IdentifiedCollections
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
+struct HistoryDetail: Provider {
+
+    var interface: Interface<Action>
+    var history: History
+
+    var entryView: some View {
+        HistoryDetailView(
+            interface: .consume(handleViewInterface),
+            state: .init(history: history)
+        )
+    }
+
+    // MARK: - Interface Handler
+
+    private func handleViewInterface(_ action: HistoryDetailView.Action) {
+
+    }
+
+    // MARK: - State Configurations
+
+    @MainActor
+    func applyTargetState(_ state: TargetState) {
+        switch state {
+        case .reset:
+            break
         }
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension HistoryDetail {
+
+    enum TargetState {
+        case reset
+    }
+
+    enum Action: Hashable {
+        case noAction
     }
 }
+

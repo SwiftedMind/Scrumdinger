@@ -20,26 +20,10 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
-import Models
+import Foundation
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension Mock.Link {
+    public static var galaxyImage: URL {
+        .init(string: "https://www.diyphotography.net/wp-content/uploads/2017/04/The-Milky-Way-Center-Aglow-with-Dust.jpg")!
     }
 }

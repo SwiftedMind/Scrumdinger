@@ -20,26 +20,10 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
-import Models
+import Foundation
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+public extension Task where Success == Never, Failure == Never {
+    static func sleepRandom(in range: ClosedRange<Double> = ((0.5)...(2.5))) async throws {
+        try await Task.sleep(nanoseconds: UInt64(Double.random(in: range)) * NSEC_PER_SEC)
     }
 }

@@ -20,26 +20,48 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
+import AudioRecording
+import ScrumStore
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
-        }
+extension Features {
+    @MainActor
+    static func live() -> Features {
+        let scrums = makeScrums()
+        let audioRecorder = makeAudioRecorder()
+        return Features(
+            scrums: scrums,
+            audioRecorder: audioRecorder
+        )
     }
-}
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
-        if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
-        }
+    @MainActor
+    private static func makeScrums() -> Feature.Scrums {
+        let store = ScrumStore()
+        return .init(
+            dependencies: .init(
+                load: {
+                    try await store.load()
+                }, save: { scrums in
+                    try await store.save(scrums)
+                }
+            )
+        )
+    }
+
+    @MainActor
+    private static func makeAudioRecorder() -> Feature.AudioRecorder {
+        let recorder = SpeechRecognizer()
+        return .init(
+            dependencies: .init(
+                reset: {
+                    recorder.reset()
+                }, startTranscription: {
+                    try await recorder.startTranscription()
+                }, finishTranscription: {
+                    recorder.finishTranscription()
+                }
+            )
+        )
     }
 }
