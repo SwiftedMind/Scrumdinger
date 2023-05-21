@@ -32,7 +32,7 @@ struct Meeting: Provider {
     var scrum: DailyScrum
     var isRecording: Bool
 
-    @State private var speakers: IdentifiedArrayOf<MeetingView.Speaker> = []
+    @State private var speakers: IdentifiedArrayOf<Speaker> = []
     @State private var secondsElapsed: Int = 0
     @State private var secondsRemaining: Int = 0
     @State private var meetingTask: Task<Void, Never>?
@@ -46,19 +46,27 @@ struct Meeting: Provider {
     private var player: AVPlayer { AVPlayer.sharedDingPlayer }
 
     var entryView: some View {
-        MeetingView(
-            interface: .consume(handleViewInterface),
-            state: .init(
-                theme: scrum.theme,
-                speakers: speakers,
-                secondsElapsed: secondsElapsed,
-                secondsRemaining: secondsRemaining,
-                isRecording: isRecording
-            )
-        )
-        .toolbar { toolbarContent }
-        .navigationBarBackButtonHidden()
-        .navigationBarTitleDisplayMode(.inline)
+        ZStack {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(scrum.theme.mainColor)
+            VStack {
+                HeaderView(
+                    secondsElapsed: secondsElapsed,
+                    secondsRemaining: secondsRemaining,
+                    theme: scrum.theme
+                )
+                TimerView(
+                    speakers: speakers,
+                    isRecording: isRecording,
+                    theme: scrum.theme
+                )
+                FooterView(speakers: speakers) {
+                    nextSpeaker()
+                }
+            }
+        }
+        .padding()
+        .foregroundColor(scrum.theme.accentColor)
         .onChange(of: scrum, perform: reset)
     }
 
@@ -75,16 +83,6 @@ struct Meeting: Provider {
         switch state {
         case .reset:
             reset(with: scrum)
-        }
-    }
-
-    // MARK: - Interface Handler
-
-    @MainActor
-    private func handleViewInterface(_ action: MeetingView.Action) {
-        switch action {
-        case .speakerSkipped:
-            skipSpeaker()
         }
     }
 
@@ -151,20 +149,23 @@ struct Meeting: Provider {
         nextSpeaker()
         startMeetingProgressUpdates()
     }
-
-    // MARK: - Utility
-
-    @ToolbarContentBuilder @MainActor
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button(Strings.end.text) {
-                interface.fire(.endButtonTapped)
-            }
-        }
-    }
 }
 
 extension Meeting {
+
+    struct Speaker: Identifiable {
+        let id = UUID()
+        let name: String
+        var isCompleted: Bool = false
+
+        static var mock: Self {
+            .init(name: "James", isCompleted: false)
+        }
+
+        static var mockList: IdentifiedArrayOf<Speaker> {
+            [.init(name: "Kim"), .init(name: "James"), .init(name: "Naomi"), .init(name: "Camina"), .init(name: "Bill")]
+        }
+    }
 
     enum TargetState {
         case reset
@@ -172,7 +173,6 @@ extension Meeting {
 
     enum Action: Hashable {
         case allSpeakersCompleted
-        case endButtonTapped
     }
 }
 

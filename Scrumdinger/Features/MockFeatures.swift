@@ -29,9 +29,11 @@ extension Features {
     static func mock() -> Features {
         let scrums = makeScrums()
         let audioRecorder = makeAudioRecorder()
+        let homeRouter = makeHomeRouter()
         return Features(
             scrums: scrums,
-            audioRecorder: audioRecorder
+            audioRecorder: audioRecorder,
+            homeRouter: homeRouter
         )
     }
 
@@ -43,5 +45,10 @@ extension Features {
     @MainActor
     private static func makeAudioRecorder() -> Feature.AudioRecorder {
         .mock()
+    }
+
+    @MainActor
+    private static func makeHomeRouter() -> Feature.HomeRouter {
+        .init()
     }
 }

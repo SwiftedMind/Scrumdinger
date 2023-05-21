@@ -22,4 +22,5 @@
 
 import SwiftUI
 
+// Namespacing
 enum Feature {}

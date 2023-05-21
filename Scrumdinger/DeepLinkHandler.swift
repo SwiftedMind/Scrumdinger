@@ -27,9 +27,9 @@ import Puddles
 @MainActor
 final class DeepLinkHandler: ObservableObject {
 
-    init() {}
+    private init() {}
 
-    static func targetState(for url: URL) -> Root.TargetState? {
+    static func targetState(for url: URL) -> Home.TargetState? {
         // To test, run this in a console (replace the URL with one of the options below):
         // xcrun simctl openurl booted "scrumdinger://createEmptyScrum"
         switch url.absoluteString {

@@ -26,8 +26,8 @@ import IdentifiedCollections
 
 extension Feature.Scrums {
     @MainActor
-    static func mock() -> Feature.Scrums {
-        let store = InMemoryStore(scrums: .mockList)
+    static func mock(initiallyStoredScrums: IdentifiedArrayOf<DailyScrum> = .mockList) -> Feature.Scrums {
+        let store = InMemoryStore(scrums: initiallyStoredScrums)
         return .init(
             dependencies: .init(
                 load: {

@@ -26,52 +26,101 @@ import IdentifiedCollections
 import Models
 
 struct EditScrum: Provider {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var interface: Interface<Action>
-    @State private var draft: DailyScrum
+
+    @Binding var draft: DailyScrum
     @State private var newAttendeeName: String = ""
+    @FocusState private var focusedField: Field?
 
-    private var commitButtonTitle: String
 
-    init(interface: Interface<Action>, scrum: DailyScrum = .draft, isNew: Bool = true) {
-        self.interface = interface
-        self._draft = .init(initialValue: scrum)
-        commitButtonTitle = isNew ? Strings.add.text : Strings.save.text
+    private var layout: AnyLayout {
+        dynamicTypeSize >= .accessibility2 ? AnyLayout(VStackLayout(alignment: .leading)) : AnyLayout(HStackLayout())
     }
+
     var entryView: some View {
-        NavigationStack {
-            EditScrumView(
-                interface: .consume(handleViewInterface),
-                state: .init(
-                    name: draft.title,
-                    length: Double(draft.lengthInMinutes),
-                    theme: draft.theme,
-                    attendees: draft.attendees,
-                    newAttendeeName: newAttendeeName
-                )
+        List {
+            infoSection
+            attendeesSection
+        }
+        .animation(.default, value: draft.attendees)
+        .onAppear { focusedField = .scrumName }
+    }
+
+    @ViewBuilder @MainActor
+    private var infoSection: some View {
+        Section {
+            TextField(
+                Strings.EditMeeting.InfoSection.NameField.placeholder.text,
+                text: $draft.title
             )
-            .toolbar { toolbarContent }
+            .focused($focusedField, equals: .scrumName)
+            .onSubmit { focusedField = nil }
+            .submitLabel(.next)
+            layout {
+                Slider(
+                    value: $draft.lengthDouble,
+                    in: 5...30
+                )
+                Text(Strings.EditMeeting.InfoSection.LengthSlider.value(Int(draft.lengthInMinutes)))
+            }
+            Picker(
+                Strings.EditMeeting.InfoSection.ThemePicker.title.text,
+                selection: $draft.theme
+            ) {
+                ForEach(Theme.allCases) { theme in
+                    if dynamicTypeSize.isAccessibilitySize {
+                        Text(theme.name)
+                            .padding(4)
+                            .tag(theme)
+                    } else {
+                        Label(theme.name, systemImage: "paintpalette")
+                            .padding(4)
+                            .tag(theme)
+                    }
+                }
+            }
+        } header: {
+            Text(Strings.EditMeeting.InfoSection.title.text)
         }
     }
 
-    // MARK: - Interface Handler
-
-    private func handleViewInterface(_ action: EditScrumView.Action) {
-        switch action {
-        case .nameChanged(let newValue):
-            draft.title = newValue
-        case .newAttendeeNameChanged(let newValue):
-            newAttendeeName = newValue
-        case .attendeesDeleted(atOffsets: let offsets):
-            draft.attendees.remove(atOffsets: offsets)
-        case .lengthChanged(let newValue):
-            draft.lengthInMinutes = Int(newValue)
-        case .themeChanged(let newValue):
-            draft.theme = newValue
-        case .submittedAttendeeName:
-            draft.attendees.append(.init(name: newAttendeeName))
-            newAttendeeName = ""
+    @ViewBuilder @MainActor
+    private var attendeesSection: some View {
+        Section {
+            ForEach(draft.attendees) { attendee in
+                Text(attendee.name)
+            }
+            .onDelete(perform: { draft.attendees.remove(atOffsets: $0) })
+            HStack {
+                TextField(
+                    Strings.EditMeeting.AttendeesSection.AttendeesField.placeholder.text,
+                    text: $newAttendeeName
+                )
+                .focused($focusedField, equals: .attendeeName)
+                .onSubmit {
+                    submitAttendee()
+                }
+                Button {
+                    submitAttendee()
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .accessibilityLabel(Strings.EditMeeting.AttendeesSection.AttendeesField.SubmitButton.accessibilityLabel.text)
+                }
+                .disabled(newAttendeeName.isEmpty)
+            }
+        } header: {
+            Text(Strings.EditMeeting.AttendeesSection.title.text)
         }
+    }
+
+    // MARK: - Helper
+
+    private func submitAttendee() {
+        draft.attendees.append(.init(name: newAttendeeName))
+        newAttendeeName = ""
+        focusedField = .attendeeName
     }
 
     // MARK: - State Configurations
@@ -83,24 +132,6 @@ struct EditScrum: Provider {
             break
         }
     }
-
-    // MARK: - Utility
-
-    @ToolbarContentBuilder @MainActor
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            Button(Strings.dismiss.text, role: .cancel) {
-                interface.fire(.canceled)
-            }
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button(commitButtonTitle) {
-                interface.fire(.scrumSubmitted(draft))
-            }
-            .disabled(draft.title.isEmpty)
-            .bold()
-        }
-    }
 }
 
 extension EditScrum {
@@ -110,8 +141,19 @@ extension EditScrum {
     }
 
     enum Action: Hashable {
-        case canceled
-        case scrumSubmitted(DailyScrum)
+        case noAction
+    }
+
+    enum Field: Hashable {
+        case scrumName
+        case attendeeName
     }
 }
 
+
+private extension DailyScrum {
+    var lengthDouble: Double {
+        get { Double(lengthInMinutes) }
+        set { lengthInMinutes = Int(newValue) }
+    }
+}

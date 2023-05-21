@@ -25,21 +25,21 @@ import IdentifiedCollections
 import Models
 
 extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingView.Speaker> {
+    var speakers: IdentifiedArrayOf<Meeting.Speaker> {
         if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
+            return [Meeting.Speaker(name: "Speaker 1", isCompleted: false)]
         } else {
-            return .init(uniqueElements: map { MeetingView.Speaker(name: $0.name, isCompleted: false) })
+            return .init(uniqueElements: map { Meeting.Speaker(name: $0.name, isCompleted: false) })
         }
     }
 }
 
 extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingView.Speaker] {
+    var speakers: [Meeting.Speaker] {
         if isEmpty {
-            return [MeetingView.Speaker(name: "Speaker 1", isCompleted: false)]
+            return [Meeting.Speaker(name: "Speaker 1", isCompleted: false)]
         } else {
-            return map { MeetingView.Speaker(name: $0.name, isCompleted: false) }
+            return map { Meeting.Speaker(name: $0.name, isCompleted: false) }
         }
     }
 }

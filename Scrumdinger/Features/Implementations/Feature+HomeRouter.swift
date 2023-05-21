@@ -20,26 +20,46 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
 import Models
 import IdentifiedCollections
-import MockData
 
-extension Feature.AudioRecorder {
+extension Feature {
     @MainActor
-    static func mock(canTranscribe: Bool = true) -> Feature.AudioRecorder {
-        let errorMessage = "[Mocked] Failed to start transcription"
-        return .init(
-            dependencies: .init(
-                reset: {
-                    print("Reset")
-                }, startTranscription: {
-                    guard canTranscribe else { throw MockError(message: errorMessage) }
-                }, finishTranscription: {
-                    guard canTranscribe else { return errorMessage }
-                    return "[Mocked] Successful Transcription of the meeting."
-                }
-            )
-        )
+    final class HomeRouter: ObservableObject {
+        @Published var path: [Destination] = []
+        @Published var scrumEdit: DailyScrum? = nil
+        @Published var scrumAdd: DailyScrum? = nil
+
+        enum Destination: Hashable {
+            case scrumDetail(DailyScrum)
+            case meeting(for: DailyScrum)
+            case history(History)
+        }
+
+        func push(_ destination: Destination) {
+            self.path.append(destination)
+        }
+
+        @discardableResult
+        func pop() -> Destination? {
+            path.popLast()
+        }
+
+        func setPath(_ stack: [Destination]) {
+            self.path = stack
+        }
+
+        func queryEditScrum(_ scrum: DailyScrum) throws {
+            // Check if editor is already open and throw if needed
+            scrumAdd = nil
+            scrumEdit = scrum
+        }
+
+        func queryAddScrum(withDraft draft: DailyScrum) throws {
+            // Check if editor is already open and throw if needed
+            scrumEdit = nil
+            scrumAdd = draft
+        }
     }
 }

@@ -24,10 +24,14 @@ import Foundation
 
 public struct MockError: Error {
 
-    fileprivate init() {}
+    var message: String
+
+    public init(message: String = "Mock Error") {
+        self.message = message
+    }
 
     public var localizedDescription: String {
-        "Mock Error"
+        message
     }
 
 }

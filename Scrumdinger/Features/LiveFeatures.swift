@@ -29,9 +29,11 @@ extension Features {
     static func live() -> Features {
         let scrums = makeScrums()
         let audioRecorder = makeAudioRecorder()
+        let homeRouter = makeHomeRouter()
         return Features(
             scrums: scrums,
-            audioRecorder: audioRecorder
+            audioRecorder: audioRecorder,
+            homeRouter: homeRouter
         )
     }
 
@@ -48,9 +50,12 @@ extension Features {
             )
         )
     }
-
+    
     @MainActor
     private static func makeAudioRecorder() -> Feature.AudioRecorder {
+#if targetEnvironment(simulator)
+        return .mock()
+#else
         let recorder = SpeechRecognizer()
         return .init(
             dependencies: .init(
@@ -63,5 +68,11 @@ extension Features {
                 }
             )
         )
+#endif
+    }
+
+    @MainActor
+    private static func makeHomeRouter() -> Feature.HomeRouter {
+        return .init()
     }
 }

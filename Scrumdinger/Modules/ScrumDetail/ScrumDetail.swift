@@ -27,44 +27,121 @@ import Models
 import Queryable
 
 struct ScrumDetail: Provider {
-    @EnvironmentObject private var scrums: Feature.Scrums
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     /// The scrum detail interface.
     var interface: Interface<Action>
 
-    // TODO: This feels strange.
     /// The managed scrum. Its identifier will be used to always display the up-to-date version of this scrum from the `Scrums` feature.
-    var scrumId: DailyScrum.ID
-
-    /// The queryable that provides us with the means to edit a scrum.
-    var onEdit: (DailyScrum) async throws -> DailyScrum?
-
-    private var managedScrum: DailyScrum? {
-        scrums.all[id: scrumId]
-    }
+    var scrum: DailyScrum
 
     var entryView: some View {
-        if let managedScrum {
-            ScrumDetailView(
-                interface: .consume(handleViewInterface),
-                state: .init(scrum: managedScrum)
-            )
-            // TODO: Should this be here? too much context?
-            .navigationTitle(managedScrum.title)
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar { toolbarContent }
+        List {
+            meetingInfoSection
+            attendeesSection
+            historySection
+            footerSection
         }
     }
 
-    // MARK: - Interface Handler
+    @ViewBuilder @MainActor
+    private var footerSection: some View {
+        Section {
+            Text(scrum.id.uuidString)
+                .foregroundColor(.secondary)
+                .textSelection(.enabled)
+        } header: {
+            VStack(alignment: .leading) {
+                Text(Strings.ScrumDetail.FooterSection.Title._1.text)
+                Text(Strings.ScrumDetail.FooterSection.Title._2.text).font(.caption2)
+            }
+        }
+    }
 
-    @MainActor
-    private func handleViewInterface(_ action: ScrumDetailView.Action) {
-        switch action {
-        case .historyTapped(let history):
-            interface.fire(.historyTapped(history))
-        case .startMeetingButtonTapped:
-            interface.fire(.startMeetingButtonTapped)
+    @ViewBuilder @MainActor
+    private var meetingInfoSection: some View {
+        Section {
+            DisclosureButton {
+                interface.fire(.startMeetingButtonTapped)
+            } content: {
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(Strings.ScrumDetail.InfoSection.startButton.text)
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                } else {
+                    Label(Strings.ScrumDetail.InfoSection.startButton.text, systemImage: "timer")
+                        .font(.headline)
+                        .foregroundColor(.accentColor)
+                }
+            }
+            LabeledContent {
+                Text(Strings.ScrumDetail.InfoSection.Length.value(scrum.lengthInMinutes))
+            } label: {
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(Strings.ScrumDetail.InfoSection.Length.title.text)
+                } else {
+                    Label(Strings.ScrumDetail.InfoSection.Length.title.text, systemImage: "clock")
+                }
+            }
+            .accessibilityElement(children: .combine)
+            LabeledContent {
+                Text(scrum.theme.name)
+                    .padding(4)
+                    .foregroundColor(scrum.theme.accentColor)
+                    .background(scrum.theme.mainColor)
+                    .cornerRadius(4)
+            } label: {
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(Strings.ScrumDetail.InfoSection.theme.text)
+                } else {
+                    Label(Strings.ScrumDetail.InfoSection.theme.text, systemImage: "paintpalette")
+                }
+            }
+            .accessibilityElement(children: .combine)
+        } header: {
+            Text(Strings.ScrumDetail.InfoSection.title.text)
+        }
+    }
+
+    @ViewBuilder @MainActor
+    private var attendeesSection: some View {
+        Section {
+            ForEach(scrum.attendees) { attendee in
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text(attendee.name)
+                } else {
+                    Label(attendee.name, systemImage: "person")
+                }
+            }
+        } header: {
+            Text(Strings.ScrumDetail.AttendeesSection.title.text)
+        }
+    }
+
+    @ViewBuilder @MainActor
+    private var historySection: some View {
+        Section {
+            if scrum.history.isEmpty {
+                if dynamicTypeSize.isAccessibilitySize {
+                    Text("No meetings yet")
+                } else {
+                    Label("No meetings yet", systemImage: "calendar.badge.exclamationmark")
+                }
+            }
+            ForEach(scrum.history) { history in
+                DisclosureButton {
+                    interface.fire(.historyTapped(history))
+                } content: {
+                    HStack {
+                        if !dynamicTypeSize.isAccessibilitySize {
+                            Image(systemName: "calendar")
+                        }
+                        Text(history.date, style: .date)
+                    }
+                }
+            }
+        } header: {
+            Text(Strings.ScrumDetail.HistorySection.title.text)
         }
     }
 
@@ -74,32 +151,6 @@ struct ScrumDetail: Provider {
         switch state {
         case .reset:
             break
-        case .edit:
-            queryEditScrum()
-        }
-    }
-
-    // MARK: - Utility
-
-    @ToolbarContentBuilder @MainActor
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button(Strings.edit.text) {
-                queryEditScrum()
-            }
-        }
-    }
-
-    @MainActor
-    private func queryEditScrum() {
-        Task {
-            do {
-                if let newScrum = try await onEdit(scrum) {
-                    scrums.save(newScrum)
-                }
-            } catch {
-                print(error)
-            }
         }
     }
 }
@@ -107,7 +158,6 @@ struct ScrumDetail: Provider {
 extension ScrumDetail {
     enum TargetState {
         case reset
-        case edit
     }
 
     enum Action: Hashable {

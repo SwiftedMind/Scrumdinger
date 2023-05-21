@@ -25,54 +25,73 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
-struct ScrumList: Provider {
-    var interface: Interface<Action>
-    var scrums: IdentifiedArrayOf<DailyScrum>
+struct ScrumAddSheet: Provider {
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var scrums: Feature.Scrums
+
+    @State private var draft: DailyScrum
+
+    init(draft: DailyScrum = .draft) {
+        self._draft = .init(initialValue: draft)
+    }
 
     var entryView: some View {
-        List {
-            ForEach(scrums) { scrum in
-                Button {
-                    interface.fire(.scrumTapped(scrum))
-                } label: {
-                    CardView(scrum: scrum)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .listRowBackground(scrum.theme.mainColor)
-                .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
-                .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                    Button(Strings.ScrumList.Item.LeadingAction.title.text) {
-                        UIPasteboard.general.string = scrum.id.uuidString
-                    }
-                }
-            }
-            .onDelete { interface.fire(.scrumsDeleted(atOffsets: $0)) }
+        EditScrum(
+            interface: .ignore,
+            draft: $draft
+        )
+        .toolbar { toolbarContent }
+    }
+
+    func modify(provider: ProviderContent) -> some View {
+        NavigationStack {
+            provider
         }
-        .listStyle(.insetGrouped)
-        .animation(.default, value: scrums)
+    }
+
+    // MARK: - Interface Handlers
+
+    @MainActor
+    private func handleInterface(_ action: EditScrum.Action) {
+        switch action {
+        case .noAction:
+            break
+        }
     }
 
     // MARK: - State Configurations
 
+    @MainActor
     func applyTargetState(_ state: TargetState) {
         switch state {
         case .reset:
             break
         }
     }
+
+    // MARK: - Utility
+
+    @ToolbarContentBuilder @MainActor
+    private var toolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(Strings.dismiss.text, role: .cancel) {
+                dismiss()
+            }
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(Strings.add.text) {
+                scrums.save(draft)
+                dismiss()
+            }
+            .disabled(draft.title.isEmpty)
+            .bold()
+        }
+    }
 }
 
-extension ScrumList {
-
+extension ScrumAddSheet {
     enum TargetState {
         case reset
-    }
-
-    enum Action: Hashable {
-        case scrumTapped(DailyScrum)
-        case addScrumButtonTapped
-        case scrumsDeleted(atOffsets: IndexSet)
     }
 }
 

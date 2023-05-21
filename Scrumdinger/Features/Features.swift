@@ -27,13 +27,16 @@ final class Features: ObservableObject {
 
     let scrums: Feature.Scrums
     let audioRecorder: Feature.AudioRecorder
+    let homeRouter: Feature.HomeRouter
 
     init(
         scrums: Feature.Scrums,
-        audioRecorder: Feature.AudioRecorder
+        audioRecorder: Feature.AudioRecorder,
+        homeRouter: Feature.HomeRouter
     ) {
         self.scrums = scrums
         self.audioRecorder = audioRecorder
+        self.homeRouter = homeRouter
     }
 }
 
@@ -42,5 +45,6 @@ extension View {
         self
             .environmentObject(features.scrums)
             .environmentObject(features.audioRecorder)
+            .environmentObject(features.homeRouter)
     }
 }
