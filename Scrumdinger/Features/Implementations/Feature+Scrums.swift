@@ -24,6 +24,7 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
+// Maybe data providers arent a bad idea after all
 extension Feature {
     final class Scrums: ObservableObject {
 
@@ -38,6 +39,8 @@ extension Feature {
 
         // The collection representing all the user's scrums
         @MainActor @Published private(set) var all: IdentifiedArrayOf<DailyScrum> = []
+
+        
 
         @MainActor init(dependencies: Dependencies) {
             self.dependencies = dependencies
@@ -81,6 +84,4 @@ extension Feature {
             }
         }
     }
-
-
 }

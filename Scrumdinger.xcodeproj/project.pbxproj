@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		951EBB9429F501240084DA11 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951EBB9329F501240084DA11 /* DeepLinkHandler.swift */; };
 		952B2B2729CB5B58004A73F7 /* Meeting+Managed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2629CB5B58004A73F7 /* Meeting+Managed.swift */; };
-		952B2B2929CB7483004A73F7 /* ScrumDetail+Managed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2829CB7483004A73F7 /* ScrumDetail+Managed.swift */; };
 		952B2B3629CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 952B2B3429CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt */; };
 		952B2B3729CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 952B2B3529CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt */; };
 		954FA2662A17F5BD006F26FC /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA2652A17F5BD006F26FC /* Feature.swift */; };
@@ -64,7 +63,6 @@
 /* Begin PBXFileReference section */
 		951EBB9329F501240084DA11 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		952B2B2629CB5B58004A73F7 /* Meeting+Managed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meeting+Managed.swift"; sourceTree = "<group>"; };
-		952B2B2829CB7483004A73F7 /* ScrumDetail+Managed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrumDetail+Managed.swift"; sourceTree = "<group>"; };
 		952B2B3329CBF9E0004A73F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		952B2B3429CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt; sourceTree = "<group>"; };
 		952B2B3529CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_LICENSE.txt; sourceTree = "<group>"; };
@@ -297,7 +295,6 @@
 		95EC65872A180740005BDDC0 /* ScrumDetail */ = {
 			isa = PBXGroup;
 			children = (
-				952B2B2829CB7483004A73F7 /* ScrumDetail+Managed.swift */,
 				95602F0E29C8DA42008EB800 /* ScrumDetail.swift */,
 				95C154AF29C8688300224B4B /* ScrumDetailView.swift */,
 			);
@@ -477,7 +474,6 @@
 				95602F0F29C8DA42008EB800 /* ScrumDetail.swift in Sources */,
 				95EC65932A1810B4005BDDC0 /* MockFeatures.swift in Sources */,
 				95868CAA29C852B9001F8629 /* Color.swift in Sources */,
-				952B2B2929CB7483004A73F7 /* ScrumDetail+Managed.swift in Sources */,
 				95C154B229C86A4700224B4B /* DisclosureItem.swift in Sources */,
 				95868CA829C852B9001F8629 /* LoadingState.swift in Sources */,
 				954FA26A2A17F853006F26FC /* LiveFeatures.swift in Sources */,

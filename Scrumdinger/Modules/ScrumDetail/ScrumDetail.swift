@@ -24,20 +24,36 @@ import Puddles
 import SwiftUI
 import IdentifiedCollections
 import Models
+import Queryable
 
 struct ScrumDetail: Provider {
+    @EnvironmentObject private var scrums: Feature.Scrums
+
+    /// The scrum detail interface.
     var interface: Interface<Action>
-    var dataInterface: Interface<DataAction>
-    var scrum: DailyScrum
+
+    // TODO: This feels strange.
+    /// The managed scrum. Its identifier will be used to always display the up-to-date version of this scrum from the `Scrums` feature.
+    var scrumId: DailyScrum.ID
+
+    /// The queryable that provides us with the means to edit a scrum.
+    var onEdit: (DailyScrum) async throws -> DailyScrum?
+
+    private var managedScrum: DailyScrum? {
+        scrums.all[id: scrumId]
+    }
 
     var entryView: some View {
-        ScrumDetailView(
-            interface: .consume(handleViewInterface),
-            state: .init(scrum: scrum)
-        )
-        .navigationTitle(scrum.title)
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar { toolbarContent }
+        if let managedScrum {
+            ScrumDetailView(
+                interface: .consume(handleViewInterface),
+                state: .init(scrum: managedScrum)
+            )
+            // TODO: Should this be here? too much context?
+            .navigationTitle(managedScrum.title)
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar { toolbarContent }
+        }
     }
 
     // MARK: - Interface Handler
@@ -58,6 +74,8 @@ struct ScrumDetail: Provider {
         switch state {
         case .reset:
             break
+        case .edit:
+            queryEditScrum()
         }
     }
 
@@ -67,20 +85,29 @@ struct ScrumDetail: Provider {
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(Strings.edit.text) {
-                dataInterface.fire(.editButtonTapped)
+                queryEditScrum()
+            }
+        }
+    }
+
+    @MainActor
+    private func queryEditScrum() {
+        Task {
+            do {
+                if let newScrum = try await onEdit(scrum) {
+                    scrums.save(newScrum)
+                }
+            } catch {
+                print(error)
             }
         }
     }
 }
 
 extension ScrumDetail {
-
     enum TargetState {
         case reset
-    }
-
-    enum DataAction: Hashable {
-        case editButtonTapped
+        case edit
     }
 
     enum Action: Hashable {

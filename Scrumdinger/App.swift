@@ -28,7 +28,7 @@ import MockData
 @main
 struct ScrumdingerApp: App {
     @StateObject private var features = Features.mock()
-    @TargetStateSetter<Root.TargetState>(initialTargetState: .reset) private var targetStateSetter
+    @TargetStateSetter<Root.TargetState>(initialTargetState: .editRandomScrumOnDetailPage) private var targetStateSetter
 
     init() {
         Puddles.configureLog()

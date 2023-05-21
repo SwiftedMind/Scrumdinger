@@ -26,6 +26,10 @@ import IdentifiedCollections
 import Queryable
 import Models
 
+@MainActor final class _Navigator: ObservableObject {
+
+}
+
 struct Root: Navigator {
 
     @EnvironmentObject private var scrums: Feature.Scrums
@@ -48,7 +52,7 @@ struct Root: Navigator {
 
     // Target State setter for `ScrumDetail`.
     // Used to apply a state when a deep link is being handled.
-    @TargetStateSetter<ScrumDetail.Managed.TargetState> private var scrumDetailTargetState
+    @TargetStateSetter<ScrumDetail.TargetState> private var scrumDetailTargetState
 
     var entryView: some View {
         NavigationStack(path: $path) {
@@ -82,12 +86,12 @@ struct Root: Navigator {
     private func destination(for path: Path) -> some View {
         switch path {
         case .scrumDetail(let scrum):
-            ScrumDetail.Managed(
+            ScrumDetail(
                 interface: .consume { handleScrumDetailInterface($0, for: scrum) },
-                scrum: scrum,
-                editScrum: editScrum
+                scrumId : scrum.id,
+                onEdit: { try await editScrum.query(with: $0) }
             )
-            .targetStateSetter(scrumDetailTargetState)
+            .targetStateSetter(scrumDetailTargetState, id: scrum.id)
         case .meeting(for: let scrum):
             Meeting.Managed(
                 interface: .consume { handleMeetingInterface($0, for: scrum)},
@@ -176,11 +180,11 @@ struct Root: Navigator {
             scrumListTargetState.set(.createScrum(draft: draft))
         case .editScrumOnDetailPage(let scrum):
             path = [.scrumDetail(scrum)]
-            scrumDetailTargetState.set(.editScrum)
+            scrumDetailTargetState.set(.edit)
         case .editRandomScrumOnDetailPage:
             if let scrum = scrums.all.randomElement() {
                 path = [.scrumDetail(scrum)]
-                scrumDetailTargetState.set(.editScrum)
+                scrumDetailTargetState.set(.edit, id: scrum.id)
             }
         }
     }
