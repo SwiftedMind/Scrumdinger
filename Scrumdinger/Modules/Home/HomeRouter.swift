@@ -21,25 +21,31 @@
 //
 
 import SwiftUI
-import IdentifiedCollections
 import Models
+import IdentifiedCollections
+import Puddles
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
+@MainActor
+final class HomeRouter: NavigationRouter {
+    @Published var path: [Destination] = []
+    @Published var scrumEdit: DailyScrum? = nil
+    @Published var scrumAdd: DailyScrum? = nil
+    
+    enum Destination: Hashable {
+        case scrumDetail(DailyScrum)
+        case meeting(for: DailyScrum)
+        case history(History)
     }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+    
+    func queryEditScrum(_ scrum: DailyScrum) throws {
+        // Check if editor is already open and throw if needed
+        scrumAdd = nil
+        scrumEdit = scrum
+    }
+    
+    func queryAddScrum(withDraft draft: DailyScrum) throws {
+        // Check if editor is already open and throw if needed
+        scrumEdit = nil
+        scrumAdd = draft
     }
 }

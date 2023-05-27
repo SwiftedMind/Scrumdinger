@@ -20,26 +20,26 @@
 //  SOFTWARE.
 //
 
+import Puddles
 import SwiftUI
 import IdentifiedCollections
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
+extension Home {
+    struct HistoryDetail: Provider {
+
+        var history: History
+
+        var entryView: some View {
+            HistoryDetailView(history: history)
         }
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+struct Home_HistoryDetail_Previews: PreviewProvider {
+    static var previews: some View {
+        Home.HistoryDetail(history: .mock)
+            .environmentObject(HomeRouter())
+            .withProviders(.mock())
     }
 }

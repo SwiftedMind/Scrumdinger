@@ -20,26 +20,29 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
+import Foundation
 import Models
+import IdentifiedCollections
+import MockData
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension AudioRecorderProvider {
+    @MainActor
+    static func live() -> AudioRecorderProvider {
+#if targetEnvironment(simulator)
+        return .mock()
+#else
+        let recorder = SpeechRecognizer()
+        return .init(
+            dependencies: .init(
+                reset: {
+                    recorder.reset()
+                }, startTranscription: {
+                    try await recorder.startTranscription()
+                }, finishTranscription: {
+                    recorder.finishTranscription()
+                }
+            )
+        )
+#endif
     }
 }

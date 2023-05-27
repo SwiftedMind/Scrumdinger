@@ -20,26 +20,46 @@
 //  SOFTWARE.
 //
 
+import Puddles
 import SwiftUI
 import IdentifiedCollections
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
+struct ScrumListView: View {
+    var interface: Interface<Action>
+    var scrums: IdentifiedArrayOf<DailyScrum>
+
+    var body: some View {
+        List {
+            ForEach(scrums) { scrum in
+                Button {
+                    interface.fire(.scrumTapped(scrum))
+                } label: {
+                    CardView(scrum: scrum)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .listRowBackground(scrum.theme.mainColor)
+                .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
+                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    Button(Strings.ScrumList.Item.LeadingAction.title.text) {
+                        UIPasteboard.general.string = scrum.id.uuidString
+                    }
+                }
+            }
+            .onDelete { interface.fire(.scrumsDeleted(atOffsets: $0)) }
         }
+        .listStyle(.insetGrouped)
+        .animation(.default, value: scrums)
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension ScrumListView {
+
+    enum Action: Hashable {
+        case scrumTapped(DailyScrum)
+        case addScrumButtonTapped
+        case scrumsDeleted(atOffsets: IndexSet)
     }
 }
+

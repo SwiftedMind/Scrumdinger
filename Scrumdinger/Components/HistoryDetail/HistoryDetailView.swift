@@ -21,25 +21,41 @@
 //
 
 import SwiftUI
-import IdentifiedCollections
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
+struct HistoryDetailView: View {
+
+    var history: History
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Divider()
+                    .padding(.bottom)
+                Text("Attendees")
+                    .font(.headline)
+                Text(history.attendeeString)
+                if let transcript = history.transcript {
+                    Text("Transcript")
+                        .font(.headline)
+                        .padding(.top)
+                    Text(transcript)
+                }
+            }
         }
+        .navigationTitle(Text(history.date, style: .date))
+        .padding()
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+private extension History {
+    var attendeeString: String {
+        ListFormatter.localizedString(byJoining: attendees.map { $0.name })
+    }
+}
+
+struct HistoryDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        HistoryDetailView(history: .mock)
     }
 }

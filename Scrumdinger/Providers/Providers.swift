@@ -21,25 +21,46 @@
 //
 
 import SwiftUI
-import IdentifiedCollections
-import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
+@MainActor
+final class Providers: ObservableObject {
+
+    let scrumProvider: ScrumProvider
+    let audioRecorderProvider: AudioRecorderProvider
+    let deepLinkResolver: DeepLinkResolver
+
+    init(
+        scrumProvider: ScrumProvider,
+        audioRecorderProvider: AudioRecorderProvider,
+        deepLinkResolver: DeepLinkResolver
+    ) {
+        self.scrumProvider = scrumProvider
+        self.audioRecorderProvider = audioRecorderProvider
+        self.deepLinkResolver = deepLinkResolver
+    }
+
+    static func live() -> Providers {
+        .init(
+            scrumProvider: .live(),
+            audioRecorderProvider: .live(),
+            deepLinkResolver: .live()
+        )
+    }
+
+    static func mock() -> Providers {
+        .init(
+            scrumProvider: .mock(),
+            audioRecorderProvider: .mock(),
+            deepLinkResolver: .mock()
+        )
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension View {
+    @MainActor func withProviders(_ providers: Providers) -> some View {
+        self
+            .environmentObject(providers.scrumProvider)
+            .environmentObject(providers.audioRecorderProvider)
+            .environmentObject(providers.deepLinkResolver)
     }
 }

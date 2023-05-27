@@ -20,26 +20,26 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
+import Foundation
 import Models
+import IdentifiedCollections
+import MockData
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension AudioRecorderProvider {
+    @MainActor
+    static func mock(canTranscribe: Bool = true) -> AudioRecorderProvider {
+        let errorMessage = "[Mocked] Failed to start transcription"
+        return .init(
+            dependencies: .init(
+                reset: {
+                    print("Reset")
+                }, startTranscription: {
+                    guard canTranscribe else { throw MockError(message: errorMessage) }
+                }, finishTranscription: {
+                    guard canTranscribe else { return errorMessage }
+                    return "[Mocked] Successful Transcription of the meeting."
+                }
+            )
+        )
     }
 }

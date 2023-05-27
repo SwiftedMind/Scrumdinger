@@ -21,25 +21,25 @@
 //
 
 import SwiftUI
-import IdentifiedCollections
-import Models
+import Puddles
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
+struct Root: View {
+    @EnvironmentObject private var deepLinkResolver: DeepLinkResolver
+    @Signal<Home.SignalValue>(initial: .editRandomScrumOnDetailPage) private var home
+
+    var body: some View {
+        Home()
+            .sendSignals(home)
+            .onOpenURL { url in
+                guard let targetState = deepLinkResolver.homeSignal(for: url) else { return }
+                home.send(targetState)
+            }
     }
 }
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+struct Root_Previews: PreviewProvider {
+    static var previews: some View {
+        Root()
+            .withProviders(.mock())
     }
 }

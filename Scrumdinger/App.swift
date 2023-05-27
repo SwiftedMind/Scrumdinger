@@ -27,8 +27,7 @@ import MockData
 
 @main
 struct ScrumdingerApp: App {
-    @StateObject private var features = Features.live()
-    @TargetStateSetter<Home.TargetState>(initialTargetState: .editRandomScrumOnDetailPage) private var home
+    @StateObject private var providers = Providers.live()
 
     init() {
         Puddles.configureLog()
@@ -36,13 +35,9 @@ struct ScrumdingerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Home()
-                .applyTargetStates(with: home)
-                .withFeatures(features)
-                .onOpenURL { url in
-                    guard let targetState = DeepLinkHandler.targetState(for: url) else { return }
-                    home.apply(targetState)
-                }
+            Root()
+                .environmentObject(ScrumProvider.mock())
+                .withProviders(providers)
         }
     }
 }

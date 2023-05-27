@@ -20,26 +20,23 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import IdentifiedCollections
+import Foundation
 import Models
+import IdentifiedCollections
+import ScrumStore
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
-
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+extension ScrumProvider {
+    @MainActor
+    static func live() -> ScrumProvider {
+        let store = ScrumStore()
+        return .init(
+            dependencies: .init(
+                load: {
+                    try await store.load()
+                }, save: { scrums in
+                    try await store.save(scrums)
+                }
+            )
+        )
     }
 }

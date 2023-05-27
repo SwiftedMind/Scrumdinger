@@ -24,22 +24,36 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
-extension IdentifiedArray where Element == DailyScrum.Attendee {
-    var speakers: IdentifiedArrayOf<MeetingDetailView.Speaker> {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return .init(uniqueElements: map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) })
-        }
-    }
-}
+final class AudioRecorderProvider: ObservableObject {
 
-extension Array where Element == DailyScrum.Attendee {
-    var speakers: [MeetingDetailView.Speaker] {
-        if isEmpty {
-            return [MeetingDetailView.Speaker(name: "Speaker 1", isCompleted: false)]
-        } else {
-            return map { MeetingDetailView.Speaker(name: $0.name, isCompleted: false) }
-        }
+    struct Dependencies {
+        public var reset: () -> Void
+        public var startTranscription: () async throws -> Void
+        public var finishTranscription: () -> String
+    }
+
+    private let dependencies: Dependencies
+
+    @MainActor @Published var isTranscribing: Bool = false
+
+    @MainActor init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
+
+    @MainActor
+    public func reset() -> Void {
+        dependencies.reset()
+    }
+
+    @MainActor
+    public func startTranscription() async throws -> Void {
+        try await dependencies.startTranscription()
+        isTranscribing = true
+    }
+
+    @MainActor
+    public func finishTranscription() -> String {
+        isTranscribing = false
+        return dependencies.finishTranscription()
     }
 }
