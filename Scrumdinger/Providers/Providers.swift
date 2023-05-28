@@ -22,8 +22,13 @@
 
 import SwiftUI
 
-@MainActor
-final class Providers: ObservableObject {
+/// The global providers provider, holding all providers that need providing, duh.
+///
+/// These providers contain all the external dependencies of the app so that the views just have to consume them
+/// (for the most part).
+/// It's a compromise between handling *all* data in external objects (less convenient, more testable)
+/// and handling *no* data in external objects (more convenient, less testable).
+@MainActor final class Providers: ObservableObject {
 
     let scrumProvider: ScrumProvider
     let audioRecorderProvider: AudioRecorderProvider
