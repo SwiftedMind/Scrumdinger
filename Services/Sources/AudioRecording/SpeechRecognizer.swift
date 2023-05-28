@@ -32,10 +32,8 @@ public class SpeechRecognizer {
     private var speechRecognitionTask: SFSpeechRecognitionTask?
     private let recognizer: SFSpeechRecognizer?
     
-    /**
-     Initializes a new speech recognizer. If this is the first time you've used the class, it
-     requests access to the speech recognizer and the microphone.
-     */
+    /// Initializes a new speech recognizer. If this is the first time you've used the class, it
+    /// requests access to the speech recognizer and the microphone.
     public init() {
         recognizer = SFSpeechRecognizer()
         recordingSetup = Task(priority: .background) { [recognizer] in
@@ -54,13 +52,11 @@ public class SpeechRecognizer {
     deinit {
         reset()
     }
-    
-    /**
-        Begin transcribing audio.
-     
-        Creates a `SFSpeechRecognitionTask` that transcribes speech to text until you call `stopTranscribing()`.
-        The resulting transcription is continuously written to the published `transcript` property.
-     */
+
+    /// Begin transcribing audio.
+    ///
+    /// Creates a `SFSpeechRecognitionTask` that transcribes speech to text until you call `stopTranscribing()`.
+    /// The resulting transcription is continuously written to the published `transcript` property.
     @MainActor
     public func startTranscription() async throws {
         do {

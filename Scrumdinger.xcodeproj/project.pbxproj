@@ -58,6 +58,7 @@
 		95EC65A32A1A1608005BDDC0 /* Home+ScrumEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65A22A1A1608005BDDC0 /* Home+ScrumEdit.swift */; };
 		95EC65A52A1A1D1B005BDDC0 /* Home+ScrumAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65A42A1A1D1B005BDDC0 /* Home+ScrumAdd.swift */; };
 		95EC65A82A1A3E24005BDDC0 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65A72A1A3E24005BDDC0 /* HomeRouter.swift */; };
+		95EFFADD2A23BD67003BDE5E /* Theme+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EFFADC2A23BD67003BDE5E /* Theme+Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +114,7 @@
 		95EC65A22A1A1608005BDDC0 /* Home+ScrumEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+ScrumEdit.swift"; sourceTree = "<group>"; };
 		95EC65A42A1A1D1B005BDDC0 /* Home+ScrumAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+ScrumAdd.swift"; sourceTree = "<group>"; };
 		95EC65A72A1A3E24005BDDC0 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		95EFFADC2A23BD67003BDE5E /* Theme+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+Color.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +201,7 @@
 			children = (
 				95868CA429C852B9001F8629 /* LoadingState.swift */,
 				95602F1429C8DDC0008EB800 /* DailyScrum+Speaker.swift */,
+				95EFFADC2A23BD67003BDE5E /* Theme+Color.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95602F1129C8DB13008EB800 /* ScrumListView.swift in Sources */,
+				95EFFADD2A23BD67003BDE5E /* Theme+Color.swift in Sources */,
 				95EC65952A1810E5005BDDC0 /* ScrumProvider+Mock.swift in Sources */,
 				95602F0F29C8DA42008EB800 /* ScrumDetailView.swift in Sources */,
 				95EC65A52A1A1D1B005BDDC0 /* Home+ScrumAdd.swift in Sources */,

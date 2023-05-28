@@ -24,6 +24,9 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
+/// A store that handles saving and loading of daily scrums.
+///
+/// They will be saved inside a file in the app's document directory.
 public final class ScrumStore {
 
     public init() {}

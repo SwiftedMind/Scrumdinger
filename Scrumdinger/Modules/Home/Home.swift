@@ -58,8 +58,8 @@ struct Home: View {
         .fullScreenCover(item: $router.meetingDetail) { dailyScrum in
             MeetingDetail(scrumId: dailyScrum.id)
         }
-        .environmentObject(router)
-        .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals coming from Root().
+        .environmentObject(router) // Inject router into the environment
+        .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals coming from a parent view (in this case Root)
     }
 
     /// Holds all the navigation destination for any given `HomeRouter.Destination`.
@@ -75,6 +75,9 @@ struct Home: View {
     }
 
     /// Resolves the signals by adjusting the view's state.
+    ///
+    /// This is useful for adding deep linking support.
+    ///
     /// - Parameter value: The value of the signal that needs resolving.
     func resolveSignal(_ value: SignalValue) {
         switch value {
@@ -121,7 +124,7 @@ extension Home {
     }
 }
 
-// Again, anywhere in the app, we can set up a preview using mock (or even live) providers
+// Anywhere in the app, we can set up a preview using mock (or even live) providers
 // to have a fully functional preview canvas.
 struct HomeHome_Previews: PreviewProvider {
     static var previews: some View {
