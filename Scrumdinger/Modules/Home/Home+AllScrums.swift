@@ -26,11 +26,12 @@ import IdentifiedCollections
 import Models
 
 extension Home {
-    struct AllScrums: Provider {
+    /// The submodule inside Home that is displaying a list of all scrums.
+    struct AllScrums: View {
         @EnvironmentObject private var router: HomeRouter
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
-        var entryView: some View {
+        var body: some View {
             ScrumListView(
                 interface: .consume(handleInterface),
                 scrums: scrumProvider.scrums
@@ -47,8 +48,6 @@ extension Home {
             switch action {
             case .scrumTapped(let scrum):
                 router.push(.scrumDetail(scrum))
-            case .addScrumButtonTapped:
-                queryScrumCreation(draft: .draft)
             case .scrumsDeleted(let offsets):
                 scrumProvider.remove(atOffsets: offsets)
             }
@@ -57,8 +56,6 @@ extension Home {
         @MainActor
         func resolveSignal(_ value: SignalValue) {
             switch value {
-            case .reset:
-                break
             case .createScrum(let draft):
                 queryScrumCreation(draft: draft)
             }
@@ -93,7 +90,6 @@ extension Home {
 
 extension Home.AllScrums {
     enum SignalValue {
-        case reset
         case createScrum(draft: DailyScrum)
     }
 }

@@ -26,14 +26,22 @@ import IdentifiedCollections
 import Queryable
 import Models
 
-struct Home: Provider {
+// The main (and only) module of this example app.
+struct Home: View {
     @EnvironmentObject private var scrumProvider: ScrumProvider
+
+    /// The router that's handling all kinds of navigation. It is passed down the view hierarchy as environment object
+    /// so that all submodules can access it.
     @StateObject private var router = HomeRouter()
 
-    @Signal<AllScrums.SignalValue> private var scrumListSignal
-    @Signal<ScrumDetail.SignalValue> private var scrumDetailSignal
+    /// The signal handler sending signals to the scrum list screen.
+    @Signal<AllScrums.SignalValue>(debugIdentifier: "Home.ScrumList") private var scrumListSignal
 
-    var entryView: some View {
+    /// The signal handler sending signals to the scrum detail screen.
+    @Signal<ScrumDetail.SignalValue>(debugIdentifier: "Home.ScrumDetail") private var scrumDetailSignal
+
+    /// The contents of the Home module.
+    var body: some View {
         NavigationStack(path: $router.path) {
             AllScrums()
                 .sendSignals(scrumListSignal)
@@ -47,30 +55,29 @@ struct Home: Provider {
         .sheet(item: $router.scrumAdd) { draft in
             ScrumAdd(draft: draft)
         }
+        .fullScreenCover(item: $router.meetingDetail) { dailyScrum in
+            MeetingDetail(scrumId: dailyScrum.id)
+        }
         .environmentObject(router)
-        .resolveSignals(ofType: SignalValue.self, action: resolveSignal)
+        .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals coming from Root().
     }
 
-    // Holds all the navigation destinations for any given `Path`
+    /// Holds all the navigation destination for any given `HomeRouter.Destination`.
     @ViewBuilder @MainActor
     private func view(for destination: HomeRouter.Destination) -> some View {
         switch destination {
         case .scrumDetail(let scrum):
             ScrumDetail(scrumId: scrum.id)
                 .sendSignals(scrumDetailSignal, id: scrum.id)
-        case .meeting(for: let scrum):
-            MeetingDetail(scrum: scrum)
         case .history(let history):
             HistoryDetail(history: history)
         }
     }
 
-    // MARK: - State Configurations
-
+    /// Resolves the signals by adjusting the view's state.
+    /// - Parameter value: The value of the signal that needs resolving.
     func resolveSignal(_ value: SignalValue) {
         switch value {
-        case .reset:
-            break
         case .showScrum(let scrum):
             router.setPath([.scrumDetail(scrum)])
         case .showScrumById(let id):
@@ -78,12 +85,15 @@ struct Home: Provider {
                 router.setPath([.scrumDetail(scrum)])
             }
         case .startMeeting(for: let scrum):
-            router.setPath([.scrumDetail(scrum), .meeting(for: scrum)])
+            router.setPath([.scrumDetail(scrum)])
+            router.meetingDetail = scrum
         case .startMeetingForScrumWithId(let id):
             if let scrum = scrumProvider.scrums[id: id] {
-                router.setPath([.scrumDetail(scrum), .meeting(for: scrum)])
+                router.setPath([.scrumDetail(scrum)])
+                router.meetingDetail = scrum
             }
         case .createScrum(draft: let draft):
+            router.popToRoot()
             scrumListSignal.send(.createScrum(draft: draft))
         case .editScrumOnDetailPage(let scrum):
             router.setPath([.scrumDetail(scrum)])
@@ -98,8 +108,9 @@ struct Home: Provider {
 }
 
 extension Home {
+    /// The signals the Home module is capable of resolving.
+    /// Here, these are used as deep linking targets.
     enum SignalValue {
-        case reset
         case showScrum(DailyScrum)
         case showScrumById(UUID)
         case createScrum(draft: DailyScrum = .draft)
@@ -110,6 +121,8 @@ extension Home {
     }
 }
 
+// Again, anywhere in the app, we can set up a preview using mock (or even live) providers
+// to have a fully functional preview canvas.
 struct HomeHome_Previews: PreviewProvider {
     static var previews: some View {
         Home()

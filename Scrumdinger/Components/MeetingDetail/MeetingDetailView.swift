@@ -68,7 +68,7 @@ struct MeetingDetailView: View {
         .padding()
         .foregroundColor(scrum.theme.accentColor)
         .onChange(of: scrum, perform: reset)
-        .onAppear {
+        .onFirstAppear {
             reset(with: scrum)
             startMeetingProgressUpdates()
         }
@@ -125,7 +125,7 @@ struct MeetingDetailView: View {
 
         // Finish if all speakers have spoken
         guard currentSpeakerIndex < speakers.count else {
-            interface.fire(.allSpeakersCompleted)
+            interface.send(.allSpeakersCompleted)
             meetingTask?.cancel()
             return
         }
@@ -163,3 +163,22 @@ extension MeetingDetailView {
     }
 }
 
+// MARK: - Preview
+
+private struct PreviewState {
+    var scrum: DailyScrum = .mock
+    var isRecording: Bool = true
+}
+
+struct MeetingDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        Preview(state: PreviewState(), interfaceAction: MeetingDetailView.Action.self) { interface, $state in
+            MeetingDetailView(interface: interface, scrum: state.scrum, isRecording: state.isRecording)
+        } actionHandler: { action, $state in
+            switch action {
+            case .allSpeakersCompleted:
+                print("All Speakers have spoken")
+            }
+        }
+    }
+}

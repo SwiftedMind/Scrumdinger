@@ -22,6 +22,7 @@
 
 import SwiftUI
 import Models
+import Puddles
 
 struct HistoryDetailView: View {
 
@@ -53,6 +54,8 @@ private extension History {
         ListFormatter.localizedString(byJoining: attendees.map { $0.name })
     }
 }
+
+// MARK: - Preview
 
 struct HistoryDetailView_Previews: PreviewProvider {
     static var previews: some View {

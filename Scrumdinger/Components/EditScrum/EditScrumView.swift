@@ -29,11 +29,10 @@ struct EditScrumView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var interface: Interface<Action>
-
     @Binding var draft: DailyScrum
+
     @State private var newAttendeeName: String = ""
     @FocusState private var focusedField: Field?
-
 
     private var layout: AnyLayout {
         dynamicTypeSize >= .accessibility2 ? AnyLayout(VStackLayout(alignment: .leading)) : AnyLayout(HStackLayout())
@@ -140,5 +139,34 @@ private extension DailyScrum {
     var lengthDouble: Double {
         get { Double(lengthInMinutes) }
         set { lengthInMinutes = Int(newValue) }
+    }
+}
+
+// MARK: - Preview
+
+private struct PreviewState {
+    var draft: DailyScrum = .mock
+}
+
+struct EditScrumView_Previews: PreviewProvider {
+    static var previews: some View {
+        Preview(state: PreviewState(), interfaceAction: EditScrumView.Action.self) { interface, $state in
+            EditScrumView(interface: interface, draft: $state.draft)
+        } actionHandler: { action, $state in
+            switch action {
+            default: break
+            }
+        }
+        .overlay { $state in // Special overlay with access to the preview state.
+            HStack {
+                DebugButton("Clear Attendees") {
+                    state.draft.attendees.removeAll()
+                }
+                .disabled(state.draft.attendees.isEmpty)
+                DebugButton("Reset to Draft") {
+                    state.draft = .draft
+                }
+            }
+        }
     }
 }

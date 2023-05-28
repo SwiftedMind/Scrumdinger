@@ -26,7 +26,8 @@ import IdentifiedCollections
 import Models
 
 extension Home {
-    struct ScrumAdd: Provider {
+    /// The submodule inside Home that is displaying the "Add daily scrum" sheet.
+    struct ScrumAdd: View {
         @Environment(\.dismiss) private var dismiss
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
@@ -36,17 +37,13 @@ extension Home {
             self._draft = .init(initialValue: draft)
         }
 
-        var entryView: some View {
-            EditScrumView(
-                interface: .ignore,
-                draft: $draft
-            )
-            .toolbar { toolbarContent }
-        }
-
-        func modify(provider: ProviderContent) -> some View {
+        var body: some View {
             NavigationStack {
-                provider
+                EditScrumView(
+                    interface: .ignore,
+                    draft: $draft
+                )
+                .toolbar { toolbarContent }
             }
         }
 
@@ -78,5 +75,14 @@ extension Home {
                 .bold()
             }
         }
+    }
+}
+
+struct Home_ScrumAdd_Previews: PreviewProvider {
+    static let providers = Providers.mock()
+    static var previews: some View {
+        Home.ScrumAdd(draft: .mock)
+            .environmentObject(HomeRouter())
+            .withProviders(providers)
     }
 }

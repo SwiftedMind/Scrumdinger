@@ -26,17 +26,20 @@ import IdentifiedCollections
 import Models
 
 extension Home {
-    struct ScrumDetail: Provider {
+    /// The submodule inside Home that is displaying the detail view of a daily scrum.
+    struct ScrumDetail: View {
         @EnvironmentObject private var router: HomeRouter
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
+        /// The id of the daily scrum for this meeting.
         var scrumId: DailyScrum.ID
 
+        /// The daily scrum from the scrum provider.
         private var managedScrum: DailyScrum? {
             scrumProvider.scrums[id: scrumId]
         }
 
-        var entryView: some View {
+        var body: some View {
             if let managedScrum {
                 ScrumDetailView(
                     interface: .consume(handleInterface),
@@ -56,7 +59,8 @@ extension Home {
             switch action {
             case .startMeetingButtonTapped:
                 guard let managedScrum else { return }
-                router.push(.meeting(for: managedScrum))
+                router.meetingDetail = managedScrum
+                router.setPath([.scrumDetail(managedScrum)])
             case .historyTapped(let history):
                 router.push(.history(history))
             }

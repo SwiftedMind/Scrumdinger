@@ -25,7 +25,6 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 import Queryable
-import PreviewDebugTools
 
 struct ScrumDetailView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -33,7 +32,7 @@ struct ScrumDetailView: View {
     /// The scrum detail interface.
     var interface: Interface<Action>
 
-    /// The managed scrum. Its identifier will be used to always display the up-to-date version of this scrum from the `Scrums` feature.
+    /// The scrum.
     var scrum: DailyScrum
 
     var body: some View {
@@ -62,9 +61,9 @@ struct ScrumDetailView: View {
     @ViewBuilder @MainActor
     private var meetingInfoSection: some View {
         Section {
-            DisclosureButton {
-                interface.fire(.startMeetingButtonTapped)
-            } content: {
+            Button {
+                interface.send(.startMeetingButtonTapped)
+            } label: {
                 if dynamicTypeSize.isAccessibilitySize {
                     Text(Strings.ScrumDetail.InfoSection.startButton.text)
                         .font(.headline)
@@ -131,7 +130,7 @@ struct ScrumDetailView: View {
             }
             ForEach(scrum.history) { history in
                 DisclosureButton {
-                    interface.fire(.historyTapped(history))
+                    interface.send(.historyTapped(history))
                 } content: {
                     HStack {
                         if !dynamicTypeSize.isAccessibilitySize {
@@ -157,15 +156,12 @@ extension ScrumDetailView {
 // MARK: - Preview
 
 private struct PreviewState {
-    var scrum: DailyScrum
-    init() {
-        self.scrum = .mock
-    }
+    var scrum: DailyScrum = .mock
 }
 
 struct ScrumDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        Preview(state: PreviewState(), interfaceAction: ScrumDetailView.Action.self) { interface, state in
+        Preview(state: PreviewState(), interfaceAction: ScrumDetailView.Action.self) { interface, $state in
             ScrumDetailView(interface: interface, scrum: state.scrum)
         } actionHandler: { action, $state in
             switch action {
@@ -173,6 +169,10 @@ struct ScrumDetailView_Previews: PreviewProvider {
                 print("Tapped history with id »\(history.id)«.")
             case .startMeetingButtonTapped:
                 print("Tapped start meeting button")
+                Task {
+                    try await Task.sleep(for: .seconds(1))
+                    state.scrum.history.insert(.mock, at: 0)
+                }
             }
         }
     }

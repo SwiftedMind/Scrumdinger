@@ -25,11 +25,14 @@ import Puddles
 import Extensions
 import MockData
 
+/// The main entry point to the app.
 @main
 struct ScrumdingerApp: App {
+    // Initialize the app's providers
     @StateObject private var providers = Providers.live()
 
     init() {
+        // Configure the log that prints debug messages from Puddles
         Puddles.configureLog()
     }
 

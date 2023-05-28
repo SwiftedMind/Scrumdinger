@@ -23,15 +23,22 @@
 import SwiftUI
 import Puddles
 
-/// A type that can decode urls and turn them into target states for the app.
-@MainActor
-final class DeepLinkResolver: ObservableObject {
+/// A resolver that can decode urls and turn them into signals for the app.
+@MainActor final class DeepLinkResolver: ObservableObject {
 
     init() {}
 
+    /// Decodes the given url and returns a signal for the Home module, if the url contains one.
+    ///
+    /// To test, run this in a console (replace the URL with one of the options below):
+    ///
+    /// ```
+    /// xcrun simctl openurl booted "scrumdinger://createEmptyScrum"
+    /// ```
+    ///
+    /// - Parameter url: The url to decode and turn into a signal.
+    /// - Returns: The signal for the Home module, if the url contains one. Otherwise, `nil` is returned.
     func homeSignal(for url: URL) -> Home.SignalValue? {
-        // To test, run this in a console (replace the URL with one of the options below):
-        // xcrun simctl openurl booted "scrumdinger://createEmptyScrum"
         switch url.absoluteString {
         case let value where value.contains("createEmptyScrum"):
             return .createScrum(draft: .draft)
@@ -40,11 +47,11 @@ final class DeepLinkResolver: ObservableObject {
         case let value where value.contains("editRandomScrum"):
             return .editRandomScrumOnDetailPage
         case let value where value.contains("showScrum"):
-            guard let parameters = url.queryParameters else { return nil }
+            guard let parameters = url.queryItems else { return nil }
             guard let id = parameters["id"], let uuid = UUID(uuidString: id) else { return nil }
             return .showScrumById(uuid)
         case let value where value.contains("startMeeting"):
-            guard let parameters = url.queryParameters else { return nil }
+            guard let parameters = url.queryItems else { return nil }
             guard let id = parameters["scrumId"], let uuid = UUID(uuidString: id) else { return nil }
             return .startMeetingForScrumWithId(uuid)
         default:
@@ -54,7 +61,8 @@ final class DeepLinkResolver: ObservableObject {
 }
 
 private extension URL {
-    var queryParameters: [String: String]? {
+    /// A helper property that extracts a url's query items.
+    var queryItems: [String: String]? {
         guard
             let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
             let queryItems = components.queryItems else { return nil }

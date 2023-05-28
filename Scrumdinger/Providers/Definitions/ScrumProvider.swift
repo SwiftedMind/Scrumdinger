@@ -24,20 +24,31 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
+/// A provider that loads, manages and stores daily scrums.
 final class ScrumProvider: ObservableObject {
 
+    /// The dependencies of this provider.
     struct Dependencies {
+        /// Retrieves a list of daily scrums.
         public var load: () async throws -> IdentifiedArrayOf<DailyScrum>
+
+        /// Stores a list of daily scrums.
         public var save: (_ scrums: IdentifiedArrayOf<DailyScrum>) async throws -> Void
     }
 
+    /// The dependencies of this provider.
     private let dependencies: Dependencies
+
+    /// The task that handles daily scrum restoration.
     private var restorationTask: Task<Void, Never>?
+
+    /// The task that handles storing the daily scrums.
     private var storeTask: Task<Void, Never>?
 
-    // The collection representing all the user's scrums
+    /// A cached and managed list of daily scrums, loaded from the dependencies.
     @MainActor @Published private(set) var scrums: IdentifiedArrayOf<DailyScrum> = []
 
+    /// A provider that loads, manages and stores daily scrums.
     @MainActor init(dependencies: Dependencies) {
         self.dependencies = dependencies
         restoreScrums()
@@ -50,6 +61,8 @@ final class ScrumProvider: ObservableObject {
         storeScrums()
     }
 
+    /// Removes scrums at the given offsets.
+    /// - Parameter offsets: The offsets.
     @MainActor func remove(atOffsets offsets: IndexSet) {
         scrums.remove(atOffsets: offsets)
         storeScrums()
@@ -57,6 +70,7 @@ final class ScrumProvider: ObservableObject {
 
     // MARK: - Utility
 
+    /// Restores the daily scrums.
     @MainActor private func restoreScrums() {
         restorationTask?.cancel()
         restorationTask = Task {
@@ -69,6 +83,7 @@ final class ScrumProvider: ObservableObject {
         }
     }
 
+    /// Stores the daily scrums.
     @MainActor private func storeScrums() {
         storeTask?.cancel()
         storeTask = Task {

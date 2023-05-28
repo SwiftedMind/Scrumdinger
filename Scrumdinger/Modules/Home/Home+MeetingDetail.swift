@@ -27,31 +27,39 @@ import Queryable
 import Models
 
 extension Home {
-    struct MeetingDetail: Provider {
+    /// The submodule inside Home that is displaying meeting detail screen.
+    struct MeetingDetail: View {
         @EnvironmentObject private var router: HomeRouter
         @EnvironmentObject private var scrumProvider: ScrumProvider
         @EnvironmentObject private var audioRecorderProvider: AudioRecorderProvider
 
-        /// The managed scrum. Its identifier will be used to always display the up-to-date version of this scrum from the `ScrumStore`.
-        var scrum: DailyScrum
+        /// The id of the daily scrum for this meeting.
+        var scrumId: DailyScrum.ID
 
+        /// A Queryable to query a "end meeting?" alert.
         @Queryable<Void, MeetingEndAction> private var meetingEndConfirmation
 
-        private var managedScrum: DailyScrum {
-            scrumProvider.scrums[id: scrum.id] ?? scrum
+        /// The daily scrum from the scrum provider.
+        private var managedScrum: DailyScrum? {
+            scrumProvider.scrums[id: scrumId]
         }
 
+        /// A flag to indicate if the audio recorder is recording.
         @State private var isRecording: Bool = false
 
-        var entryView: some View {
-            MeetingDetailView(
-                interface: .consume(handleMeetingInterface),
-                scrum: managedScrum,
-                isRecording: audioRecorderProvider.isTranscribing
-            )
-            .toolbar { toolbarContent }
-            .navigationBarBackButtonHidden()
-            .navigationBarTitleDisplayMode(.inline)
+        var body: some View {
+            NavigationStack {
+                if let managedScrum {
+                    MeetingDetailView(
+                        interface: .consume(handleMeetingInterface),
+                        scrum: managedScrum,
+                        isRecording: audioRecorderProvider.isTranscribing
+                    )
+                    .toolbar { toolbarContent }
+                    .navigationBarBackButtonHidden()
+                    .navigationBarTitleDisplayMode(.inline)
+                }
+            }
             .queryableConfirmationDialog(controlledBy: meetingEndConfirmation, title: "") { query in
                 Button(Strings.cancel.text, role: .cancel) { query.answer(with: .cancel) }
                 Button(Strings.Meeting.discard.text, role: .destructive) { query.answer(with: .discard) }
@@ -87,13 +95,13 @@ extension Home {
         private var toolbarContent: some ToolbarContent {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(Strings.end.text) {
-                    queryMeetingEnd(for: scrum)
+                    queryMeetingEnd()
                 }
             }
         }
 
         @MainActor
-        private func queryMeetingEnd(for scrum: DailyScrum) {
+        private func queryMeetingEnd() {
             Task {
                 do {
                     switch try await meetingEndConfirmation.query() {
@@ -112,6 +120,7 @@ extension Home {
 
         @MainActor
         private func finishMeeting(save: Bool) {
+            guard let managedScrum else { return }
             let transcript = audioRecorderProvider.finishTranscription()
             var updatedScrum = managedScrum
             if save {
@@ -124,27 +133,22 @@ extension Home {
                 scrumProvider.save(updatedScrum)
             }
 
-            router.pop()
+            router.meetingDetail = nil
         }
     }
 }
 
 extension Home.MeetingDetail {
-
     enum MeetingEndAction: Hashable {
         case cancel
         case discard
         case save
     }
-
-    enum TargetState {
-        case reset
-    }
 }
 
 struct Home_MeetingDetail_Previews: PreviewProvider {
     static var previews: some View {
-        Home.MeetingDetail(scrum: .mock)
+        Home.MeetingDetail(scrumId: DailyScrum.mock.id)
             .environmentObject(HomeRouter())
             .withProviders(.mock())
     }

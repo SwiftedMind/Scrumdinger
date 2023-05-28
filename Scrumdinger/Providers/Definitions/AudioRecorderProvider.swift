@@ -24,35 +24,45 @@ import SwiftUI
 import IdentifiedCollections
 import Models
 
+/// A provider that handles the recording of transcripts.
 final class AudioRecorderProvider: ObservableObject {
 
+    /// The dependencies of this provider.
     struct Dependencies {
+        /// Resets the recorder.
         public var reset: () -> Void
+
+        /// Requests to start a transcription.
         public var startTranscription: () async throws -> Void
+
+        /// Finishes a transcription and returns the final result.
         public var finishTranscription: () -> String
     }
 
+    /// The dependencies of this provider.
     private let dependencies: Dependencies
 
+    /// A flag indicating is the audio recorder is recording.
     @MainActor @Published var isTranscribing: Bool = false
 
+    /// A provider that handles the recording of transcripts.
     @MainActor init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
 
-    @MainActor
-    public func reset() -> Void {
+    /// Resets the recorder.
+    @MainActor public func reset() {
         dependencies.reset()
     }
 
-    @MainActor
-    public func startTranscription() async throws -> Void {
+    /// Requests to start a transcription.
+    @MainActor public func startTranscription() async throws {
         try await dependencies.startTranscription()
         isTranscribing = true
     }
 
-    @MainActor
-    public func finishTranscription() -> String {
+    /// Finishes a transcription and returns the final result.
+    @MainActor public func finishTranscription() -> String {
         isTranscribing = false
         return dependencies.finishTranscription()
     }

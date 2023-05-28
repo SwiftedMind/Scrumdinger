@@ -25,26 +25,27 @@ import Models
 import IdentifiedCollections
 import Puddles
 
-@MainActor
-final class HomeRouter: NavigationRouter {
+/// The router that is handling the navigation for the Home module.
+///
+/// All submodules inside the Home module have access to it via the environment.
+@MainActor final class HomeRouter: NavigationRouter {
     @Published var path: [Destination] = []
     @Published var scrumEdit: DailyScrum? = nil
     @Published var scrumAdd: DailyScrum? = nil
-    
+    @Published var meetingDetail: DailyScrum?
+
+    /// The navigation destinations for the `NavigationStack`.
     enum Destination: Hashable {
         case scrumDetail(DailyScrum)
-        case meeting(for: DailyScrum)
         case history(History)
     }
     
     func queryEditScrum(_ scrum: DailyScrum) throws {
-        // Check if editor is already open and throw if needed
         scrumAdd = nil
         scrumEdit = scrum
     }
     
     func queryAddScrum(withDraft draft: DailyScrum) throws {
-        // Check if editor is already open and throw if needed
         scrumEdit = nil
         scrumAdd = draft
     }

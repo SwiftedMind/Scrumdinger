@@ -26,11 +26,12 @@ import IdentifiedCollections
 import Models
 
 extension Home {
-    struct HistoryDetail: Provider {
+    /// The submodule inside Home that is displaying history detail screen.
+    struct HistoryDetail: View {
 
         var history: History
 
-        var entryView: some View {
+        var body: some View {
             HistoryDetailView(history: history)
         }
     }

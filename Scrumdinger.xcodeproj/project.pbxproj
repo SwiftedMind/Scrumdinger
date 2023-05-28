@@ -21,7 +21,6 @@
 		95602F1B29C8E240008EB800 /* EditScrumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F1A29C8E240008EB800 /* EditScrumView.swift */; };
 		95868C7529C851C6001F8629 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95868C7429C851C6001F8629 /* App.swift */; };
 		95868C7C29C851C7001F8629 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95868C7B29C851C7001F8629 /* Preview Assets.xcassets */; };
-		95868C8429C851E8001F8629 /* PreviewDebugTools in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8329C851E8001F8629 /* PreviewDebugTools */; };
 		95868C8629C851E8001F8629 /* Puddles in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8529C851E8001F8629 /* Puddles */; };
 		95868C8929C851F2001F8629 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8829C851F2001F8629 /* IdentifiedCollections */; };
 		95868C8C29C851FB001F8629 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8B29C851FB001F8629 /* Fakery */; };
@@ -125,7 +124,6 @@
 				95868C8C29C851FB001F8629 /* Fakery in Frameworks */,
 				95868C8929C851F2001F8629 /* IdentifiedCollections in Frameworks */,
 				95868C8629C851E8001F8629 /* Puddles in Frameworks */,
-				95868C8429C851E8001F8629 /* PreviewDebugTools in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +176,7 @@
 			children = (
 				952B2B3329CBF9E0004A73F7 /* Info.plist */,
 				95868C7429C851C6001F8629 /* App.swift */,
+				95CCB9232A21E8B500E94681 /* Root.swift */,
 				954FA2642A17F5B4006F26FC /* Providers */,
 				95EC659A2A1A0B51005BDDC0 /* Modules */,
 				95EC65842A180717005BDDC0 /* Components */,
@@ -366,7 +365,6 @@
 		95EC659A2A1A0B51005BDDC0 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				95CCB9232A21E8B500E94681 /* Root.swift */,
 				95CCB9202A21489600E94681 /* Home */,
 			);
 			path = Modules;
@@ -400,7 +398,6 @@
 			);
 			name = Scrumdinger;
 			packageProductDependencies = (
-				95868C8329C851E8001F8629 /* PreviewDebugTools */,
 				95868C8529C851E8001F8629 /* Puddles */,
 				95868C8829C851F2001F8629 /* IdentifiedCollections */,
 				95868C8B29C851FB001F8629 /* Fakery */,
@@ -772,11 +769,6 @@
 		954FA26C2A17F86E006F26FC /* Services */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Services;
-		};
-		95868C8329C851E8001F8629 /* PreviewDebugTools */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95868C8229C851E8001F8629 /* XCRemoteSwiftPackageReference "Puddles" */;
-			productName = PreviewDebugTools;
 		};
 		95868C8529C851E8001F8629 /* Puddles */ = {
 			isa = XCSwiftPackageProductDependency;

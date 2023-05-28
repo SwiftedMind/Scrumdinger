@@ -33,7 +33,7 @@ struct ScrumListView: View {
         List {
             ForEach(scrums) { scrum in
                 Button {
-                    interface.fire(.scrumTapped(scrum))
+                    interface.send(.scrumTapped(scrum))
                 } label: {
                     CardView(scrum: scrum)
                         .contentShape(Rectangle())
@@ -47,7 +47,7 @@ struct ScrumListView: View {
                     }
                 }
             }
-            .onDelete { interface.fire(.scrumsDeleted(atOffsets: $0)) }
+            .onDelete { interface.send(.scrumsDeleted(atOffsets: $0)) }
         }
         .listStyle(.insetGrouped)
         .animation(.default, value: scrums)
@@ -55,11 +55,41 @@ struct ScrumListView: View {
 }
 
 extension ScrumListView {
-
     enum Action: Hashable {
         case scrumTapped(DailyScrum)
-        case addScrumButtonTapped
         case scrumsDeleted(atOffsets: IndexSet)
     }
 }
 
+// MARK: - Preview
+
+private struct PreviewState {
+    var scrums: IdentifiedArrayOf<DailyScrum> = .mockList
+}
+
+struct ScrumListView_Previews: PreviewProvider {
+    static var previews: some View {
+        Preview(state: PreviewState(), interfaceAction: ScrumListView.Action.self) { interface, $state in
+            ScrumListView(interface: interface, scrums: state.scrums)
+        } actionHandler: { action, $state in
+            switch action {
+            case .scrumTapped(let scrum):
+                print("Scrum tapped: »\(scrum.id)«")
+            case .scrumsDeleted(atOffsets: let offsets):
+                state.scrums.remove(atOffsets: offsets)
+            }
+        }
+        .overlay { $state in // Special overlay with access to the preview state.
+            HStack {
+                DebugButton("Clear List") {
+                    state.scrums.removeAll()
+                }
+                .disabled(state.scrums.isEmpty)
+                DebugButton("Fill List") {
+                    state.scrums = .mockList
+                }
+                .disabled(!state.scrums.isEmpty)
+            }
+        }
+    }
+}

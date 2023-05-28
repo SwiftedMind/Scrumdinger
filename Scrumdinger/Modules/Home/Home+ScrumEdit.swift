@@ -26,7 +26,8 @@ import IdentifiedCollections
 import Models
 
 extension Home {
-    struct ScrumEdit: Provider {
+    /// The submodule inside Home that is displaying the "Edit daily scrum" sheet.
+    struct ScrumEdit: View {
         @Environment(\.dismiss) private var dismiss
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
@@ -37,17 +38,13 @@ extension Home {
             self._draft = .init(initialValue: scrum)
         }
 
-        var entryView: some View {
-            EditScrumView(
-                interface: .ignore,
-                draft: $draft
-            )
-            .toolbar { toolbarContent }
-        }
-
-        func modify(provider: ProviderContent) -> some View {
+        var body: some View {
             NavigationStack {
-                provider
+                EditScrumView(
+                    interface: .ignore,
+                    draft: $draft
+                )
+                .toolbar { toolbarContent }
             }
         }
 

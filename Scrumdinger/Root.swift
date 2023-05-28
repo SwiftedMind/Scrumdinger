@@ -23,20 +23,24 @@
 import SwiftUI
 import Puddles
 
+/// The root view of the app.
 struct Root: View {
     @EnvironmentObject private var deepLinkResolver: DeepLinkResolver
-    @Signal<Home.SignalValue>(initial: .editRandomScrumOnDetailPage) private var home
+    @Signal<Home.SignalValue>(debugIdentifier: "Root.HomeSignal") private var home
 
     var body: some View {
         Home()
             .sendSignals(home)
             .onOpenURL { url in
+                // Receive urls, resolve them and send a signal to the main home module to apply the deeplink.
                 guard let targetState = deepLinkResolver.homeSignal(for: url) else { return }
                 home.send(targetState)
             }
     }
 }
 
+// The great thing about the environment-distributed providers is that we can add fully functional previews anywhere.
+// This preview is literally the entire app, fully interactable within the preview canvas.
 struct Root_Previews: PreviewProvider {
     static var previews: some View {
         Root()
