@@ -90,9 +90,9 @@ Since this is using the SwiftUI environment, you can easily override the provide
 
 ### UI
 
-The UI is comprised of SwiftUI views that are mostly independent of the app  and do not know anything about their placement in the app or the origin of their data. All they do is specify what they need and then display it and 
+The UI is comprised of SwiftUI views that are mostly independent of the app and do not know anything about their placement in the app or the origin of their data. All they do is specify what they need and then display it and report back any user interaction that might trigger a side effect, like a navigation or a backend fetch.
 
-It should be trivial to reuse any UI components anywhere in the app.
+UI components should be trivial to reuse anywhere in the app, since they have no context about anything whatsoever.
 
 ### Modules
 
