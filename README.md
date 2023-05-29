@@ -88,9 +88,38 @@ RootView()
 ```
 Since this is using the SwiftUI environment, you can easily override the provider to use a mock in any part of your view hierarchy.
 
-### Modules
-### Components
+### UI
 
+The UI is comprised of SwiftUI views that are mostly independent of the app  and do not know anything about their placement in the app or the origin of their data. All they do is specify what they need and then display it and 
+
+It should be trivial to reuse any UI components anywhere in the app.
+
+### Modules
+
+Modules form the structure of the app. They define the concrete screens, the navigation between them as well as what data is shown on each screen. Essentially, they act as the glue that connects the generic providers with the generic UI components to create the actual UX of the app. As such, _they cannot be generic themselves, by definition_. They implement the app's concrete _user stories_, using the generic tools mentioned above. 
+
+Modules know about their specific place and context in the app. In them, you can and should hardcode navigation, toolbars or anything, that's fine since both the accessed providers as well as the contained UI components are already generic and the modules only add context and connection logic, not meaningful new functionality. Ideally, no two modules should be the same, even if their underlying UI components or providers are. There's always a semantic difference, like a changed title, toolbar or navigation destination. 
+
+To do all the things described above, modules are also plain SwiftUI views, giving them access to the environment as well as the ability to be placed in any SwiftUI view hierarchy without additional setup or data injections. For example, this is what the `AllScrums` module looks like:
+```swift
+// AllScrums module, which is part of the main "Home" module
+struct AllScrums: View {
+  @EnvironmentObject private var router: HomeRouter // Access to the Home module's navigation
+  @EnvironmentObject private var scrumProvider: ScrumProvider // Access the scrums via a provider
+
+  var body: some View {
+    ScrumListView( // Generic UI component taking data and reporting user interactions
+      interface: .consume(handleInterface), // Handle user interactions
+      scrums: scrumProvider.scrums // Provide concrete data to the UI
+    )
+    .navigationTitle(Strings.ScrumList.title.text) // Set the view's context (this module is part of a navigation stack, so it needs a title)
+    .toolbar { toolbarContent } // Set the toolbar
+    .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals from parent
+  }
+  
+  // ...
+}
+```
 
 ## Tools Used
 - [Puddles](https://github.com/SwiftedMind/Puddles/tree/develop), which is an app architecture that I'm working on. The idea behind it is to use as many native SwiftUI mechanisms as possible with as little abstraction as possible. There are, naturally, a lot of trade-offs and disadvantages with this approach, but it also makes it easy to adopt, adjust, maintain and remove.
