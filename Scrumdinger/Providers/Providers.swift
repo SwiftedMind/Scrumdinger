@@ -28,6 +28,15 @@ import SwiftUI
 /// (for the most part).
 /// It's a compromise between handling *all* data in external objects (less convenient, more testable)
 /// and handling *no* data in external objects (more convenient, less testable).
+///
+/// This setup makes it easy to override any provider with a mock variant, simply by overriding its object in the environment.
+/// For example:
+///
+/// ```
+/// MyView()
+///   .environmentObject(ScrumProvider.mock()) // Override scrum provider with a mock
+///   .withProviders(.live()) // Inject live providers
+/// ```
 @MainActor final class Providers: ObservableObject {
 
     let scrumProvider: ScrumProvider
@@ -44,6 +53,8 @@ import SwiftUI
         self.deepLinkResolver = deepLinkResolver
     }
 
+    /// Initializes a `Providers` instance using live dependencies.
+    /// - Returns: The `Providers` instance.
     static func live() -> Providers {
         .init(
             scrumProvider: .live(),
@@ -52,6 +63,8 @@ import SwiftUI
         )
     }
 
+    /// Initializes a `Providers` instance using mock dependencies.
+    /// - Returns: The `Providers` instance.
     static func mock() -> Providers {
         .init(
             scrumProvider: .mock(),
@@ -62,6 +75,13 @@ import SwiftUI
 }
 
 extension View {
+    /// Injects all providers inside of `Providers` into the SwiftUI environment,
+    /// so that any module can access it.
+    ///
+    /// - Note: Even though any SwiftUI view could technically access these providers, only module views should ever do so.
+    /// Component views should be as modular, independent and replaceable as possible.
+    /// - Parameter providers: The providers object to use to inject into the environment.
+    /// - Returns: A view whose environment is modified to include all the providers inside `Providers`.
     @MainActor func withProviders(_ providers: Providers) -> some View {
         self
             .environmentObject(providers.scrumProvider)
