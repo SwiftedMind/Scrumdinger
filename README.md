@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="200" height="200" src="https://github.com/SwiftedMind/Scrumdinger/assets/7083109/8868bbf6-b8c6-4bc6-b637-adad36678a2b">
+</p>
+
 # Scrumdinger
 A re-implementation of Apple's Scrumdinger tutorial app in the [Puddles architecture](https://github.com/SwiftedMind/Puddles).
 
