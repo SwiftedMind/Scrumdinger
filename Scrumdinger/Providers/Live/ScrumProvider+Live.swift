@@ -26,8 +26,7 @@ import IdentifiedCollections
 import ScrumStore
 
 extension ScrumProvider {
-    @MainActor
-    static func live() -> ScrumProvider {
+    @MainActor static func live() -> ScrumProvider {
         let store = ScrumStore()
         return .init(
             dependencies: .init(

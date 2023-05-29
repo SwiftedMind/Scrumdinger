@@ -23,7 +23,6 @@
 		95868C7C29C851C7001F8629 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95868C7B29C851C7001F8629 /* Preview Assets.xcassets */; };
 		95868C8629C851E8001F8629 /* Puddles in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8529C851E8001F8629 /* Puddles */; };
 		95868C8929C851F2001F8629 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8829C851F2001F8629 /* IdentifiedCollections */; };
-		95868C8C29C851FB001F8629 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8B29C851FB001F8629 /* Fakery */; };
 		95868C9B29C85268001F8629 /* swiftgen-assets.yml in Resources */ = {isa = PBXBuildFile; fileRef = 95868C9429C85268001F8629 /* swiftgen-assets.yml */; };
 		95868C9C29C85268001F8629 /* swiftgen-assets-template.stencil in Resources */ = {isa = PBXBuildFile; fileRef = 95868C9529C85268001F8629 /* swiftgen-assets-template.stencil */; };
 		95868C9E29C85268001F8629 /* swiftgen-localization.yml in Resources */ = {isa = PBXBuildFile; fileRef = 95868C9829C85268001F8629 /* swiftgen-localization.yml */; };
@@ -85,8 +84,6 @@
 		95868CAF29C857A9001F8629 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		95868CC429C8636D001F8629 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		95868CC629C863A5001F8629 /* TrailingIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingIconLabelStyle.swift; sourceTree = "<group>"; };
-		95B6D5952A17F50400B3D761 /* Queryable */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Queryable; path = ../Queryable; sourceTree = "<group>"; };
-		95B6D5962A17F50800B3D761 /* Puddles */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Puddles; path = ../Puddles; sourceTree = "<group>"; };
 		95C154B129C86A4700224B4B /* DisclosureItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureItem.swift; sourceTree = "<group>"; };
 		95C154B629C86C7300224B4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		95C154BA29C87D7900224B4B /* MeetingDetailView+HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MeetingDetailView+HeaderView.swift"; sourceTree = "<group>"; };
@@ -121,7 +118,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				954FA26D2A17F86E006F26FC /* Services in Frameworks */,
-				95868C8C29C851FB001F8629 /* Fakery in Frameworks */,
 				95868C8929C851F2001F8629 /* IdentifiedCollections in Frameworks */,
 				95868C8629C851E8001F8629 /* Puddles in Frameworks */,
 			);
@@ -151,8 +147,6 @@
 		95868C6829C851C6001F8629 = {
 			isa = PBXGroup;
 			children = (
-				95B6D5962A17F50800B3D761 /* Puddles */,
-				95B6D5952A17F50400B3D761 /* Queryable */,
 				954FA2632A17F53E006F26FC /* Services */,
 				95868C7329C851C6001F8629 /* Scrumdinger */,
 				95868C9129C85241001F8629 /* Resources */,
@@ -179,7 +173,7 @@
 				95CCB9232A21E8B500E94681 /* Root.swift */,
 				954FA2642A17F5B4006F26FC /* Providers */,
 				95EC659A2A1A0B51005BDDC0 /* Modules */,
-				95EC65842A180717005BDDC0 /* Components */,
+				95EC65842A180717005BDDC0 /* UI */,
 				95868C8D29C8520C001F8629 /* Helpers */,
 				95868C7A29C851C7001F8629 /* Preview Content */,
 			);
@@ -276,7 +270,7 @@
 			path = Live;
 			sourceTree = "<group>";
 		};
-		95EC65842A180717005BDDC0 /* Components */ = {
+		95EC65842A180717005BDDC0 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				95EC65852A18071A005BDDC0 /* Shared */,
@@ -286,7 +280,7 @@
 				95EC65892A180751005BDDC0 /* MeetingDetail */,
 				95EC658A2A18075E005BDDC0 /* HistoryDetail */,
 			);
-			path = Components;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		95EC65852A18071A005BDDC0 /* Shared */ = {
@@ -400,7 +394,6 @@
 			packageProductDependencies = (
 				95868C8529C851E8001F8629 /* Puddles */,
 				95868C8829C851F2001F8629 /* IdentifiedCollections */,
-				95868C8B29C851FB001F8629 /* Fakery */,
 				954FA26C2A17F86E006F26FC /* Services */,
 			);
 			productName = Scrumdinger;
@@ -434,7 +427,6 @@
 			packageReferences = (
 				95868C8229C851E8001F8629 /* XCRemoteSwiftPackageReference "Puddles" */,
 				95868C8729C851F2001F8629 /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
-				95868C8A29C851FB001F8629 /* XCRemoteSwiftPackageReference "Fakery" */,
 			);
 			productRefGroup = 95868C7229C851C6001F8629 /* Products */;
 			projectDirPath = "";
@@ -755,14 +747,6 @@
 				minimumVersion = 0.7.0;
 			};
 		};
-		95868C8A29C851FB001F8629 /* XCRemoteSwiftPackageReference "Fakery" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/vadymmarkov/Fakery";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -779,11 +763,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 95868C8729C851F2001F8629 /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
 			productName = IdentifiedCollections;
-		};
-		95868C8B29C851FB001F8629 /* Fakery */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95868C8A29C851FB001F8629 /* XCRemoteSwiftPackageReference "Fakery" */;
-			productName = Fakery;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

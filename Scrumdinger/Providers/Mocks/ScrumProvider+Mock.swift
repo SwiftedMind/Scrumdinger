@@ -25,8 +25,7 @@ import Models
 import IdentifiedCollections
 
 extension ScrumProvider {
-    @MainActor
-    static func mock(initiallyStoredScrums: IdentifiedArrayOf<DailyScrum> = .mockList) -> ScrumProvider {
+    @MainActor static func mock(initiallyStoredScrums: IdentifiedArrayOf<DailyScrum> = .mockList) -> ScrumProvider {
         let store = InMemoryStore(scrums: initiallyStoredScrums)
         return .init(
             dependencies: .init(
@@ -40,8 +39,7 @@ extension ScrumProvider {
     }
 }
 
-@MainActor
-private final class InMemoryStore {
+@MainActor private final class InMemoryStore {
     private var scrums: IdentifiedArrayOf<DailyScrum>
 
     init(scrums: IdentifiedArrayOf<DailyScrum>) {

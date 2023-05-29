@@ -25,8 +25,7 @@ import Models
 import IdentifiedCollections
 
 extension AudioRecorderProvider {
-    @MainActor
-    static func live() -> AudioRecorderProvider {
+    @MainActor static func live() -> AudioRecorderProvider {
 #if targetEnvironment(simulator)
         return .mock()
 #else

@@ -31,6 +31,8 @@ public final class ScrumStore {
 
     public init() {}
 
+    /// Loads and returns the stored array of daily scrums from disk.
+    /// - Returns: The daily scrums array.
     public func load() async throws -> IdentifiedArrayOf<DailyScrum> {
         let task = Task<IdentifiedArrayOf<DailyScrum>, Error>.detached { [fileURL] in
             let fileURL = try fileURL()
@@ -41,6 +43,8 @@ public final class ScrumStore {
         return try await task.value
     }
 
+    /// Stores the given array of daily scrums.
+    /// - Parameter scrums: The daily scrums to store.
     public func save(_ scrums: IdentifiedArrayOf<DailyScrum>) async throws {
         let task = Task.detached { [fileURL] in
             let data = try JSONEncoder().encode(scrums)

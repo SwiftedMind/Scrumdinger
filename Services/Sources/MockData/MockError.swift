@@ -22,10 +22,13 @@
 
 import Foundation
 
+/// A simple `Error` implementation for easy mock errors.
 public struct MockError: Error {
 
+    /// A message describing the error.
     var message: String
 
+    /// A simple `Error` implementation for easy mock errors.
     public init(message: String = "Mock Error") {
         self.message = message
     }
@@ -37,6 +40,7 @@ public struct MockError: Error {
 }
 
 public extension Error where Self == MockError {
+    /// A simple `Error` implementation for easy mock errors.
     static var mock: Self {
         .init()
     }

@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
-      "identity" : "fakery",
+      "identity" : "puddles",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/vadymmarkov/Fakery",
+      "location" : "https://github.com/HavingThought/Puddles",
       "state" : {
-        "revision" : "71cb3bf36a808534659d1248780c2bf3c4c4fc91",
-        "version" : "5.1.0"
+        "branch" : "develop",
+        "revision" : "916cb19cc4ae19c5999057c3887a057400fed2e7"
+      }
+    },
+    {
+      "identity" : "queryable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftedMind/Queryable",
+      "state" : {
+        "revision" : "7677089e3f0db3544ed657c18ed051a18f6dd781",
+        "version" : "1.0.2"
       }
     },
     {

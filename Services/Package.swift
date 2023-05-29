@@ -50,9 +50,6 @@ let package = Package(
                 .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
                 "Models"
             ]
-        ),
-        .testTarget(
-            name: "ServicesTests",
-            dependencies: []),
+        )
     ]
 )

@@ -30,14 +30,19 @@ import Models
 struct Home: View {
     @EnvironmentObject private var scrumProvider: ScrumProvider
 
-    /// The router that's handling all kinds of navigation. It is passed down the view hierarchy as environment object
+    /// The router that's handling all kinds of navigation.
+    /// It is passed down the view hierarchy as environment object
     /// so that all submodules can access it.
     @StateObject private var router = HomeRouter()
 
     /// The signal handler sending signals to the scrum list screen.
+    ///
+    /// Signals can be used to tell a subview to update its state, without permanently enforcing it (useful for deep linking)
     @Signal<AllScrums.SignalValue>(debugIdentifier: "Home.ScrumList") private var scrumListSignal
 
     /// The signal handler sending signals to the scrum detail screen.
+    ///
+    /// Signals can be used to tell a subview to update its state, without permanently enforcing it (useful for deep linking)
     @Signal<ScrumDetail.SignalValue>(debugIdentifier: "Home.ScrumDetail") private var scrumDetailSignal
 
     /// The contents of the Home module.
