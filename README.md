@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img width="200" height="200" src="https://github.com/SwiftedMind/Scrumdinger/assets/7083109/d38ec00b-3d03-4506-a4b8-95eb1157529c">
+  <img width="200" height="200" src="https://github.com/SwiftedMind/Scrumdinger/assets/7083109/b4e0b71d-f0f8-4fdd-9883-21611fcbc481">
 </p>
 
 # Scrumdinger Re-Implementation
