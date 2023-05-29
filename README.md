@@ -12,6 +12,6 @@ The idea of using this example app to test out different ideas and architectures
 
 
 ## Tools Used
-- [Puddles](https://github.com/SwiftedMind/Puddles/tree/develop), which is an app architecture that I' working on. The idea behind it is to use as many native SwiftUI mechanisms as possible with as little abstraction as possible. There are, naturally, a lot of trade-offs and disadvantages with this approach, but it also makes it easy to adopt, adjust, maintain and remove.
+- [Puddles](https://github.com/SwiftedMind/Puddles/tree/develop), which is an app architecture that I'm working on. The idea behind it is to use as many native SwiftUI mechanisms as possible with as little abstraction as possible. There are, naturally, a lot of trade-offs and disadvantages with this approach, but it also makes it easy to adopt, adjust, maintain and remove.
 - [Queryable](https://github.com/SwiftedMind/Queryable), a Swift package I built that lets you present views (like a sheet or an overlay) asynchronously, using Swift Concurrency.
 - [Identified Collections](https://github.com/pointfreeco/swift-identified-collections) by Point-Free, which is an _incredibly_ useful wrapper around [OrderedDictionary](https://github.com/apple/swift-collections/blob/main/Documentation/OrderedDictionary.md). It's the first thing I add to any new project I start.
