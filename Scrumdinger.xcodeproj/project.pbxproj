@@ -168,6 +168,7 @@
 		95868C7329C851C6001F8629 /* Scrumdinger */ = {
 			isa = PBXGroup;
 			children = (
+				952B2B3329CBF9E0004A73F7 /* Info.plist */,
 				95868C7429C851C6001F8629 /* App.swift */,
 				95CCB9232A21E8B500E94681 /* Root.swift */,
 				954FA2642A17F5B4006F26FC /* Providers */,
@@ -199,7 +200,6 @@
 		95868C9129C85241001F8629 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				952B2B3329CBF9E0004A73F7 /* Info.plist */,
 				955E513229CB1B1E00202BBA /* ding.wav */,
 				95868C9329C85268001F8629 /* Assets */,
 				95868C9729C85268001F8629 /* Localizables */,
