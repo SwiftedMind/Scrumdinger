@@ -61,7 +61,7 @@
 
 /* Begin PBXFileReference section */
 		952B2B2629CB5B58004A73F7 /* Home+MeetingDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+MeetingDetail.swift"; sourceTree = "<group>"; };
-		952B2B3329CBF9E0004A73F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		952B2B3329CBF9E0004A73F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		952B2B3429CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt; sourceTree = "<group>"; };
 		952B2B3529CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_LICENSE.txt; sourceTree = "<group>"; };
 		954FA2632A17F53E006F26FC /* Services */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Services; sourceTree = "<group>"; };
@@ -168,7 +168,6 @@
 		95868C7329C851C6001F8629 /* Scrumdinger */ = {
 			isa = PBXGroup;
 			children = (
-				952B2B3329CBF9E0004A73F7 /* Info.plist */,
 				95868C7429C851C6001F8629 /* App.swift */,
 				95CCB9232A21E8B500E94681 /* Root.swift */,
 				954FA2642A17F5B4006F26FC /* Providers */,
@@ -200,6 +199,7 @@
 		95868C9129C85241001F8629 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				952B2B3329CBF9E0004A73F7 /* Info.plist */,
 				955E513229CB1B1E00202BBA /* ding.wav */,
 				95868C9329C85268001F8629 /* Assets */,
 				95868C9729C85268001F8629 /* Localizables */,
