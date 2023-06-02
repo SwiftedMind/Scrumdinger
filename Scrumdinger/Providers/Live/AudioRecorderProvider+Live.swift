@@ -23,6 +23,7 @@
 import Foundation
 import Models
 import IdentifiedCollections
+import AudioRecording
 
 extension AudioRecorderProvider {
     @MainActor static func live() -> AudioRecorderProvider {
