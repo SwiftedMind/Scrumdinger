@@ -47,16 +47,6 @@ extension Home {
             }
         }
 
-        // MARK: - Interface Handlers
-
-        @MainActor
-        private func handleInterface(_ action: EditScrumView.Action) {
-            switch action {
-            case .noAction:
-                break
-            }
-        }
-
         // MARK: - Utility
 
         @ToolbarContentBuilder @MainActor

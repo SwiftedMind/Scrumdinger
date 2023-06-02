@@ -31,7 +31,6 @@ extension Home {
         @Environment(\.dismiss) private var dismiss
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
-
         @State private var draft: DailyScrum
 
         init(scrum: DailyScrum) {
@@ -45,16 +44,6 @@ extension Home {
                     draft: $draft
                 )
                 .toolbar { toolbarContent }
-            }
-        }
-
-        // MARK: - Interface Handlers
-
-        @MainActor
-        private func handleInterface(_ action: EditScrumView.Action) {
-            switch action {
-            case .noAction:
-                break
             }
         }
 

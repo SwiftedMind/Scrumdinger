@@ -71,8 +71,6 @@ extension Home {
         @MainActor
         func resolveSignal(_ value: SignalValue) {
             switch value {
-            case .reset:
-                break
             case .edit:
                 queryEditScrum()
             }
@@ -105,7 +103,6 @@ extension Home {
 
 extension Home.ScrumDetail {
     enum SignalValue {
-        case reset
         case edit
     }
 }
