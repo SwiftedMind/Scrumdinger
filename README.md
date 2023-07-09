@@ -9,10 +9,10 @@ This project is a re-implementation of Apple's [Scrumdinger](https://developer.a
 The idea of using this example app to test out different ideas and architectures comes from [Point-Free](https://www.pointfree.co/). They built a version of the app based on their [Modern SwiftUI](https://www.pointfree.co/collections/swiftui/modern-swiftui) series. You can find the project here: [Standups](https://github.com/pointfreeco/standups).
 
 ## Project Structure
-![A diagram of the project structure that is explained in full below the image](https://github.com/SwiftedMind/Scrumdinger/assets/7083109/4524b6ff-5dc6-4534-8433-d0ea413fe437)
+![A diagram of the project structure that is explained in full below the image](https://github.com/SwiftedMind/Scrumdinger/assets/7083109/9c43c1e1-45e4-4729-8893-205b8e6abf1b)
 
 
-### Services (Local Swift Package)
+### Core (Local Swift Package)
 The services are part of a local "Services" package. Here, you can define all the logic that is independent of your app or UI, like network adapters, file stores or controllers. I also like to put the models in there. While not technically independent of the app, it makes building services much more convenient and you lose very little in the majority of cases, I would argue.
 
 The Scrumdinger re-implementation has 5 targets inside the Services package:
