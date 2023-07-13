@@ -10,7 +10,7 @@ This project is a re-implementation of Apple's [Scrumdinger](https://developer.a
 The idea of using this example app to test out different ideas and architectures comes from [Point-Free](https://www.pointfree.co/). They built a version of the app based on their [Modern SwiftUI](https://www.pointfree.co/collections/swiftui/modern-swiftui) series. You can find the project here: [Standups](https://github.com/pointfreeco/standups).
 
 ## Project Structure
-![A diagram of the project structure that is explained in full below the image](https://github.com/SwiftedMind/Scrumdinger/assets/7083109/9c43c1e1-45e4-4729-8893-205b8e6abf1b)
+![A diagram of the project structure that is explained in full below the image](https://github.com/SwiftedMind/Puddles/assets/7083109/8169d9f0-c8ed-469c-b191-2894f890d9b3)
 
 
 ### Core (Local Swift Package)
@@ -91,9 +91,9 @@ RootView()
 ```
 Since this is using the SwiftUI environment, you can easily override the provider to use a mock in any part of your view hierarchy.
 
-### Views
+### Components
 
-The Views layer is comprised of generic SwiftUI view components that do not know anything about their placement in the app or the origin of their data. All they do is specify what they need and then display it and report back any user interaction that might trigger a side effect, like a navigation or a backend fetch.
+The Components layer is comprised of generic SwiftUI views that do not know anything about their placement in the app or the origin of their data. All they do is specify what they need and then display it and report back any user interaction that might trigger a side effect, like a navigation or a backend fetch.
 
 View components should be trivial to reuse anywhere in the app, since they have no context about anything whatsoever.
 
