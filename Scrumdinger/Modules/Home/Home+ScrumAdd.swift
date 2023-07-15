@@ -72,7 +72,6 @@ struct Home_ScrumAdd_Previews: PreviewProvider {
     static let providers = Providers.mock()
     static var previews: some View {
         Home.ScrumAdd(draft: .mock)
-            .environmentObject(HomeRouter())
             .withProviders(providers)
     }
 }

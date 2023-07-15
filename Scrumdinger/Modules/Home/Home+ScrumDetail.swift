@@ -28,7 +28,6 @@ import Models
 extension Home {
     /// The submodule inside Home that is displaying the detail view of a daily scrum.
     struct ScrumDetail: View {
-        @EnvironmentObject private var router: HomeRouter
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
         /// The id of the daily scrum for this meeting.
@@ -59,10 +58,10 @@ extension Home {
             switch action {
             case .startMeetingButtonTapped:
                 guard let managedScrum else { return }
-                router.meetingDetail = managedScrum
-                router.setPath([.scrumDetail(managedScrum)])
+                Router.shared.showMeetingDetail(meeting: managedScrum)
             case .historyTapped(let history):
-                router.push(.history(history))
+                guard let managedScrum else { return }
+                Router.shared.navigate(to: .history(history, forScrum: managedScrum))
             }
         }
 
@@ -92,7 +91,7 @@ extension Home {
             guard let managedScrum else { return }
             Task {
                 do {
-                    try router.queryEditScrum(managedScrum)
+                    try Router.shared.queryEditScrum(managedScrum)
                 } catch {
                     print(error)
                 }
@@ -111,7 +110,6 @@ struct Home_ScrumDetailPage_Previews: PreviewProvider {
     static let providers = Providers.mock()
     static var previews: some View {
         Home.ScrumDetail(scrumId: providers.scrumProvider.scrums.first?.id ?? DailyScrum.mock.id)
-            .environmentObject(HomeRouter())
             .withProviders(providers)
     }
 }

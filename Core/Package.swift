@@ -3,11 +3,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "Services",
+    name: "Core",
     platforms: [.iOS(.v16)],
     products: [
         .library(
-            name: "Services",
+            name: "Core",
             targets: [
                 "Models",
                 "ScrumStore",

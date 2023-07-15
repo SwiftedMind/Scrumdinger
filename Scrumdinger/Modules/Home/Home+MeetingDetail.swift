@@ -29,7 +29,6 @@ import Models
 extension Home {
     /// The submodule inside Home that is displaying meeting detail screen.
     struct MeetingDetail: View {
-        @EnvironmentObject private var router: HomeRouter
         @EnvironmentObject private var scrumProvider: ScrumProvider
         @EnvironmentObject private var audioRecorderProvider: AudioRecorderProvider
 
@@ -133,7 +132,7 @@ extension Home {
                 scrumProvider.save(updatedScrum)
             }
 
-            router.meetingDetail = nil
+            Router.shared.dismissMeetingDetail()
         }
     }
 }
@@ -150,7 +149,6 @@ struct Home_MeetingDetail_Previews: PreviewProvider {
     static let providers = Providers.mock()
     static var previews: some View {
         Home.MeetingDetail(scrumId: providers.scrumProvider.scrums.first?.id ?? DailyScrum.mock.id)
-            .environmentObject(HomeRouter())
             .withProviders(providers)
     }
 }

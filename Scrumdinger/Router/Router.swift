@@ -22,31 +22,48 @@
 
 import SwiftUI
 import Models
-import IdentifiedCollections
-import Puddles
 
-/// The router that is handling the navigation for the Home module.
-///
-/// All submodules inside the Home module have access to it via the environment.
-@MainActor final class HomeRouter: NavigationRouter {
-    @Published var path: [Destination] = []
-    @Published var scrumEdit: DailyScrum? = nil
-    @Published var scrumAdd: DailyScrum? = nil
-    @Published var meetingDetail: DailyScrum?
+@MainActor final class Router: ObservableObject {
+    static let shared: Router = .init()
 
-    /// The navigation destinations for the `NavigationStack`.
+    var home: Home = .init()
+
+    // Destinations for the app
     enum Destination: Hashable {
+        case root
         case scrumDetail(DailyScrum)
-        case history(History)
+        case history(History, forScrum: DailyScrum)
     }
-    
+
+    func navigate(to destination: Destination) {
+        switch destination {
+        case .root:
+            home.reset()
+        case .scrumDetail(let scrum):
+            home.reset()
+            home.setPath([.scrumDetail(scrum)])
+        case .history(let history, let scrum):
+            home.reset()
+            home.setPath([.scrumDetail(scrum), .history(history)])
+        }
+    }
+
+    func dismissMeetingDetail() {
+        home.meetingDetail = nil
+    }
+
+    func showMeetingDetail(meeting: DailyScrum) {
+        guard case .scrumDetail = home.path.last else { return }
+        home.meetingDetail = meeting
+    }
+
     func queryEditScrum(_ scrum: DailyScrum) throws {
-        scrumAdd = nil
-        scrumEdit = scrum
+        home.scrumAdd = nil
+        home.scrumEdit = scrum
     }
-    
+
     func queryAddScrum(withDraft draft: DailyScrum) throws {
-        scrumEdit = nil
-        scrumAdd = draft
+        home.scrumEdit = nil
+        home.scrumAdd = draft
     }
 }

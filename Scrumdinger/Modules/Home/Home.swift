@@ -33,7 +33,7 @@ struct Home: View {
     /// The router that's handling all kinds of navigation.
     /// It is passed down the view hierarchy as environment object
     /// so that all submodules can access it.
-    @StateObject private var router = HomeRouter()
+    @ObservedObject private var homeRouter = Router.shared.home
 
     /// The signal handler sending signals to the scrum list screen.
     ///
@@ -47,29 +47,28 @@ struct Home: View {
 
     /// The contents of the Home module.
     var body: some View {
-        NavigationStack(path: $router.path) {
+        NavigationStack(path: $homeRouter.path) {
             AllScrums()
                 .sendSignals(scrumListSignal)
-                .navigationDestination(for: HomeRouter.Destination.self) { destination in
+                .navigationDestination(for: Router.Home.Destination.self) { destination in
                     view(for: destination)
                 }
         }
-        .sheet(item: $router.scrumEdit) { draft in
+        .sheet(item: $homeRouter.scrumEdit) { draft in
             ScrumEdit(scrum: draft)
         }
-        .sheet(item: $router.scrumAdd) { draft in
+        .sheet(item: $homeRouter.scrumAdd) { draft in
             ScrumAdd(draft: draft)
         }
-        .fullScreenCover(item: $router.meetingDetail) { dailyScrum in
+        .fullScreenCover(item: $homeRouter.meetingDetail) { dailyScrum in
             MeetingDetail(scrumId: dailyScrum.id)
         }
-        .environmentObject(router) // Inject router into the environment
         .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals coming from a parent view (in this case Root)
     }
 
     /// Holds all the navigation destination for any given `HomeRouter.Destination`.
     @ViewBuilder @MainActor
-    private func view(for destination: HomeRouter.Destination) -> some View {
+    private func view(for destination: Router.Home.Destination) -> some View {
         switch destination {
         case .scrumDetail(let scrum):
             ScrumDetail(scrumId: scrum.id)
@@ -87,28 +86,28 @@ struct Home: View {
     func resolveSignal(_ value: SignalValue) {
         switch value {
         case .showScrum(let scrum):
-            router.setPath([.scrumDetail(scrum)])
+            homeRouter.setPath([.scrumDetail(scrum)])
         case .showScrumById(let id):
             if let scrum = scrumProvider.scrums[id: id] {
-                router.setPath([.scrumDetail(scrum)])
+                homeRouter.setPath([.scrumDetail(scrum)])
             }
         case .startMeeting(for: let scrum):
-            router.setPath([.scrumDetail(scrum)])
-            router.meetingDetail = scrum
+            homeRouter.setPath([.scrumDetail(scrum)])
+            homeRouter.meetingDetail = scrum
         case .startMeetingForScrumWithId(let id):
             if let scrum = scrumProvider.scrums[id: id] {
-                router.setPath([.scrumDetail(scrum)])
-                router.meetingDetail = scrum
+                homeRouter.setPath([.scrumDetail(scrum)])
+                homeRouter.meetingDetail = scrum
             }
         case .createScrum(draft: let draft):
-            router.popToRoot()
+            homeRouter.popToRoot()
             scrumListSignal.send(.createScrum(draft: draft))
         case .editScrumOnDetailPage(let scrum):
-            router.setPath([.scrumDetail(scrum)])
+            homeRouter.setPath([.scrumDetail(scrum)])
             scrumDetailSignal.send(.edit)
         case .editRandomScrumOnDetailPage:
             if let scrum = scrumProvider.scrums.randomElement() {
-                router.setPath([.scrumDetail(scrum)])
+                homeRouter.setPath([.scrumDetail(scrum)])
                 scrumDetailSignal.send(.edit, id: scrum.id)
             }
         }

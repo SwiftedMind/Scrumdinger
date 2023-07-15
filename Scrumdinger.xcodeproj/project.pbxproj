@@ -10,8 +10,8 @@
 		952B2B2729CB5B58004A73F7 /* Home+MeetingDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B2B2629CB5B58004A73F7 /* Home+MeetingDetail.swift */; };
 		952B2B3629CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 952B2B3429CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt */; };
 		952B2B3729CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 952B2B3529CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt */; };
+		953D02B02A5993D900D1A377 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 953D02AF2A5993D900D1A377 /* Core */; };
 		954FA2682A17F5CB006F26FC /* ScrumProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA2672A17F5CB006F26FC /* ScrumProvider.swift */; };
-		954FA26D2A17F86E006F26FC /* Services in Frameworks */ = {isa = PBXBuildFile; productRef = 954FA26C2A17F86E006F26FC /* Services */; };
 		955E513329CB1B1E00202BBA /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 955E513229CB1B1E00202BBA /* ding.wav */; };
 		955E513729CB416700202BBA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955E513629CB416700202BBA /* Strings.swift */; };
 		95602F0F29C8DA42008EB800 /* ScrumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F0E29C8DA42008EB800 /* ScrumDetailView.swift */; };
@@ -19,6 +19,7 @@
 		95602F1529C8DDC0008EB800 /* DailyScrum+Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F1429C8DDC0008EB800 /* DailyScrum+Speaker.swift */; };
 		95602F1729C8DDDC008EB800 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F1629C8DDDC008EB800 /* Home.swift */; };
 		95602F1B29C8E240008EB800 /* EditScrumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F1A29C8E240008EB800 /* EditScrumView.swift */; };
+		956C3ED82A6310B100ABF24C /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956C3ED72A6310B100ABF24C /* Router.swift */; };
 		95868C7529C851C6001F8629 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95868C7429C851C6001F8629 /* App.swift */; };
 		95868C7C29C851C7001F8629 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95868C7B29C851C7001F8629 /* Preview Assets.xcassets */; };
 		95868C8629C851E8001F8629 /* Puddles in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8529C851E8001F8629 /* Puddles */; };
@@ -64,7 +65,7 @@
 		952B2B3329CBF9E0004A73F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		952B2B3429CBFA09004A73F7 /* APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_ACKNOWLEDGMENTS.txt; sourceTree = "<group>"; };
 		952B2B3529CBFA09004A73F7 /* APPLE_SCRUMDINGER_LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = APPLE_SCRUMDINGER_LICENSE.txt; sourceTree = "<group>"; };
-		954FA2632A17F53E006F26FC /* Services */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Services; sourceTree = "<group>"; };
+		953D02AE2A5993C200D1A377 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		954FA2672A17F5CB006F26FC /* ScrumProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrumProvider.swift; sourceTree = "<group>"; };
 		955E513229CB1B1E00202BBA /* ding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.wav; sourceTree = "<group>"; };
 		955E513629CB416700202BBA /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -73,6 +74,7 @@
 		95602F1429C8DDC0008EB800 /* DailyScrum+Speaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyScrum+Speaker.swift"; sourceTree = "<group>"; };
 		95602F1629C8DDDC008EB800 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		95602F1A29C8E240008EB800 /* EditScrumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScrumView.swift; sourceTree = "<group>"; };
+		956C3ED72A6310B100ABF24C /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		95868C7129C851C6001F8629 /* Scrumdinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrumdinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95868C7429C851C6001F8629 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		95868C7B29C851C7001F8629 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -117,9 +119,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				954FA26D2A17F86E006F26FC /* Services in Frameworks */,
 				95868C8929C851F2001F8629 /* IdentifiedCollections in Frameworks */,
 				95868C8629C851E8001F8629 /* Puddles in Frameworks */,
+				953D02B02A5993D900D1A377 /* Core in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,10 +146,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		956C3ED62A6310A700ABF24C /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				956C3ED72A6310B100ABF24C /* Router.swift */,
+				95EC65A72A1A3E24005BDDC0 /* HomeRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		95868C6829C851C6001F8629 = {
 			isa = PBXGroup;
 			children = (
-				954FA2632A17F53E006F26FC /* Services */,
+				953D02AE2A5993C200D1A377 /* Core */,
 				95868C7329C851C6001F8629 /* Scrumdinger */,
 				95868C9129C85241001F8629 /* Resources */,
 				95868C9229C85247001F8629 /* Generated */,
@@ -170,10 +181,10 @@
 			children = (
 				952B2B3329CBF9E0004A73F7 /* Info.plist */,
 				95868C7429C851C6001F8629 /* App.swift */,
-				95CCB9232A21E8B500E94681 /* Root.swift */,
+				956C3ED62A6310A700ABF24C /* Router */,
 				954FA2642A17F5B4006F26FC /* Providers */,
 				95EC659A2A1A0B51005BDDC0 /* Modules */,
-				95EC65842A180717005BDDC0 /* UI */,
+				95EC65842A180717005BDDC0 /* Components */,
 				95868C8D29C8520C001F8629 /* Helpers */,
 				95868C7A29C851C7001F8629 /* Preview Content */,
 			);
@@ -249,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				95602F1629C8DDDC008EB800 /* Home.swift */,
-				95EC65A72A1A3E24005BDDC0 /* HomeRouter.swift */,
 				95EC659C2A1A0BDC005BDDC0 /* Home+AllScrums.swift */,
 				95EC65982A19F061005BDDC0 /* Home+ScrumDetail.swift */,
 				95EC65A42A1A1D1B005BDDC0 /* Home+ScrumAdd.swift */,
@@ -270,7 +280,7 @@
 			path = Live;
 			sourceTree = "<group>";
 		};
-		95EC65842A180717005BDDC0 /* UI */ = {
+		95EC65842A180717005BDDC0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				95EC65852A18071A005BDDC0 /* Shared */,
@@ -280,7 +290,7 @@
 				95EC65892A180751005BDDC0 /* MeetingDetail */,
 				95EC658A2A18075E005BDDC0 /* HistoryDetail */,
 			);
-			path = UI;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		95EC65852A18071A005BDDC0 /* Shared */ = {
@@ -359,6 +369,7 @@
 		95EC659A2A1A0B51005BDDC0 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				95CCB9232A21E8B500E94681 /* Root.swift */,
 				95CCB9202A21489600E94681 /* Home */,
 			);
 			path = Modules;
@@ -394,7 +405,7 @@
 			packageProductDependencies = (
 				95868C8529C851E8001F8629 /* Puddles */,
 				95868C8829C851F2001F8629 /* IdentifiedCollections */,
-				954FA26C2A17F86E006F26FC /* Services */,
+				953D02AF2A5993D900D1A377 /* Core */,
 			);
 			productName = Scrumdinger;
 			productReference = 95868C7129C851C6001F8629 /* Scrumdinger.app */;
@@ -490,6 +501,7 @@
 				95602F0F29C8DA42008EB800 /* ScrumDetailView.swift in Sources */,
 				95EC65A52A1A1D1B005BDDC0 /* Home+ScrumAdd.swift in Sources */,
 				95CCB9242A21E8B500E94681 /* Root.swift in Sources */,
+				956C3ED82A6310B100ABF24C /* Router.swift in Sources */,
 				95EC659D2A1A0BDC005BDDC0 /* Home+AllScrums.swift in Sources */,
 				95CCB9262A21EA0500E94681 /* DeepLinkResolver.swift in Sources */,
 				95C154B229C86A4700224B4B /* DisclosureItem.swift in Sources */,
@@ -750,9 +762,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		954FA26C2A17F86E006F26FC /* Services */ = {
+		953D02AF2A5993D900D1A377 /* Core */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Services;
+			productName = Core;
 		};
 		95868C8529C851E8001F8629 /* Puddles */ = {
 			isa = XCSwiftPackageProductDependency;

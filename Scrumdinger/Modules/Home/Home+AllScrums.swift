@@ -28,7 +28,6 @@ import Models
 extension Home {
     /// The submodule inside Home that is displaying a list of all scrums.
     struct AllScrums: View {
-        @EnvironmentObject private var router: HomeRouter
         @EnvironmentObject private var scrumProvider: ScrumProvider
 
         var body: some View {
@@ -47,7 +46,7 @@ extension Home {
         private func handleInterface(_ action: ScrumListView.Action) {
             switch action {
             case .scrumTapped(let scrum):
-                router.push(.scrumDetail(scrum))
+                Router.shared.navigate(to: .scrumDetail(scrum))
             case .scrumsDeleted(let offsets):
                 scrumProvider.remove(atOffsets: offsets)
             }
@@ -79,7 +78,7 @@ extension Home {
         private func queryScrumCreation(draft: DailyScrum) {
             Task {
                 do {
-                    try router.queryAddScrum(withDraft: draft)
+                    try Router.shared.queryAddScrum(withDraft: draft)
                 } catch {
                     print(error)
                 }
@@ -97,7 +96,6 @@ extension Home.AllScrums {
 struct Home_AllScrums_Previews: PreviewProvider {
     static var previews: some View {
         Home.AllScrums()
-            .environmentObject(HomeRouter())
             .withProviders(.mock())
     }
 }

@@ -20,26 +20,33 @@
 //  SOFTWARE.
 //
 
-import Puddles
 import SwiftUI
-import IdentifiedCollections
 import Models
+import IdentifiedCollections
+import Puddles
 
-extension Home {
-    /// The submodule inside Home that is displaying history detail screen.
-    struct HistoryDetail: View {
+extension Router {
+    /// The router that is handling the navigation for the Home module.
+    ///
+    /// All submodules inside the Home module have access to it via the environment.
+    @MainActor final class Home: NavigationRouter {
+        @Published var path: [Destination] = []
+        @Published var scrumEdit: DailyScrum? = nil
+        @Published var scrumAdd: DailyScrum? = nil
+        @Published var meetingDetail: DailyScrum?
 
-        var history: History
+        /// The navigation destinations for the `NavigationStack`.
+        enum Destination: Hashable {
+            case scrumDetail(DailyScrum)
+            case history(History)
+        }
 
-        var body: some View {
-            HistoryDetailView(history: history)
+        func reset() {
+            path.removeAll()
+            scrumEdit = nil
+            scrumAdd = nil
+            meetingDetail = nil
         }
     }
 }
 
-struct Home_HistoryDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        Home.HistoryDetail(history: .mock)
-            .withProviders(.mock())
-    }
-}

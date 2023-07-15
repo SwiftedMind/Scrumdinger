@@ -72,7 +72,6 @@ struct Home_ScrumEdit_Previews: PreviewProvider {
     static let providers = Providers.mock()
     static var previews: some View {
         Home.ScrumEdit(scrum: providers.scrumProvider.scrums.first ?? .mock)
-            .environmentObject(HomeRouter())
             .withProviders(providers)
     }
 }
