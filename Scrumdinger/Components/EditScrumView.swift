@@ -145,27 +145,28 @@ private extension DailyScrum {
 // MARK: - Preview
 
 private struct PreviewState {
-    var draft: DailyScrum = .mock
+    var draft: DailyScrum = Mock.DailyScrum.example
 }
 
 struct EditScrumView_Previews: PreviewProvider {
     static var previews: some View {
-        Preview(state: PreviewState(), interfaceAction: EditScrumView.Action.self) { interface, $state in
-            EditScrumView(interface: interface, draft: $state.draft)
-        } actionHandler: { action, $state in
-            switch action {
-            default: break
-            }
-        }
-        .overlay { $state in // Special overlay with access to the preview state.
-            HStack {
-                DebugButton("Clear Attendees") {
-                    state.draft.attendees.removeAll()
+        StateHosting(PreviewState()) { $state in
+            EditScrumView(interface: .consume({ action in
+                switch action {
+                default: break
                 }
-                .disabled(state.draft.attendees.isEmpty)
-                DebugButton("Reset to Draft") {
-                    state.draft = .draft
+            }), draft: $state.draft)
+            .overlay(alignment: .bottom) {
+                HStack {
+                    Button("Clear Attendees") {
+                        state.draft.attendees.removeAll()
+                    }
+                    .disabled(state.draft.attendees.isEmpty)
+                    Button("Reset to Draft") {
+                        state.draft = Mock.DailyScrum.draft
+                    }
                 }
+                .buttonStyle(.borderedProminent)
             }
         }
     }

@@ -23,13 +23,15 @@
 import SwiftUI
 import Puddles
 import Extensions
+import MockData
+import IdentifiedCollections
+
+typealias Mock = MockData.Mock
+typealias IdentifiedArrayOf = IdentifiedCollections.IdentifiedArrayOf
 
 /// The main entry point to the app.
 @main
 struct ScrumdingerApp: App {
-
-    /// The providers that provide all the data the views need.
-    @StateObject private var providers = Providers.live()
 
     init() {
         // Configure the log that prints debug messages from Puddles.
@@ -39,7 +41,9 @@ struct ScrumdingerApp: App {
     var body: some Scene {
         WindowGroup {
             Root()
-                .withProviders(providers) // Inject providers into the environment
+                .environmentObject(ScrumProvider.live)
+                .environmentObject(AudioRecorderProvider.live)
+                .environmentObject(DeepLinkResolver.live)
         }
     }
 }

@@ -64,31 +64,32 @@ extension ScrumListView {
 // MARK: - Preview
 
 private struct PreviewState {
-    var scrums: IdentifiedArrayOf<DailyScrum> = .mockList
+    var scrums: IdentifiedArrayOf<DailyScrum> = Mock.DailyScrum.all
 }
 
 struct ScrumListView_Previews: PreviewProvider {
     static var previews: some View {
-        Preview(state: PreviewState(), interfaceAction: ScrumListView.Action.self) { interface, $state in
-            ScrumListView(interface: interface, scrums: state.scrums)
-        } actionHandler: { action, $state in
-            switch action {
-            case .scrumTapped(let scrum):
-                print("Scrum tapped: »\(scrum.id)«")
-            case .scrumsDeleted(atOffsets: let offsets):
-                state.scrums.remove(atOffsets: offsets)
-            }
-        }
-        .overlay { $state in // Special overlay with access to the preview state.
-            HStack {
-                DebugButton("Clear List") {
-                    state.scrums.removeAll()
+        StateHosting(PreviewState()) { $state in
+            ScrumListView(interface: .consume({ action in
+                switch action {
+                case .scrumTapped(let scrum):
+                    print("Scrum tapped: »\(scrum.id)«")
+                case .scrumsDeleted(atOffsets: let offsets):
+                    state.scrums.remove(atOffsets: offsets)
                 }
-                .disabled(state.scrums.isEmpty)
-                DebugButton("Fill List") {
-                    state.scrums = .mockList
+            }), scrums: state.scrums)
+            .overlay(alignment: .bottom) {
+                HStack {
+                    Button("Clear List") {
+                        state.scrums.removeAll()
+                    }
+                    .disabled(state.scrums.isEmpty)
+                    Button("Fill List") {
+                        state.scrums = Mock.DailyScrum.all
+                    }
+                    .disabled(!state.scrums.isEmpty)
                 }
-                .disabled(!state.scrums.isEmpty)
+                .buttonStyle(.borderedProminent)
             }
         }
     }

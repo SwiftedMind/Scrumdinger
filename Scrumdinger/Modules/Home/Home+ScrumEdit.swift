@@ -69,9 +69,8 @@ extension Home {
 }
 
 struct Home_ScrumEdit_Previews: PreviewProvider {
-    static let providers = Providers.mock()
     static var previews: some View {
-        Home.ScrumEdit(scrum: providers.scrumProvider.scrums.first ?? .mock)
-            .withProviders(providers)
+        Home.ScrumEdit(scrum: ScrumProvider.mock.scrums.first ?? Mock.DailyScrum.example)
+            .withMockProviders()
     }
 }

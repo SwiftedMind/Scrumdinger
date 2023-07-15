@@ -23,6 +23,7 @@
 import SwiftUI
 import IdentifiedCollections
 import Models
+import ScrumStore
 
 /// A provider that loads, manages and stores daily scrums.
 final class ScrumProvider: ObservableObject {
@@ -94,4 +95,38 @@ final class ScrumProvider: ObservableObject {
             }
         }
     }
+}
+
+// MARK: - Live
+
+extension ScrumProvider {
+    @MainActor static var live: ScrumProvider = {
+        let store = ScrumStore()
+        return .init(
+            dependencies: .init(
+                load: {
+                    try await store.load()
+                }, save: { scrums in
+                    try await store.save(scrums)
+                }
+            )
+        )
+    }()
+}
+
+// MARK: - Mock
+
+extension ScrumProvider {
+    @MainActor static var mock: ScrumProvider = {
+        let store = InMemoryStore(scrums: Mock.DailyScrum.all)
+        return .init(
+            dependencies: .init(
+                load: {
+                    try await store.load()
+                }, save: { scrums in
+                    try await store.save(scrums)
+                }
+            )
+        )
+    }()
 }

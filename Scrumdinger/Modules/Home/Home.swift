@@ -29,10 +29,6 @@ import Models
 // The main (and only) module of this example app.
 struct Home: View {
     @EnvironmentObject private var scrumProvider: ScrumProvider
-
-    /// The router that's handling all kinds of navigation.
-    /// It is passed down the view hierarchy as environment object
-    /// so that all submodules can access it.
     @ObservedObject private var homeRouter = Router.shared.home
 
     /// The signal handler sending signals to the scrum list screen.
@@ -86,28 +82,26 @@ struct Home: View {
     func resolveSignal(_ value: SignalValue) {
         switch value {
         case .showScrum(let scrum):
-            homeRouter.setPath([.scrumDetail(scrum)])
+            Router.shared.navigate(to: .scrumDetail(scrum))
         case .showScrumById(let id):
             if let scrum = scrumProvider.scrums[id: id] {
-                homeRouter.setPath([.scrumDetail(scrum)])
+                Router.shared.navigate(to: .scrumDetail(scrum))
             }
         case .startMeeting(for: let scrum):
-            homeRouter.setPath([.scrumDetail(scrum)])
-            homeRouter.meetingDetail = scrum
+            Router.shared.navigate(to: .newMeeting(forScrum: scrum))
         case .startMeetingForScrumWithId(let id):
             if let scrum = scrumProvider.scrums[id: id] {
-                homeRouter.setPath([.scrumDetail(scrum)])
-                homeRouter.meetingDetail = scrum
+                Router.shared.navigate(to: .newMeeting(forScrum: scrum))
             }
         case .createScrum(draft: let draft):
-            homeRouter.popToRoot()
+            Router.shared.navigate(to: .root)
             scrumListSignal.send(.createScrum(draft: draft))
         case .editScrumOnDetailPage(let scrum):
-            homeRouter.setPath([.scrumDetail(scrum)])
+            Router.shared.navigate(to: .scrumDetail(scrum))
             scrumDetailSignal.send(.edit)
         case .editRandomScrumOnDetailPage:
             if let scrum = scrumProvider.scrums.randomElement() {
-                homeRouter.setPath([.scrumDetail(scrum)])
+                Router.shared.navigate(to: .scrumDetail(scrum))
                 scrumDetailSignal.send(.edit, id: scrum.id)
             }
         }
@@ -120,7 +114,7 @@ extension Home {
     enum SignalValue {
         case showScrum(DailyScrum)
         case showScrumById(UUID)
-        case createScrum(draft: DailyScrum = .draft)
+        case createScrum(draft: DailyScrum = Mock.DailyScrum.draft)
         case editScrumOnDetailPage(DailyScrum)
         case editRandomScrumOnDetailPage
         case startMeeting(for: DailyScrum)
@@ -133,6 +127,6 @@ extension Home {
 struct HomeHome_Previews: PreviewProvider {
     static var previews: some View {
         Home()
-            .withProviders(.mock())
+            .withMockProviders()
     }
 }

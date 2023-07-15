@@ -23,19 +23,19 @@
 import Foundation
 import Models
 import IdentifiedCollections
-import ScrumStore
 
-extension ScrumProvider {
-    @MainActor static func live() -> ScrumProvider {
-        let store = ScrumStore()
-        return .init(
-            dependencies: .init(
-                load: {
-                    try await store.load()
-                }, save: { scrums in
-                    try await store.save(scrums)
-                }
-            )
-        )
+@MainActor public final class InMemoryStore {
+    private var scrums: IdentifiedArrayOf<DailyScrum>
+
+    public init(scrums: IdentifiedArrayOf<DailyScrum>) {
+        self.scrums = scrums
+    }
+
+    public func load() async throws -> IdentifiedArrayOf<DailyScrum> {
+        scrums
+    }
+
+    public func save(_ scrums: IdentifiedArrayOf<DailyScrum>) async throws {
+        self.scrums = scrums
     }
 }

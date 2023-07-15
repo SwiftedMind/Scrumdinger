@@ -39,7 +39,7 @@ extension Home {
 
 struct Home_HistoryDetail_Previews: PreviewProvider {
     static var previews: some View {
-        Home.HistoryDetail(history: .mock)
-            .withProviders(.mock())
+        Home.HistoryDetail(history: Mock.History.example)
+            .withMockProviders()
     }
 }

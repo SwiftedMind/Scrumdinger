@@ -23,6 +23,7 @@
 import SwiftUI
 import IdentifiedCollections
 import Models
+import AudioRecording
 
 /// A provider that handles the recording of transcripts.
 final class AudioRecorderProvider: ObservableObject {
@@ -66,4 +67,48 @@ final class AudioRecorderProvider: ObservableObject {
         isTranscribing = false
         return dependencies.finishTranscription()
     }
+}
+
+
+// MARK: - Live
+
+extension AudioRecorderProvider {
+    @MainActor static var live: AudioRecorderProvider = {
+#if targetEnvironment(simulator)
+        return .mock
+#else
+        let recorder = SpeechRecognizer()
+        return .init(
+            dependencies: .init(
+                reset: {
+                    recorder.reset()
+                }, startTranscription: {
+                    try await recorder.startTranscription()
+                }, finishTranscription: {
+                    recorder.finishTranscription()
+                }
+            )
+        )
+#endif
+    }()
+}
+
+// MARK: - Mock
+
+extension AudioRecorderProvider {
+    @MainActor
+    static var mock: AudioRecorderProvider = {
+        let errorMessage = "[Mocked] Failed to start transcription"
+        return .init(
+            dependencies: .init(
+                reset: {
+                    print("Reset")
+                }, startTranscription: {
+                    // Do nothing
+                }, finishTranscription: {
+                    return "[Mocked] Successful Transcription of the meeting."
+                }
+            )
+        )
+    }()
 }

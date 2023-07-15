@@ -39,11 +39,9 @@ struct Root: View {
     }
 }
 
-// The great thing about the environment-distributed providers is that we can add fully functional previews anywhere.
-// This preview is literally the entire app, fully interactable within the preview canvas.
 struct Root_Previews: PreviewProvider {
     static var previews: some View {
         Root()
-            .withProviders(.mock())
+            .withMockProviders()
     }
 }

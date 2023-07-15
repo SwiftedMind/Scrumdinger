@@ -107,9 +107,8 @@ extension Home.ScrumDetail {
 }
 
 struct Home_ScrumDetailPage_Previews: PreviewProvider {
-    static let providers = Providers.mock()
     static var previews: some View {
-        Home.ScrumDetail(scrumId: providers.scrumProvider.scrums.first?.id ?? DailyScrum.mock.id)
-            .withProviders(providers)
+        Home.ScrumDetail(scrumId: ScrumProvider.mock.scrums.first?.id ?? Mock.DailyScrum.example.id)
+            .withMockProviders()
     }
 }

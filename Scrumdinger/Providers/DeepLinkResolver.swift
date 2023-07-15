@@ -41,9 +41,9 @@ import Puddles
     func homeSignal(for url: URL) -> Home.SignalValue? {
         switch url.absoluteString {
         case let value where value.contains("createEmptyScrum"):
-            return .createScrum(draft: .draft)
+            return .createScrum(draft: Mock.DailyScrum.draft)
         case let value where value.contains("createMockScrum"):
-            return .createScrum(draft: .mock)
+            return .createScrum(draft: Mock.DailyScrum.example)
         case let value where value.contains("editRandomScrum"):
             return .editRandomScrumOnDetailPage
         case let value where value.contains("showScrum"):
@@ -70,4 +70,20 @@ private extension URL {
             result[item.name] = item.value
         }
     }
+}
+
+// MARK: - Live
+
+extension DeepLinkResolver {
+    public static var live: DeepLinkResolver = {
+        .init()
+    }()
+}
+
+// MARK: - Mock
+
+extension DeepLinkResolver {
+    public static var mock: DeepLinkResolver = {
+        .live
+    }()
 }

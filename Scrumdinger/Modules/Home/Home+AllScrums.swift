@@ -66,7 +66,7 @@ extension Home {
         private var toolbarContent: some ToolbarContent {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    queryScrumCreation(draft: .draft)
+                    queryScrumCreation(draft: Mock.DailyScrum.draft)
                 } label: {
                     Image(systemName: "plus")
                 }
@@ -96,6 +96,6 @@ extension Home.AllScrums {
 struct Home_AllScrums_Previews: PreviewProvider {
     static var previews: some View {
         Home.AllScrums()
-            .withProviders(.mock())
+            .withMockProviders()
     }
 }

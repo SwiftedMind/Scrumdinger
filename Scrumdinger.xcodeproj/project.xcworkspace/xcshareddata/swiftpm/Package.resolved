@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/HavingThought/Puddles",
       "state" : {
-        "branch" : "develop",
-        "revision" : "0ac241b6cc5ae0b33e0ab44a44f37fc9fff3e1f8"
+        "revision" : "a26a63455ecb0cf749bd1d5d85e81bba198299e2",
+        "version" : "1.0.0"
       }
     },
     {

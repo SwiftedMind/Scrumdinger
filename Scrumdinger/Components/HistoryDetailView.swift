@@ -20,10 +20,45 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
+import Models
+import Puddles
 
-extension DeepLinkResolver {
-    public static func live() -> DeepLinkResolver {
-        .init()
+struct HistoryDetailView: View {
+
+    var history: History
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Divider()
+                    .padding(.bottom)
+                Text("Attendees")
+                    .font(.headline)
+                Text(history.attendeeString)
+                if let transcript = history.transcript {
+                    Text("Transcript")
+                        .font(.headline)
+                        .padding(.top)
+                    Text(transcript)
+                }
+            }
+        }
+        .navigationTitle(Text(history.date, style: .date))
+        .padding()
+    }
+}
+
+private extension History {
+    var attendeeString: String {
+        ListFormatter.localizedString(byJoining: attendees.map { $0.name })
+    }
+}
+
+// MARK: - Preview
+
+struct HistoryDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        HistoryDetailView(history: Mock.History.example)
     }
 }

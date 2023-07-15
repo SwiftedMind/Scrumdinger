@@ -156,24 +156,24 @@ extension ScrumDetailView {
 // MARK: - Preview
 
 private struct PreviewState {
-    var scrum: DailyScrum = .mock
+    var scrum: DailyScrum = Mock.DailyScrum.example
 }
 
 struct ScrumDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        Preview(state: PreviewState(), interfaceAction: ScrumDetailView.Action.self) { interface, $state in
-            ScrumDetailView(interface: interface, scrum: state.scrum)
-        } actionHandler: { action, $state in
-            switch action {
-            case .historyTapped(let history):
-                print("Tapped history with id »\(history.id)«.")
-            case .startMeetingButtonTapped:
-                print("Tapped start meeting button")
-                Task {
-                    try await Task.sleep(for: .seconds(1))
-                    state.scrum.history.insert(.mock, at: 0)
+        StateHosting(PreviewState()) { $state in
+            ScrumDetailView(interface: .consume({ action in
+                switch action {
+                case .historyTapped(let history):
+                    print("Tapped history with id »\(history.id)«.")
+                case .startMeetingButtonTapped:
+                    print("Tapped start meeting button")
+                    Task {
+                        try await Task.sleep(for: .seconds(1))
+                        state.scrum.history.insert(Mock.History.example, at: 0)
+                    }
                 }
-            }
+            }), scrum: state.scrum)
         }
     }
 }

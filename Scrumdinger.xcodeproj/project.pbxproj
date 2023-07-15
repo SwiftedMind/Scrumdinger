@@ -20,6 +20,7 @@
 		95602F1729C8DDDC008EB800 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F1629C8DDDC008EB800 /* Home.swift */; };
 		95602F1B29C8E240008EB800 /* EditScrumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95602F1A29C8E240008EB800 /* EditScrumView.swift */; };
 		956C3ED82A6310B100ABF24C /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956C3ED72A6310B100ABF24C /* Router.swift */; };
+		956C3EDA2A63170500ABF24C /* View+withMockProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956C3ED92A63170500ABF24C /* View+withMockProviders.swift */; };
 		95868C7529C851C6001F8629 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95868C7429C851C6001F8629 /* App.swift */; };
 		95868C7C29C851C7001F8629 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95868C7B29C851C7001F8629 /* Preview Assets.xcassets */; };
 		95868C8629C851E8001F8629 /* Puddles in Frameworks */ = {isa = PBXBuildFile; productRef = 95868C8529C851E8001F8629 /* Puddles */; };
@@ -42,16 +43,9 @@
 		95C154C929C8875200224B4B /* MeetingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C154C829C8875200224B4B /* MeetingDetailView.swift */; };
 		95CCB9242A21E8B500E94681 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB9232A21E8B500E94681 /* Root.swift */; };
 		95CCB9262A21EA0500E94681 /* DeepLinkResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB9252A21EA0500E94681 /* DeepLinkResolver.swift */; };
-		95CCB9292A221C6800E94681 /* ScrumProvider+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB9282A221C6800E94681 /* ScrumProvider+Live.swift */; };
-		95CCB92B2A221C6F00E94681 /* AudioRecorderProvider+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB92A2A221C6F00E94681 /* AudioRecorderProvider+Live.swift */; };
-		95CCB92F2A221CB600E94681 /* DeepLinkResolver+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB92E2A221CB600E94681 /* DeepLinkResolver+Live.swift */; };
-		95CCB9332A221CDB00E94681 /* DeepLinkResolver+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB9312A221CDB00E94681 /* DeepLinkResolver+Mock.swift */; };
 		95CCB9352A2238DC00E94681 /* HistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB9342A2238DC00E94681 /* HistoryDetailView.swift */; };
 		95CCB9372A22390700E94681 /* Home+HistoryDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB9362A22390700E94681 /* Home+HistoryDetail.swift */; };
 		95EC658F2A180A87005BDDC0 /* AudioRecorderProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC658E2A180A87005BDDC0 /* AudioRecorderProvider.swift */; };
-		95EC65912A180C0B005BDDC0 /* Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65902A180C0B005BDDC0 /* Providers.swift */; };
-		95EC65952A1810E5005BDDC0 /* ScrumProvider+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65942A1810E5005BDDC0 /* ScrumProvider+Mock.swift */; };
-		95EC65972A1811E4005BDDC0 /* AudioRecorderProvider+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65962A1811E4005BDDC0 /* AudioRecorderProvider+Mock.swift */; };
 		95EC65992A19F061005BDDC0 /* Home+ScrumDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65982A19F061005BDDC0 /* Home+ScrumDetail.swift */; };
 		95EC659D2A1A0BDC005BDDC0 /* Home+AllScrums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC659C2A1A0BDC005BDDC0 /* Home+AllScrums.swift */; };
 		95EC65A32A1A1608005BDDC0 /* Home+ScrumEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EC65A22A1A1608005BDDC0 /* Home+ScrumEdit.swift */; };
@@ -75,6 +69,7 @@
 		95602F1629C8DDDC008EB800 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		95602F1A29C8E240008EB800 /* EditScrumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScrumView.swift; sourceTree = "<group>"; };
 		956C3ED72A6310B100ABF24C /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		956C3ED92A63170500ABF24C /* View+withMockProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+withMockProviders.swift"; sourceTree = "<group>"; };
 		95868C7129C851C6001F8629 /* Scrumdinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrumdinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95868C7429C851C6001F8629 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		95868C7B29C851C7001F8629 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -96,16 +91,9 @@
 		95C154C829C8875200224B4B /* MeetingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDetailView.swift; sourceTree = "<group>"; };
 		95CCB9232A21E8B500E94681 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		95CCB9252A21EA0500E94681 /* DeepLinkResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkResolver.swift; sourceTree = "<group>"; };
-		95CCB9282A221C6800E94681 /* ScrumProvider+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrumProvider+Live.swift"; sourceTree = "<group>"; };
-		95CCB92A2A221C6F00E94681 /* AudioRecorderProvider+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioRecorderProvider+Live.swift"; sourceTree = "<group>"; };
-		95CCB92E2A221CB600E94681 /* DeepLinkResolver+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeepLinkResolver+Live.swift"; sourceTree = "<group>"; };
-		95CCB9312A221CDB00E94681 /* DeepLinkResolver+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeepLinkResolver+Mock.swift"; sourceTree = "<group>"; };
 		95CCB9342A2238DC00E94681 /* HistoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailView.swift; sourceTree = "<group>"; };
 		95CCB9362A22390700E94681 /* Home+HistoryDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+HistoryDetail.swift"; sourceTree = "<group>"; };
 		95EC658E2A180A87005BDDC0 /* AudioRecorderProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorderProvider.swift; sourceTree = "<group>"; };
-		95EC65902A180C0B005BDDC0 /* Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Providers.swift; sourceTree = "<group>"; };
-		95EC65942A1810E5005BDDC0 /* ScrumProvider+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrumProvider+Mock.swift"; sourceTree = "<group>"; };
-		95EC65962A1811E4005BDDC0 /* AudioRecorderProvider+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioRecorderProvider+Mock.swift"; sourceTree = "<group>"; };
 		95EC65982A19F061005BDDC0 /* Home+ScrumDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+ScrumDetail.swift"; sourceTree = "<group>"; };
 		95EC659C2A1A0BDC005BDDC0 /* Home+AllScrums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+AllScrums.swift"; sourceTree = "<group>"; };
 		95EC65A22A1A1608005BDDC0 /* Home+ScrumEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+ScrumEdit.swift"; sourceTree = "<group>"; };
@@ -131,10 +119,9 @@
 		954FA2642A17F5B4006F26FC /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				95EC65902A180C0B005BDDC0 /* Providers.swift */,
-				95EC658C2A180A6C005BDDC0 /* Definitions */,
-				95EC658D2A180A6F005BDDC0 /* Mocks */,
-				95CCB9272A221C5700E94681 /* Live */,
+				954FA2672A17F5CB006F26FC /* ScrumProvider.swift */,
+				95EC658E2A180A87005BDDC0 /* AudioRecorderProvider.swift */,
+				95CCB9252A21EA0500E94681 /* DeepLinkResolver.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -204,6 +191,7 @@
 			children = (
 				95602F1429C8DDC0008EB800 /* DailyScrum+Speaker.swift */,
 				95EFFADC2A23BD67003BDE5E /* Theme+Color.swift */,
+				956C3ED92A63170500ABF24C /* View+withMockProviders.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -270,25 +258,15 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		95CCB9272A221C5700E94681 /* Live */ = {
-			isa = PBXGroup;
-			children = (
-				95CCB9282A221C6800E94681 /* ScrumProvider+Live.swift */,
-				95CCB92A2A221C6F00E94681 /* AudioRecorderProvider+Live.swift */,
-				95CCB92E2A221CB600E94681 /* DeepLinkResolver+Live.swift */,
-			);
-			path = Live;
-			sourceTree = "<group>";
-		};
 		95EC65842A180717005BDDC0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				95602F1029C8DB13008EB800 /* ScrumListView.swift */,
+				95602F0E29C8DA42008EB800 /* ScrumDetailView.swift */,
+				95602F1A29C8E240008EB800 /* EditScrumView.swift */,
+				95CCB9342A2238DC00E94681 /* HistoryDetailView.swift */,
 				95EC65852A18071A005BDDC0 /* Shared */,
-				95EC65862A18073C005BDDC0 /* ScrumList */,
-				95EC65872A180740005BDDC0 /* ScrumDetail */,
-				95EC65882A180746005BDDC0 /* EditScrum */,
 				95EC65892A180751005BDDC0 /* MeetingDetail */,
-				95EC658A2A18075E005BDDC0 /* HistoryDetail */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -305,30 +283,6 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		95EC65862A18073C005BDDC0 /* ScrumList */ = {
-			isa = PBXGroup;
-			children = (
-				95602F1029C8DB13008EB800 /* ScrumListView.swift */,
-			);
-			path = ScrumList;
-			sourceTree = "<group>";
-		};
-		95EC65872A180740005BDDC0 /* ScrumDetail */ = {
-			isa = PBXGroup;
-			children = (
-				95602F0E29C8DA42008EB800 /* ScrumDetailView.swift */,
-			);
-			path = ScrumDetail;
-			sourceTree = "<group>";
-		};
-		95EC65882A180746005BDDC0 /* EditScrum */ = {
-			isa = PBXGroup;
-			children = (
-				95602F1A29C8E240008EB800 /* EditScrumView.swift */,
-			);
-			path = EditScrum;
-			sourceTree = "<group>";
-		};
 		95EC65892A180751005BDDC0 /* MeetingDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,34 +290,6 @@
 				95EC65A62A1A38BB005BDDC0 /* Components */,
 			);
 			path = MeetingDetail;
-			sourceTree = "<group>";
-		};
-		95EC658A2A18075E005BDDC0 /* HistoryDetail */ = {
-			isa = PBXGroup;
-			children = (
-				95CCB9342A2238DC00E94681 /* HistoryDetailView.swift */,
-			);
-			path = HistoryDetail;
-			sourceTree = "<group>";
-		};
-		95EC658C2A180A6C005BDDC0 /* Definitions */ = {
-			isa = PBXGroup;
-			children = (
-				954FA2672A17F5CB006F26FC /* ScrumProvider.swift */,
-				95EC658E2A180A87005BDDC0 /* AudioRecorderProvider.swift */,
-				95CCB9252A21EA0500E94681 /* DeepLinkResolver.swift */,
-			);
-			path = Definitions;
-			sourceTree = "<group>";
-		};
-		95EC658D2A180A6F005BDDC0 /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				95EC65942A1810E5005BDDC0 /* ScrumProvider+Mock.swift */,
-				95EC65962A1811E4005BDDC0 /* AudioRecorderProvider+Mock.swift */,
-				95CCB9312A221CDB00E94681 /* DeepLinkResolver+Mock.swift */,
-			);
-			path = Mocks;
 			sourceTree = "<group>";
 		};
 		95EC659A2A1A0B51005BDDC0 /* Modules */ = {
@@ -497,7 +423,6 @@
 			files = (
 				95602F1129C8DB13008EB800 /* ScrumListView.swift in Sources */,
 				95EFFADD2A23BD67003BDE5E /* Theme+Color.swift in Sources */,
-				95EC65952A1810E5005BDDC0 /* ScrumProvider+Mock.swift in Sources */,
 				95602F0F29C8DA42008EB800 /* ScrumDetailView.swift in Sources */,
 				95EC65A52A1A1D1B005BDDC0 /* Home+ScrumAdd.swift in Sources */,
 				95CCB9242A21E8B500E94681 /* Root.swift in Sources */,
@@ -505,25 +430,21 @@
 				95EC659D2A1A0BDC005BDDC0 /* Home+AllScrums.swift in Sources */,
 				95CCB9262A21EA0500E94681 /* DeepLinkResolver.swift in Sources */,
 				95C154B229C86A4700224B4B /* DisclosureItem.swift in Sources */,
-				95CCB92B2A221C6F00E94681 /* AudioRecorderProvider+Live.swift in Sources */,
 				955E513729CB416700202BBA /* Strings.swift in Sources */,
 				95CCB9352A2238DC00E94681 /* HistoryDetailView.swift in Sources */,
 				95EC65A82A1A3E24005BDDC0 /* HomeRouter.swift in Sources */,
 				95C154BF29C87D7900224B4B /* MeetingDetailView+TimerView.swift in Sources */,
-				95EC65912A180C0B005BDDC0 /* Providers.swift in Sources */,
 				95868CC529C8636D001F8629 /* CardView.swift in Sources */,
 				95C154C129C87DA600224B4B /* ScrumProgressViewStyle.swift in Sources */,
-				95EC65972A1811E4005BDDC0 /* AudioRecorderProvider+Mock.swift in Sources */,
 				95EC65A32A1A1608005BDDC0 /* Home+ScrumEdit.swift in Sources */,
 				95C154C929C8875200224B4B /* MeetingDetailView.swift in Sources */,
+				956C3EDA2A63170500ABF24C /* View+withMockProviders.swift in Sources */,
 				95868C7529C851C6001F8629 /* App.swift in Sources */,
 				95EC65992A19F061005BDDC0 /* Home+ScrumDetail.swift in Sources */,
 				95CCB9372A22390700E94681 /* Home+HistoryDetail.swift in Sources */,
 				95602F1529C8DDC0008EB800 /* DailyScrum+Speaker.swift in Sources */,
 				95C154C529C87DFF00224B4B /* SpeakerArc.swift in Sources */,
-				95CCB9332A221CDB00E94681 /* DeepLinkResolver+Mock.swift in Sources */,
 				954FA2682A17F5CB006F26FC /* ScrumProvider.swift in Sources */,
-				95CCB9292A221C6800E94681 /* ScrumProvider+Live.swift in Sources */,
 				95868CC729C863A5001F8629 /* TrailingIconLabelStyle.swift in Sources */,
 				95602F1B29C8E240008EB800 /* EditScrumView.swift in Sources */,
 				95C154BE29C87D7900224B4B /* MeetingDetailView+FooterView.swift in Sources */,
@@ -532,7 +453,6 @@
 				95C154BD29C87D7900224B4B /* MeetingDetailView+HeaderView.swift in Sources */,
 				95EC658F2A180A87005BDDC0 /* AudioRecorderProvider.swift in Sources */,
 				95602F1729C8DDDC008EB800 /* Home.swift in Sources */,
-				95CCB92F2A221CB600E94681 /* DeepLinkResolver+Live.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,8 +667,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/HavingThought/Puddles";
 			requirement = {
-				branch = develop;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		95868C8729C851F2001F8629 /* XCRemoteSwiftPackageReference "swift-identified-collections" */ = {

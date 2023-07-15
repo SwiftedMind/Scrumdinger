@@ -20,10 +20,13 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
 
-extension DeepLinkResolver {
-    public static func mock() -> DeepLinkResolver {
-        .init()
+extension View {
+    @MainActor func withMockProviders() -> some View {
+        self
+            .environmentObject(ScrumProvider.mock)
+            .environmentObject(AudioRecorderProvider.mock)
+            .environmentObject(DeepLinkResolver.mock)
     }
 }

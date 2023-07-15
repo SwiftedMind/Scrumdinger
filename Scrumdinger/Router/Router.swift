@@ -32,7 +32,9 @@ import Models
     enum Destination: Hashable {
         case root
         case scrumDetail(DailyScrum)
+        case newMeeting(forScrum: DailyScrum)
         case history(History, forScrum: DailyScrum)
+        case addScrum(draft: DailyScrum)
     }
 
     func navigate(to destination: Destination) {
@@ -42,9 +44,15 @@ import Models
         case .scrumDetail(let scrum):
             home.reset()
             home.setPath([.scrumDetail(scrum)])
+        case .newMeeting(forScrum: let scrum):
+            home.setPath([.scrumDetail(scrum)])
+            home.meetingDetail = scrum
         case .history(let history, let scrum):
             home.reset()
             home.setPath([.scrumDetail(scrum), .history(history)])
+        case .addScrum(let draft):
+            home.reset()
+            home.scrumAdd = draft
         }
     }
 

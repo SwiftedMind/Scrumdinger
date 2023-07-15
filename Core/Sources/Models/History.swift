@@ -26,17 +26,3 @@ public struct History: Identifiable, Codable, Equatable, Hashable, Sendable {
         self.transcript = transcript
     }
 }
-
-public extension History {
-    static var mock: Self {
-        History(
-            attendees: [
-                DailyScrum.Attendee(name: "Jon"),
-                DailyScrum.Attendee(name: "Darla"),
-                DailyScrum.Attendee(name: "Luis")
-            ],
-            lengthInMinutes: 10,
-            transcript: "Darla, would you like to start today? Sure, yesterday I reviewed Luis' PR and met with the design team to finalize the UI..."
-        )
-    }
-}

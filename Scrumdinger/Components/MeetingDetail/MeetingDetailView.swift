@@ -166,19 +166,19 @@ extension MeetingDetailView {
 // MARK: - Preview
 
 private struct PreviewState {
-    var scrum: DailyScrum = .mock
+    var scrum: DailyScrum = Mock.DailyScrum.example
     var isRecording: Bool = true
 }
 
 struct MeetingDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        Preview(state: PreviewState(), interfaceAction: MeetingDetailView.Action.self) { interface, $state in
-            MeetingDetailView(interface: interface, scrum: state.scrum, isRecording: state.isRecording)
-        } actionHandler: { action, $state in
-            switch action {
-            case .allSpeakersCompleted:
-                print("All Speakers have spoken")
-            }
+        StateHosting(PreviewState()) { $state in
+            MeetingDetailView(interface: .consume({ action in
+                switch action {
+                case .allSpeakersCompleted:
+                    print("All Speakers have spoken")
+                }
+            }), scrum: state.scrum, isRecording: state.isRecording)
         }
     }
 }

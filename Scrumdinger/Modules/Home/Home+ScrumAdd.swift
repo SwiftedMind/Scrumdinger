@@ -33,7 +33,7 @@ extension Home {
 
         @State private var draft: DailyScrum
 
-        init(draft: DailyScrum = .draft) {
+        init(draft: DailyScrum = Mock.DailyScrum.draft) {
             self._draft = .init(initialValue: draft)
         }
 
@@ -69,9 +69,8 @@ extension Home {
 }
 
 struct Home_ScrumAdd_Previews: PreviewProvider {
-    static let providers = Providers.mock()
     static var previews: some View {
-        Home.ScrumAdd(draft: .mock)
-            .withProviders(providers)
+        Home.ScrumAdd(draft: Mock.DailyScrum.example)
+            .withMockProviders()
     }
 }

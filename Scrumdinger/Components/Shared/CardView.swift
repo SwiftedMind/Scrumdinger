@@ -31,7 +31,7 @@ struct CardView: View {
 }
 
 struct CardView_Previews: PreviewProvider {
-    static var scrum = [DailyScrum].mockList[0]
+    static var scrum = Mock.DailyScrum.example
     static var previews: some View {
         CardView(scrum: scrum)
             .background(scrum.theme.mainColor)

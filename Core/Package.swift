@@ -41,7 +41,8 @@ let package = Package(
         .target(
             name: "MockData",
             dependencies: [
-                .product(name: "IdentifiedCollections", package: "swift-identified-collections")
+                .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
+                "Models"
             ]
         ),
         .target(
