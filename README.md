@@ -1,8 +1,10 @@
 
-
 <p align="center">
   <img width="200" height="200" src="https://github.com/SwiftedMind/Scrumdinger/assets/7083109/b4e0b71d-f0f8-4fdd-9883-21611fcbc481">
 </p>
+
+> **Note**
+> This project is currently in the process of being updated. Its implementation is not entirely up-to-date. I'll try to update it as soon as possible
 
 # Scrumdinger Re-Implementation
 This project is a re-implementation of Apple's [Scrumdinger](https://developer.apple.com/tutorials/app-dev-training/getting-started-with-scrumdinger) tutorial app in the [Puddles architecture](https://github.com/SwiftedMind/Puddles) that I'm working on. It is my attempt at creating a modular and scalable app structure using as many native SwiftUI mechanisms as possible.
