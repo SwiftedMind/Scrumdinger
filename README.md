@@ -3,9 +3,6 @@
   <img width="200" height="200" src="https://github.com/SwiftedMind/Scrumdinger/assets/7083109/b4e0b71d-f0f8-4fdd-9883-21611fcbc481">
 </p>
 
-> **Note**
-> This project is currently in the process of being updated. Its implementation is not entirely up-to-date. I'll try to update it as soon as possible
-
 # Scrumdinger Re-Implementation
 This project is a re-implementation of Apple's [Scrumdinger](https://developer.apple.com/tutorials/app-dev-training/getting-started-with-scrumdinger) tutorial app in the [Puddles architecture](https://github.com/SwiftedMind/Puddles) that I'm working on. It is my attempt at creating a modular and scalable app structure using as many native SwiftUI mechanisms as possible.
 
@@ -88,7 +85,7 @@ extension ScrumProvider {
 To use the provider, you can inject it into the environment, using either the live or the mock implementation:
 ```swift
 RootView()
-  .environmentObject(ScrumProvider.live())
+  .environmentObject(ScrumProvider.live)
   // ...
 ```
 Since this is using the SwiftUI environment, you can easily override the provider to use a mock in any part of your view hierarchy.
@@ -120,7 +117,6 @@ struct AllScrums: View {
     )
     .navigationTitle(Strings.ScrumList.title.text) // Set the view's context (this module is part of a navigation stack, so it needs a title)
     .toolbar { toolbarContent } // Set the toolbar
-    .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals from parent
   }
   
   // ...
