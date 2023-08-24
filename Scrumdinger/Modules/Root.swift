@@ -25,17 +25,8 @@ import Puddles
 
 /// The root view of the app.
 struct Root: View {
-    @EnvironmentObject private var deepLinkResolver: DeepLinkResolver
-    @Signal<Home.SignalValue>(debugIdentifier: "Root.HomeSignal") private var home
-
     var body: some View {
         Home()
-            .sendSignals(home)
-            .onOpenURL { url in
-                // Receive urls, resolve them and send a signal to the main home module to apply the deeplink.
-                guard let targetState = deepLinkResolver.homeSignal(for: url) else { return }
-                home.send(targetState)
-            }
     }
 }
 

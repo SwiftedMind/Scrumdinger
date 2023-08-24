@@ -47,7 +47,6 @@ extension Home {
                 .navigationTitle(managedScrum.title)
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar { toolbarContent }
-                .resolveSignals(ofType: SignalValue.self, action: resolveSignal)
             }
         }
 
@@ -62,16 +61,6 @@ extension Home {
             case .historyTapped(let history):
                 guard let managedScrum else { return }
                 Router.shared.navigate(to: .history(history, forScrum: managedScrum))
-            }
-        }
-
-        // MARK: - State Configurations
-
-        @MainActor
-        func resolveSignal(_ value: SignalValue) {
-            switch value {
-            case .edit:
-                queryEditScrum()
             }
         }
 
@@ -97,12 +86,6 @@ extension Home {
                 }
             }
         }
-    }
-}
-
-extension Home.ScrumDetail {
-    enum SignalValue {
-        case edit
     }
 }
 

@@ -24,16 +24,26 @@ import SwiftUI
 import Models
 import IdentifiedCollections
 import Puddles
+import Queryable
 
 extension Router {
     /// The router that is handling the navigation for the Home module.
     ///
     /// All submodules inside the Home module have access to it via the environment.
     @MainActor final class Home: NavigationRouter {
+
+        enum MeetingEndAction: Hashable {
+            case cancel
+            case discard
+            case save
+        }
+
         @Published var path: [Destination] = []
         @Published var scrumEdit: DailyScrum? = nil
         @Published var scrumAdd: DailyScrum? = nil
         @Published var meetingDetail: DailyScrum?
+
+        let meetingEndConfirmation = Queryable<Void, MeetingEndAction>()
 
         /// The navigation destinations for the `NavigationStack`.
         enum Destination: Hashable {
@@ -46,6 +56,11 @@ extension Router {
             scrumEdit = nil
             scrumAdd = nil
             meetingDetail = nil
+        }
+
+        func queryMeetingEndConfirmation() async throws -> MeetingEndAction {
+            // Here you could check if some other things need to be closed before triggering the query.
+            try await meetingEndConfirmation.query()
         }
     }
 }

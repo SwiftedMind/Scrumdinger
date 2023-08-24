@@ -31,21 +31,10 @@ struct Home: View {
     @EnvironmentObject private var scrumProvider: ScrumProvider
     @ObservedObject private var homeRouter = Router.shared.home
 
-    /// The signal handler sending signals to the scrum list screen.
-    ///
-    /// Signals can be used to tell a subview to update its state, without permanently enforcing it (useful for deep linking)
-    @Signal<AllScrums.SignalValue>(debugIdentifier: "Home.ScrumList") private var scrumListSignal
-
-    /// The signal handler sending signals to the scrum detail screen.
-    ///
-    /// Signals can be used to tell a subview to update its state, without permanently enforcing it (useful for deep linking)
-    @Signal<ScrumDetail.SignalValue>(debugIdentifier: "Home.ScrumDetail") private var scrumDetailSignal
-
     /// The contents of the Home module.
     var body: some View {
         NavigationStack(path: $homeRouter.path) {
             AllScrums()
-                .sendSignals(scrumListSignal)
                 .navigationDestination(for: Router.Home.Destination.self) { destination in
                     view(for: destination)
                 }
@@ -59,7 +48,6 @@ struct Home: View {
         .fullScreenCover(item: $homeRouter.meetingDetail) { dailyScrum in
             MeetingDetail(scrumId: dailyScrum.id)
         }
-        .resolveSignals(ofType: SignalValue.self, action: resolveSignal) // Resolve signals coming from a parent view (in this case Root)
     }
 
     /// Holds all the navigation destination for any given `HomeRouter.Destination`.
@@ -68,57 +56,9 @@ struct Home: View {
         switch destination {
         case .scrumDetail(let scrum):
             ScrumDetail(scrumId: scrum.id)
-                .sendSignals(scrumDetailSignal, id: scrum.id)
         case .history(let history):
             HistoryDetail(history: history)
         }
-    }
-
-    /// Resolves the signals by adjusting the view's state.
-    ///
-    /// This is useful for adding deep linking support.
-    ///
-    /// - Parameter value: The value of the signal that needs resolving.
-    func resolveSignal(_ value: SignalValue) {
-        switch value {
-        case .showScrum(let scrum):
-            Router.shared.navigate(to: .scrumDetail(scrum))
-        case .showScrumById(let id):
-            if let scrum = scrumProvider.scrums[id: id] {
-                Router.shared.navigate(to: .scrumDetail(scrum))
-            }
-        case .startMeeting(for: let scrum):
-            Router.shared.navigate(to: .newMeeting(forScrum: scrum))
-        case .startMeetingForScrumWithId(let id):
-            if let scrum = scrumProvider.scrums[id: id] {
-                Router.shared.navigate(to: .newMeeting(forScrum: scrum))
-            }
-        case .createScrum(draft: let draft):
-            Router.shared.navigate(to: .root)
-            scrumListSignal.send(.createScrum(draft: draft))
-        case .editScrumOnDetailPage(let scrum):
-            Router.shared.navigate(to: .scrumDetail(scrum))
-            scrumDetailSignal.send(.edit)
-        case .editRandomScrumOnDetailPage:
-            if let scrum = scrumProvider.scrums.randomElement() {
-                Router.shared.navigate(to: .scrumDetail(scrum))
-                scrumDetailSignal.send(.edit, id: scrum.id)
-            }
-        }
-    }
-}
-
-extension Home {
-    /// The signals the Home module is capable of resolving.
-    /// Here, these are used as deep linking targets.
-    enum SignalValue {
-        case showScrum(DailyScrum)
-        case showScrumById(UUID)
-        case createScrum(draft: DailyScrum = Mock.DailyScrum.draft)
-        case editScrumOnDetailPage(DailyScrum)
-        case editRandomScrumOnDetailPage
-        case startMeeting(for: DailyScrum)
-        case startMeetingForScrumWithId(UUID)
     }
 }
 
