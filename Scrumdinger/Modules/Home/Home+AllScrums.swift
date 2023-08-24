@@ -37,7 +37,6 @@ extension Home {
             )
             .navigationTitle(Strings.ScrumList.title.text)
             .toolbar { toolbarContent }
-            .resolveSignals(ofType: SignalValue.self, action: resolveSignal)
         }
 
         // MARK: - Interface Handlers
@@ -49,14 +48,6 @@ extension Home {
                 Router.shared.navigate(to: .scrumDetail(scrum))
             case .scrumsDeleted(let offsets):
                 scrumProvider.remove(atOffsets: offsets)
-            }
-        }
-
-        @MainActor
-        func resolveSignal(_ value: SignalValue) {
-            switch value {
-            case .createScrum(let draft):
-                queryScrumCreation(draft: draft)
             }
         }
 
@@ -84,12 +75,6 @@ extension Home {
                 }
             }
         }
-    }
-}
-
-extension Home.AllScrums {
-    enum SignalValue {
-        case createScrum(draft: DailyScrum)
     }
 }
 

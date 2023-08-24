@@ -27,6 +27,5 @@ extension View {
         self
             .environmentObject(ScrumProvider.mock)
             .environmentObject(AudioRecorderProvider.mock)
-            .environmentObject(DeepLinkResolver.mock)
     }
 }

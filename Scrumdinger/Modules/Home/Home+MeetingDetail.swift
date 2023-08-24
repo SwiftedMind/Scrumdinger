@@ -35,9 +35,6 @@ extension Home {
         /// The id of the daily scrum for this meeting.
         var scrumId: DailyScrum.ID
 
-        /// A Queryable to query a "end meeting?" alert.
-        @Queryable<Void, MeetingEndAction> private var meetingEndConfirmation
-
         /// The daily scrum from the scrum provider.
         private var managedScrum: DailyScrum? {
             scrumProvider.scrums[id: scrumId]
@@ -59,7 +56,10 @@ extension Home {
                     .navigationBarTitleDisplayMode(.inline)
                 }
             }
-            .queryableConfirmationDialog(controlledBy: meetingEndConfirmation, title: "") { query in
+            .queryableConfirmationDialog(
+                controlledBy: Router.shared.home.meetingEndConfirmation,
+                title: ""
+            ) { query in
                 Button(Strings.cancel.text, role: .cancel) { query.answer(with: .cancel) }
                 Button(Strings.Meeting.discard.text, role: .destructive) { query.answer(with: .discard) }
                 Button(Strings.Meeting.save.text) { query.answer(with: .save) }
@@ -103,7 +103,7 @@ extension Home {
         private func queryMeetingEnd() {
             Task {
                 do {
-                    switch try await meetingEndConfirmation.query() {
+                    switch try await Router.shared.home.queryMeetingEndConfirmation() {
                     case .cancel:
                         break // Do nothing
                     case .discard:
@@ -134,14 +134,6 @@ extension Home {
 
             Router.shared.dismissMeetingDetail()
         }
-    }
-}
-
-extension Home.MeetingDetail {
-    enum MeetingEndAction: Hashable {
-        case cancel
-        case discard
-        case save
     }
 }
 

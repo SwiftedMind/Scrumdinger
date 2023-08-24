@@ -43,7 +43,6 @@ struct ScrumdingerApp: App {
             Root()
                 .environmentObject(ScrumProvider.live)
                 .environmentObject(AudioRecorderProvider.live)
-                .environmentObject(DeepLinkResolver.live)
         }
     }
 }
